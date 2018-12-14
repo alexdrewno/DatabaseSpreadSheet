@@ -1,0 +1,16 @@
+PODS:
+  - SpreadsheetView (0.8.4)
+
+DEPENDENCIES:
+  - SpreadsheetView
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - SpreadsheetView
+
+SPEC CHECKSUMS:
+  SpreadsheetView: 17c55b6dc82099993cc2ceb818248d19f3220998
+
+PODFILE CHECKSUM: 55b49f5eb8c985b0ab99ecc93565324aaa601ab1
+
+COCOAPODS: 1.5.3
