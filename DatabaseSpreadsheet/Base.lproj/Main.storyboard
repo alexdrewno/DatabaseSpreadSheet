@@ -216,6 +216,9 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Add Product"/>
+                                        <connections>
+                                            <action selector="addProductTouchUpInside:" destination="nd2-Fm-bzf" eventType="touchUpInside" id="ecd-CE-hwd"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -226,6 +229,9 @@
                     </view>
                     <connections>
                         <outlet property="addProductButton" destination="Yty-p2-T60" id="K7H-Dj-c2i"/>
+                        <outlet property="costTextField" destination="HRr-5t-khe" id="dE9-Rl-mgo"/>
+                        <outlet property="idTextField" destination="BMG-Bx-VTz" id="fho-Vd-581"/>
+                        <outlet property="nameTextField" destination="Ded-Ik-L0n" id="Uj5-0r-k47"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nqq-Al-l3O" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -16,6 +16,7 @@
 		959B25CA21C351EE00DAF5DB /* DatabaseSpreadsheetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959B25C921C351EE00DAF5DB /* DatabaseSpreadsheetTests.swift */; };
 		959B25D521C351EE00DAF5DB /* DatabaseSpreadsheetUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959B25D421C351EE00DAF5DB /* DatabaseSpreadsheetUITests.swift */; };
 		95B5A6FB21CD465F00CC2980 /* ProductPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B5A6FA21CD465F00CC2980 /* ProductPopoverViewController.swift */; };
+		95B5A6FD21CD61A100CC2980 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B5A6FC21CD61A100CC2980 /* Product.swift */; };
 		95BC40A321CC2A9800341776 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 95BC40A221CC2A9800341776 /* GoogleService-Info.plist */; };
 		95BC40A521CC2EE000341776 /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BC40A421CC2EE000341776 /* ProductViewController.swift */; };
 		FE5F2D2E65EC357F3DEBEE89 /* Pods_DatabaseSpreadsheetUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44C1A80C0B6A8BF5AF7569FA /* Pods_DatabaseSpreadsheetUITests.framework */; };
@@ -58,6 +59,7 @@
 		959B25D421C351EE00DAF5DB /* DatabaseSpreadsheetUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseSpreadsheetUITests.swift; sourceTree = "<group>"; };
 		959B25D621C351EF00DAF5DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		95B5A6FA21CD465F00CC2980 /* ProductPopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPopoverViewController.swift; sourceTree = "<group>"; };
+		95B5A6FC21CD61A100CC2980 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		95BC40A221CC2A9800341776 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		95BC40A421CC2EE000341776 /* ProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
 		AD5B551C238CE73EF6786C5F /* Pods_DatabaseSpreadsheetTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DatabaseSpreadsheetTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -125,6 +127,7 @@
 				959B25C021C351EE00DAF5DB /* Info.plist */,
 				95BC40A221CC2A9800341776 /* GoogleService-Info.plist */,
 				95B5A6FA21CD465F00CC2980 /* ProductPopoverViewController.swift */,
+				95B5A6FC21CD61A100CC2980 /* Product.swift */,
 				95BC40A421CC2EE000341776 /* ProductViewController.swift */,
 			);
 			path = DatabaseSpreadsheet;
@@ -346,14 +349,18 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-DatabaseSpreadsheet/Pods-DatabaseSpreadsheet-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/SpreadsheetView/SpreadsheetView.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SpreadsheetView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -387,6 +394,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				95BC40A521CC2EE000341776 /* ProductViewController.swift in Sources */,
+				95B5A6FD21CD61A100CC2980 /* Product.swift in Sources */,
 				95B5A6FB21CD465F00CC2980 /* ProductPopoverViewController.swift in Sources */,
 				959B25B521C351ED00DAF5DB /* AppDelegate.swift in Sources */,
 			);
