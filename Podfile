@@ -7,6 +7,8 @@ target 'DatabaseSpreadsheet' do
 
   # Pods for DatabaseSpreadsheet
 	pod 'SpreadsheetView'
+  pod 'Firebase/Core'
+
   target 'DatabaseSpreadsheetTests' do
     inherit! :search_paths
     # Pods for testing
