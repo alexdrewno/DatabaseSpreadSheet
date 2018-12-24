@@ -33,7 +33,7 @@ class ProductPopoverViewController: UIViewController {
             let id = idTextField.text,
             let costInt = Int(cost) {
                 let newProduct = Product(name: name, id: [id], cost: costInt)
-                self.ref.child("products").setValue(newProduct.getJsonData())
+                self.ref.child("products").child(Array(newProduct.getJsonData().keys)[0]).setValue(Array(newProduct.getJsonData().values)[0])
             }
         }
         

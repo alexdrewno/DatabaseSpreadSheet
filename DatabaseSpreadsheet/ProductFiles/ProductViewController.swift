@@ -8,16 +8,19 @@
 
 import Foundation
 import UIKit
-import Firebase
+import FirebaseDatabase
 
 class ProductViewController: UIViewController, UITableViewDataSource {
     @IBOutlet weak var productTableView: UITableView!
     @IBOutlet weak var addProductPopoverView: UIView!
+    var ref: DatabaseReference!
+    var jsonData:[String:Any] =  [:]
     
     override func viewDidLoad() {
-        showProductPopover()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.showProductPopover))
         productTableView.dataSource = self
+        setupDatabase()
+        
         super.viewDidLoad()
     }
     
@@ -30,10 +33,30 @@ class ProductViewController: UIViewController, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        switch jsonData.count {
+            case 0:
+                return 0
+            default:
+                return (jsonData["products"] as! [String:Any]).count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        if jsonData.count == 0 {
+            return productTableView.dequeueReusableCell(withIdentifier: "productTableViewCell")!
+        }
+        
+        let tableViewCell = productTableView.dequeueReusableCell(withIdentifier: "productTableViewCell") as! ProductTableViewCell
+        tableViewCell.nameLabel.text = Array((jsonData["products"] as! [String:Any]).keys)[indexPath.row]
+        return tableViewCell
+    }
+    
+    func setupDatabase() {
+        let ref = Database.database().reference()
+        
+        ref.observe(DataEventType.value) { (snapshot:DataSnapshot) in
+            self.jsonData = snapshot.value as? [String:Any] ?? [:]
+            self.productTableView.reloadData()
+        }
     }
 }
