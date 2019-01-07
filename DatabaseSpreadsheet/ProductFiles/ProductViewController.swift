@@ -12,7 +12,6 @@ import FirebaseDatabase
 
 class ProductViewController: UIViewController, UITableViewDataSource {
     @IBOutlet weak var productTableView: UITableView!
-    @IBOutlet weak var addProductPopoverView: UIView!
     var ref: DatabaseReference!
     var jsonData:[String:Any] =  [:]
     

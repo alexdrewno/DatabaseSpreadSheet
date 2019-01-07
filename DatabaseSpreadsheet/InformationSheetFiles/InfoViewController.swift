@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class InfoViewController: UITableViewController {
+class InfoViewController: UIViewController {
     @IBOutlet weak var numberTitleLabel: UILabel!
     @IBOutlet weak var clientTextField: UITextField!
     @IBOutlet weak var dateTextField: UITextField!
