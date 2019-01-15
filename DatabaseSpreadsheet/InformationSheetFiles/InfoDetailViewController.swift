@@ -10,6 +10,10 @@ import Foundation
 import UIKit
 import FirebaseDatabase
 
+
+//TODO : Refactor Code into seperate files
+//TODO : Deletion from TableView
+//TODO : Test Export on actual device
 class InfoDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
     @IBOutlet weak var infoTableView: UITableView!
     @IBOutlet weak var totalCostLabel: UILabel!
