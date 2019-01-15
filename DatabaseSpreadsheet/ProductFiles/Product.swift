@@ -12,9 +12,9 @@ import UIKit
 class Product {
     var name: String
     var id: [String]
-    var cost: Int
+    var cost: Double
     
-    init(name: String, id: [String], cost:Int) {
+    init(name: String, id: [String], cost: Double) {
         self.name = name
         self.id = id
         self.cost = cost
