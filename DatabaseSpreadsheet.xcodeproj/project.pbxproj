@@ -25,6 +25,7 @@
 		95B5A6FF21CD6A9700CC2980 /* ProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B5A6FE21CD6A9700CC2980 /* ProductTableViewCell.swift */; };
 		95BC40A321CC2A9800341776 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 95BC40A221CC2A9800341776 /* GoogleService-Info.plist */; };
 		95BC40A521CC2EE000341776 /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BC40A421CC2EE000341776 /* ProductViewController.swift */; };
+		95C7F20321E3EC5800746594 /* CSVFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C7F20221E3EC5800746594 /* CSVFile.swift */; };
 		FE5F2D2E65EC357F3DEBEE89 /* Pods_DatabaseSpreadsheetUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44C1A80C0B6A8BF5AF7569FA /* Pods_DatabaseSpreadsheetUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -74,6 +75,7 @@
 		95B5A6FE21CD6A9700CC2980 /* ProductTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductTableViewCell.swift; sourceTree = "<group>"; };
 		95BC40A221CC2A9800341776 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		95BC40A421CC2EE000341776 /* ProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
+		95C7F20221E3EC5800746594 /* CSVFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVFile.swift; sourceTree = "<group>"; };
 		AD5B551C238CE73EF6786C5F /* Pods_DatabaseSpreadsheetTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DatabaseSpreadsheetTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D75EFAA3DA899FB29B89DBFD /* Pods_DatabaseSpreadsheet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DatabaseSpreadsheet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F298840E127082F4FB37A1F3 /* Pods-DatabaseSpreadsheetUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DatabaseSpreadsheetUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DatabaseSpreadsheetUITests/Pods-DatabaseSpreadsheetUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				9556F4BB21D092A200E7FAB5 /* InfoDetailTableViewCell.swift */,
 				9556F4BD21D1E2E400E7FAB5 /* InfoDetailPopoverViewController.swift */,
 				95399DF321D5A8A9009D88F5 /* InfoProduct.swift */,
+				95C7F20221E3EC5800746594 /* CSVFile.swift */,
 			);
 			path = InformationSheetFiles;
 			sourceTree = "<group>";
@@ -433,6 +436,7 @@
 				9556F4BC21D092A200E7FAB5 /* InfoDetailTableViewCell.swift in Sources */,
 				95B5A6FF21CD6A9700CC2980 /* ProductTableViewCell.swift in Sources */,
 				95B5A6FB21CD465F00CC2980 /* ProductPopoverViewController.swift in Sources */,
+				95C7F20321E3EC5800746594 /* CSVFile.swift in Sources */,
 				9556F4B821D0925600E7FAB5 /* InfoViewController.swift in Sources */,
 				9556F4BA21D0927800E7FAB5 /* InfoDetailViewController.swift in Sources */,
 				959B25B521C351ED00DAF5DB /* AppDelegate.swift in Sources */,

@@ -20,6 +20,7 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
     var products:[String:Any] =  [:]
     var ref: DatabaseReference!
     var productsLoaded: Bool = false
+    @IBOutlet weak var exportButton: UIButton!
     
     override func viewDidLoad() {
         infoTableView.dataSource = self
@@ -91,7 +92,7 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
             
             if let actualQTY = Double(sections[indexPath.section].sectionProducts[indexPath.row].asBuiltQTY),
                 let unitPrice = Double(sections[indexPath.section].sectionProducts[indexPath.row].unitPrice) {
-                sections[indexPath.section].sectionProducts[indexPath.row].asBuiltQTY = "\(actualQTY * unitPrice)"
+                sections[indexPath.section].sectionProducts[indexPath.row].asBuiltTotal = "\(actualQTY * unitPrice)"
                 (tableViewCell as! InfoDetailTableViewCell).asBuildTotalTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].asBuiltTotal
             }
 
@@ -124,6 +125,10 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
         alert.addAction(cancelAction)
         self.present(alert, animated: true, completion: nil)
 
+    }
+    
+    @IBAction func exportInfoData(_ sender: Any) {
+        createCSVStringFromInfo(data: sections, estimateNum: 0)
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -170,25 +175,18 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
             switch textField.tag {
                 case 1:
                     sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].key = textField.text!
-                    print("CALLED1")
                 case 2:
                     sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].description = textField.text!
-                                  print("CALLED2")
                 case 3:
                     sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].unitPrice = textField.text!
-                                    print("CALLED3")
                 case 4:
                     sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].estimateQTY = textField.text!
-                                    print("CALLED4")
                 case 5:
                     sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].estimateTotal = textField.text!
-                                    print("CALLED5")
                 case 6:
                     sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].asBuiltQTY = textField.text!
-                                    print("CALLED6")
                 case 7:
                     sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].asBuiltTotal = textField.text!
-                                    print("CALLED7")
                 default:
                     print("TEXTFIELDNOTFONUD???????????")
             }
@@ -208,30 +206,18 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
             switch textField.tag {
             case 1:
                 sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].key = textField.text!
-                print("CALLED1")
             case 2:
                 sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].description = textField.text!
-                print("CALLED2")
             case 3:
                 sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].unitPrice = textField.text!
-                print("CALLED3")
-
             case 4:
                 sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].estimateQTY = textField.text!
-                print("CALLED4")
-
             case 5:
                 sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].estimateTotal = textField.text!
-                print("CALLED5")
-
             case 6:
                 sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].asBuiltQTY = textField.text!
-                print("CALLED6")
-
             case 7:
                 sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].asBuiltTotal = textField.text!
-                print("CALLED7")
-
             default:
                 print("TEXTFIELDNOTFONUD???????????")
             }
@@ -277,6 +263,46 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
         
         estimateCostLabel.text = "Estimate Cost: $\(estimateTotal)"
         totalCostLabel.text = "Total Cost: $\(actualTotal)"
+    }
+    
+    func createCSVStringFromInfo(data : [(String, [InfoProduct])], estimateNum : Int) {
+        let fileName = "Tasks.csv"
+        let path = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
+        var csvText = ""
+        csvText += createHeader(estimateNum: estimateNum)
+        
+        do {
+            try csvText.write(to: path!, atomically: true, encoding: String.Encoding.utf8)
+            let vc = UIActivityViewController(activityItems: [path], applicationActivities: [])
+            if let popoverController = vc.popoverPresentationController {
+                popoverController.sourceView = self.exportButton
+            }
+            present(vc, animated: true, completion: nil)
+        } catch {
+            print("Failed to create file")
+            print("\(error)")
+        }
+    }
+    
+    func createHeader(estimateNum : Int) -> String {
+        var headerString = ""
+        
+        headerString += "R Drewno Electric Inc, , , Estimate, #\(estimateNum), Date:, 10/28/1998\n"
+        headerString += "1216 S. Summit St\n"
+        headerString += "Barrington IL 60010, , Service ordered by: , COMPANY NAME\n"
+        headerString += "Tel. 847-791-6368, , , telephone:\n"
+        headerString += "Email: RDrewnoElectric@sbcglobal.net, , , email:\n\n"
+        headerString += "Job Description: , , JOB DESCRIPTION GOES HERE\n\n"
+        headerString += " , , , , ESTIMATE, , AS BUILT\n"
+        headerString += "Room, , Description, Unit Price, QTY, Total, QTY, Total\n"
+        
+        return headerString
+    }
+    
+    func createBody(data : [(String, Int)]) -> String {
+        var csvString = ""
+        
+        return csvString
     }
     
 }
