@@ -129,15 +129,9 @@
 		9556F4B621CD6FE500E7FAB5 /* InformationSheetFiles */ = {
 			isa = PBXGroup;
 			children = (
-				9556F4B721D0925600E7FAB5 /* InfoViewController.swift */,
-				9556F4B921D0927800E7FAB5 /* InfoDetailViewController.swift */,
-				9556F4BB21D092A200E7FAB5 /* InfoDetailTableViewCell.swift */,
-				9556F4BD21D1E2E400E7FAB5 /* InfoDetailPopoverViewController.swift */,
-				95399DF321D5A8A9009D88F5 /* InfoProduct.swift */,
+				95BEB90821EF96010021A430 /* InfoFiles */,
+				95BEB90921EF96130021A430 /* InProgressFiles */,
 				95C7F20221E3EC5800746594 /* CSVFile.swift */,
-				95734C6721EE543500E2D958 /* InProgressViewController.swift */,
-				95734C6921EE552000E2D958 /* InProgressTableViewCell.swift */,
-				956FA44621EE5FC000787FE7 /* InfoSpreadsheet.swift */,
 			);
 			path = InformationSheetFiles;
 			sourceTree = "<group>";
@@ -195,6 +189,28 @@
 				959B25D621C351EF00DAF5DB /* Info.plist */,
 			);
 			path = DatabaseSpreadsheetUITests;
+			sourceTree = "<group>";
+		};
+		95BEB90821EF96010021A430 /* InfoFiles */ = {
+			isa = PBXGroup;
+			children = (
+				956FA44621EE5FC000787FE7 /* InfoSpreadsheet.swift */,
+				9556F4B721D0925600E7FAB5 /* InfoViewController.swift */,
+				9556F4B921D0927800E7FAB5 /* InfoDetailViewController.swift */,
+				9556F4BB21D092A200E7FAB5 /* InfoDetailTableViewCell.swift */,
+				9556F4BD21D1E2E400E7FAB5 /* InfoDetailPopoverViewController.swift */,
+				95399DF321D5A8A9009D88F5 /* InfoProduct.swift */,
+			);
+			path = InfoFiles;
+			sourceTree = "<group>";
+		};
+		95BEB90921EF96130021A430 /* InProgressFiles */ = {
+			isa = PBXGroup;
+			children = (
+				95734C6721EE543500E2D958 /* InProgressViewController.swift */,
+				95734C6921EE552000E2D958 /* InProgressTableViewCell.swift */,
+			);
+			path = InProgressFiles;
 			sourceTree = "<group>";
 		};
 		A4B029E07BF1B6F5A3C95AB9 /* Frameworks */ = {

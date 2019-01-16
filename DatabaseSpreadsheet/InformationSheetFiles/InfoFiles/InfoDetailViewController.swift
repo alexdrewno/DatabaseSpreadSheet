@@ -14,7 +14,9 @@ import FirebaseDatabase
 //TODO : Refactor Code into seperate files
 //TODO : Deletion from TableView
 //TODO : Test Export on actual device
-class InfoDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
+//TODO : Popout controller from top-right button
+
+class InfoDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIPopoverPresentationControllerDelegate {
     @IBOutlet weak var infoTableView: UITableView!
     @IBOutlet weak var totalCostLabel: UILabel!
     @IBOutlet weak var estimateCostLabel: UILabel!
@@ -29,7 +31,7 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
     override func viewDidLoad() {
         infoTableView.dataSource = self
         infoTableView.delegate = self
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.addSection))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.showPopoutView))
         self.setupDatabase()
         super.viewDidLoad()
        
@@ -129,6 +131,23 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
         alert.addAction(cancelAction)
         self.present(alert, animated: true, completion: nil)
 
+    }
+    
+    @objc func showPopoutView() {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "detailInfoPopover")
+        vc!.modalPresentationStyle = .popover
+        vc!.preferredContentSize = CGSize(width: 200, height: 200)
+        
+        let addButton = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 66))
+        addButton.titleLabel!.textAlignment = .center
+        addButton.titleLabel!.text = "Add Section"
+        
+        
+        let popover = vc!.popoverPresentationController
+        popover?.delegate = self as! UIPopoverPresentationControllerDelegate
+        popover?.barButtonItem = self.navigationItem.rightBarButtonItem
+        
+        present(vc!, animated: false, completion: nil)
     }
     
     @IBAction func exportInfoData(_ sender: Any) {
