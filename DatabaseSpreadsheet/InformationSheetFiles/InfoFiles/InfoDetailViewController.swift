@@ -115,7 +115,7 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
         return 100
     }
     
-    @objc func addSection() {
+    func addSection() {
         let alert = UIAlertController(title: "Add New Section", message: nil, preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: "Add", style: .default) { (_) in
             if let txtField = alert.textFields?.first, let text = txtField.text {
@@ -134,23 +134,20 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     @objc func showPopoutView() {
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "detailInfoPopover")
-        vc!.modalPresentationStyle = .popover
-        vc!.preferredContentSize = CGSize(width: 200, height: 200)
-        
-        let addButton = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 66))
-        addButton.titleLabel!.textAlignment = .center
-        addButton.titleLabel!.text = "Add Section"
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "detailInfoPopover") as! InfoDetailPopoverViewController
+        vc.parentVC = self
+        vc.modalPresentationStyle = .popover
+        vc.preferredContentSize = CGSize(width: 200, height: 200)
         
         
-        let popover = vc!.popoverPresentationController
+        let popover = vc.popoverPresentationController
         popover?.delegate = self as! UIPopoverPresentationControllerDelegate
         popover?.barButtonItem = self.navigationItem.rightBarButtonItem
         
-        present(vc!, animated: false, completion: nil)
+        present(vc, animated: false, completion: nil)
     }
     
-    @IBAction func exportInfoData(_ sender: Any) {
+    func exportInfoData(_ sender: Any) {
         createCSVStringFromInfo(data: sections, estimateNum: 0)
     }
     

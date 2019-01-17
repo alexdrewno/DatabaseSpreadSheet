@@ -10,5 +10,20 @@ import Foundation
 import UIKit
 
 class InfoDetailPopoverViewController: UIViewController {
+    var parentVC : InfoDetailViewController!
+    override func viewDidLoad() {
+        
+    }
+    
+    @IBAction func addSection(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+        parentVC.addSection()
+    }
+    
+    @IBAction func saveInfoToDatabase(_ sender: Any) {
+    }
+    
+    @IBAction func exportInfo(_ sender: Any) {
+    }
     
 }
