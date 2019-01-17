@@ -28,4 +28,16 @@ class InfoProduct {
         self.asBuiltQTY = asBuiltQTY
         self.asBuiltTotal = asBuiltTotal
     }
+    
+    func toJson() -> Any {
+        return [
+            "key": key,
+            "description": description,
+            "unitPrice": unitPrice,
+            "estimateQTY": estimateQTY,
+            "estimateTotal": estimateTotal,
+            "asBuiltQTY": asBuiltQTY,
+            "asBuiltTotal": asBuiltTotal,
+        ]
+    }
 }

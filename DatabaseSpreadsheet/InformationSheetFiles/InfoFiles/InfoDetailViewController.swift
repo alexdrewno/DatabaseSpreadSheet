@@ -26,7 +26,6 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
     var products:[String:Any] =  [:]
     var ref: DatabaseReference!
     var productsLoaded: Bool = false
-    @IBOutlet weak var exportButton: UIButton!
     
     override func viewDidLoad() {
         infoTableView.dataSource = self
@@ -147,7 +146,7 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
         present(vc, animated: false, completion: nil)
     }
     
-    func exportInfoData(_ sender: Any) {
+    func exportInfoData() {
         createCSVStringFromInfo(data: sections, estimateNum: 0)
     }
     
@@ -295,7 +294,7 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
             try csvText.write(to: path!, atomically: true, encoding: String.Encoding.utf8)
             let vc = UIActivityViewController(activityItems: [path], applicationActivities: [])
             if let popoverController = vc.popoverPresentationController {
-                popoverController.sourceView = self.exportButton
+                popoverController.barButtonItem = self.navigationItem.rightBarButtonItem
             }
             present(vc, animated: true, completion: nil)
         } catch {
