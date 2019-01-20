@@ -194,7 +194,8 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     func saveInfo() {
-        //ref.
+        infoSpreadsheet.sections = self.sections
+        ref.child("invoices").child("\(curNum)").setValue(infoSpreadsheet.toJson())
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {

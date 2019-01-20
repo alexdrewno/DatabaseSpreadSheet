@@ -43,8 +43,23 @@ class InfoSpreadsheet {
             "telephone": telephone,
             "email": email,
             "jobDescription": jobDescription,
-            "sections": sections,
+            "sections": sectionsToJson(),
         ]
+    }
+    
+    func sectionsToJson() -> Any {
+        var sectionsJson = [String: [NSDictionary]]()
+        for section in sections {
+            var sectionProductsJson : [NSDictionary] = []
+            for sectionProduct in section.sectionProducts {
+                sectionProductsJson.append(sectionProduct.toJson() as! NSDictionary)
+                print(sectionProductsJson)
+            }
+            print("SECTION NAME \(section.name)")
+            sectionsJson[section.name] = sectionProductsJson
+        }
+        
+        return sectionsJson
     }
     
     
