@@ -38,7 +38,16 @@ class InfoViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "infoDetailSegue") {
+            let dvc = segue.destination as! InfoDetailViewController
             
+            dvc.infoSpreadsheet = InfoSpreadsheet()
+            
+            dvc.infoSpreadsheet.client = clientTextField.text ?? ""
+            dvc.infoSpreadsheet.date = dateTextField.text ?? ""
+            dvc.infoSpreadsheet.telephone = telephoneTextField.text ?? ""
+            dvc.infoSpreadsheet.email = emailTextField.text ?? ""
+            dvc.infoSpreadsheet.jobDescription = jobDescriptionTextView.text ?? ""
+            dvc.curNum = self.curNum
             
         }
     }

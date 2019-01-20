@@ -22,6 +22,7 @@ class InfoDetailPopoverViewController: UIViewController {
     
     @IBAction func saveInfoToDatabase(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
+        parentVC.saveInfo()
         
     }
     

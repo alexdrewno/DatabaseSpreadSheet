@@ -18,6 +18,15 @@ class InfoSpreadsheet {
     var jobDescription: String
     var sections: [(name: String, sectionProducts:[InfoProduct])]
     
+    init() {
+        client = ""
+        date = ""
+        telephone = ""
+        email = ""
+        jobDescription = ""
+        sections = []
+    }
+    
     init(client: String, date: String, telephone: String, email: String, jobDescription: String, sections: [(name:String, sectionProducts:[InfoProduct])]) {
         self.client = client
         self.date = date

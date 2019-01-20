@@ -26,6 +26,13 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
     var products:[String:Any] =  [:]
     var ref: DatabaseReference!
     var productsLoaded: Bool = false
+    var infoSpreadsheet: InfoSpreadsheet!
+    var curNum : Int = 0 {
+        didSet {
+            self.title = "Invoice #\(curNum)"
+        }
+    }
+    
     
     override func viewDidLoad() {
         infoTableView.dataSource = self
@@ -177,13 +184,17 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     func setupDatabase() {
-        let ref = Database.database().reference()
+        ref = Database.database().reference()
         
         ref.observe(DataEventType.value) { (snapshot:DataSnapshot) in
             self.products = (snapshot.value as? [String:Any] ?? [:])["products"]! as! [String : Any]
             self.productsLoaded = true
             print(self.products)
         }
+    }
+    
+    func saveInfo() {
+        //ref.
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
