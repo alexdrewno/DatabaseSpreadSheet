@@ -61,13 +61,7 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
         var tableViewCell = UITableViewCell()
         if (sections[indexPath.section].sectionProducts.count > indexPath.row) {
             tableViewCell = (infoTableView.dequeueReusableCell(withIdentifier: "infoCell") as! InfoDetailTableViewCell)
-            //(tableViewCell as! InfoDetailTableViewCell).keyTextField.delegate = self
-            //(tableViewCell as! InfoDetailTableViewCell).descriptionTextField.delegate = self
-            //(tableViewCell as! InfoDetailTableViewCell).unitPriceTextField.delegate = self
-            //(tableViewCell as! InfoDetailTableViewCell).estimateQTYTextField.delegate = self
-            //(tableViewCell as! InfoDetailTableViewCell).estimateTotalTextField.delegate = self
-            //(tableViewCell as! InfoDetailTableViewCell).asBuildQTYTextField.delegate = self
-            //(tableViewCell as! InfoDetailTableViewCell).asBuildTotalTextField.delegate = self
+
             (tableViewCell as! InfoDetailTableViewCell).keyTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
             (tableViewCell as! InfoDetailTableViewCell).descriptionTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
             (tableViewCell as! InfoDetailTableViewCell).unitPriceTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
@@ -75,9 +69,6 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
             (tableViewCell as! InfoDetailTableViewCell).estimateTotalTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
             (tableViewCell as! InfoDetailTableViewCell).asBuildQTYTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
             (tableViewCell as! InfoDetailTableViewCell).asBuildTotalTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
-            
-            
-            
             
             (tableViewCell as! InfoDetailTableViewCell).keyTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].key
             (tableViewCell as! InfoDetailTableViewCell).descriptionTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].description
@@ -243,66 +234,7 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
         //self.infoTableView.reloadData()
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
-       
-        let cell: UITableViewCell = textField.superview?.superview as! UITableViewCell
-        let table: UITableView = cell.superview as! UITableView
-        if let textFieldIndexPath = table.indexPath(for: cell) {
-            switch textField.tag {
-                case 1:
-                    sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].key = textField.text!
-                case 2:
-                    sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].description = textField.text!
-                case 3:
-                    sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].unitPrice = textField.text!
-                case 4:
-                    sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].estimateQTY = textField.text!
-                case 5:
-                    sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].estimateTotal = textField.text!
-                case 6:
-                    sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].asBuiltQTY = textField.text!
-                case 7:
-                    sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].asBuiltTotal = textField.text!
-                default:
-                    print("TEXTFIELDNOTFONUD???????????")
-            }
-        }
-        
-    
-        updateTotalLabels()
-        self.infoTableView.reloadData()
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-       
-        
-        let cell: UITableViewCell = textField.superview?.superview as! UITableViewCell
-        let table: UITableView = cell.superview as! UITableView
-        if let textFieldIndexPath = table.indexPath(for: cell) {
-            switch textField.tag {
-            case 1:
-                sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].key = textField.text!
-            case 2:
-                sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].description = textField.text!
-            case 3:
-                sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].unitPrice = textField.text!
-            case 4:
-                sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].estimateQTY = textField.text!
-            case 5:
-                sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].estimateTotal = textField.text!
-            case 6:
-                sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].asBuiltQTY = textField.text!
-            case 7:
-                sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].asBuiltTotal = textField.text!
-            default:
-                print("TEXTFIELDNOTFONUD???????????")
-            }
-        }
-        
-        updateTotalLabels()
-        self.infoTableView.reloadData()
-        return true
-    }
+
     
     func checkForProduct(with key:String) -> Dictionary<String, String> {
         if productsLoaded {
