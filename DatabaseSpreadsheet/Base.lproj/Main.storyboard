@@ -103,11 +103,12 @@
                     </view>
                     <connections>
                         <outlet property="inProgressTableView" destination="jNH-Ux-oL7" id="HqZ-3d-4KL"/>
+                        <segue destination="2WA-vx-dsT" kind="show" identifier="inProgressDetail" id="CeK-oU-jFi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2re-BK-ksM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="142.71356783919597" y="-991.36690647482021"/>
+            <point key="canvasLocation" x="1044" y="-567"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -516,7 +517,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lTB-zX-k1V" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1795.9798994974874" y="133.81294964028777"/>
+            <point key="canvasLocation" x="1796" y="133"/>
         </scene>
         <!--Info Detail Popover View Controller-->
         <scene sceneID="8f2-fn-8Zs">
@@ -626,7 +627,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Iav-id-xrV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="136.80000000000001" y="1278.7106446776613"/>
+            <point key="canvasLocation" x="1044" y="865"/>
         </scene>
         <!--Product Popover View Controller-->
         <scene sceneID="1Vg-DB-gJu">
@@ -724,7 +725,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nqq-Al-l3O" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1043.7185929648242" y="1278.4172661870505"/>
+            <point key="canvasLocation" x="1796" y="865"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="PqS-gl-YcX">
@@ -748,4 +749,7 @@
         <image name="current" width="100" height="100"/>
         <image name="done" width="100" height="100"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="CeK-oU-jFi"/>
+    </inferredMetricsTieBreakers>
 </document>

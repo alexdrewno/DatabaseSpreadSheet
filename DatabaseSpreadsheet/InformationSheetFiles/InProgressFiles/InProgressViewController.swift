@@ -15,12 +15,14 @@ class InProgressViewController: UIViewController, UITableViewDelegate, UITableVi
     @IBOutlet weak var inProgressTableView: UITableView!
     var ref : DatabaseReference!
     var invoices : [NSDictionary] = []
+    var sectionsToSend : [String: [NSDictionary]] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupDatabase()
         getDatabaseInfo()
         inProgressTableView.dataSource = self
+        inProgressTableView.delegate = self
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -48,6 +50,17 @@ class InProgressViewController: UIViewController, UITableViewDelegate, UITableVi
         ref.child("invoices").observe(DataEventType.value) { (snapshot:DataSnapshot) in
             self.invoices = (snapshot.value as? [NSDictionary] ?? [])
             self.inProgressTableView.reloadData()
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        sectionsToSend = self.invoices[indexPath.row]["sections"] as? [String: [NSDictionary]] ?? [:]
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let dvc = segue.destination as! InfoDetailViewController
+        if segue.identifier == "inProgressDetail" {
+            //dvc.sections = self.sectionsToSend
         }
     }
     
