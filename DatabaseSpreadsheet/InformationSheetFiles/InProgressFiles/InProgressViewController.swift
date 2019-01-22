@@ -8,24 +8,47 @@
 
 import Foundation
 import UIKit
+import FirebaseDatabase
 
 //TODO : InProgressViewController
 class InProgressViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var inProgressTableView: UITableView!
+    var ref : DatabaseReference!
+    var invoices : [NSDictionary] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setupDatabase()
+        getDatabaseInfo()
         inProgressTableView.dataSource = self
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return invoices.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let inProgressCell = inProgressTableView.dequeueReusableCell(withIdentifier: "inProgressCell") as! InProgressTableViewCell
+        
+        if invoices.count > 0 {
+            inProgressCell.dateLabel.text = invoices[indexPath.row]["date"] as! String
+            inProgressCell.descriptionLabel.text = invoices[indexPath.row]["jobDescription"] as! String
+            inProgressCell.clientLabel.text = invoices[indexPath.row]["client"] as! String
+            inProgressCell.invoiceLabel.text = "\(indexPath.row)"
+        
+        }
         return inProgressCell
+    }
+    
+    func setupDatabase() {
+        ref = Database.database().reference()
+    }
+    
+    func getDatabaseInfo() {
+        ref.child("invoices").observe(DataEventType.value) { (snapshot:DataSnapshot) in
+            self.invoices = (snapshot.value as? [NSDictionary] ?? [])
+            self.inProgressTableView.reloadData()
+        }
     }
     
 }

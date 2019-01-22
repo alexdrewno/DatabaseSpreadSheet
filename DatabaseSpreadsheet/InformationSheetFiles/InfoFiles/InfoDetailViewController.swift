@@ -69,6 +69,7 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
             (tableViewCell as! InfoDetailTableViewCell).estimateTotalTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
             (tableViewCell as! InfoDetailTableViewCell).asBuildQTYTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
             (tableViewCell as! InfoDetailTableViewCell).asBuildTotalTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
+        
             
             (tableViewCell as! InfoDetailTableViewCell).keyTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].key
             (tableViewCell as! InfoDetailTableViewCell).descriptionTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].description
