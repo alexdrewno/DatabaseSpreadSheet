@@ -10,7 +10,6 @@ import Foundation
 import UIKit
 import FirebaseDatabase
 
-//TODO : InProgressViewController
 class InProgressViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var inProgressTableView: UITableView!
     var ref : DatabaseReference!
@@ -55,12 +54,26 @@ class InProgressViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         sectionsToSend = self.invoices[indexPath.row]["sections"] as? [String: [NSDictionary]] ?? [:]
+        performSegue(withIdentifier: "inProgressDetail", sender: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let dvc = segue.destination as! InfoDetailViewController
         if segue.identifier == "inProgressDetail" {
-            //dvc.sections = self.sectionsToSend
+            var sectionsToSet = [(name: String, sectionProducts: [InfoProduct])]()
+            for section in sectionsToSend {
+                let name = section.key
+                var sectionProducts: [InfoProduct] = []
+                
+                for row in section.value {
+                    let newProduct = InfoProduct(key: row["key"] as! String, description: row["description"] as! String, unitPrice: row["unitPrice"] as! String, estimateQTY: row["estimateQTY"] as! String, estimateTotal: row["estimateTotal"] as! String, asBuiltQTY: row["asBuiltQTY"] as! String, asBuiltTotal: row["asBuiltTotal"] as! String)
+                    
+                    sectionProducts.append(newProduct)
+                }
+                
+                sectionsToSet.append((name:name, sectionProducts: sectionProducts))
+                dvc.sections = sectionsToSet
+            }
         }
     }
     
