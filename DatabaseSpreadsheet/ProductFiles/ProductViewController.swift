@@ -35,12 +35,7 @@ class ProductViewController: UIViewController, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch jsonData.count {
-            case 0:
-                return 0
-            default:
-                return (jsonData["products"] as! [String:Any]).count
-        }
+        return jsonData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -49,14 +44,23 @@ class ProductViewController: UIViewController, UITableViewDataSource {
         }
         
         let tableViewCell = productTableView.dequeueReusableCell(withIdentifier: "productTableViewCell") as! ProductTableViewCell
-        tableViewCell.nameLabel.text = Array((jsonData["products"] as! [String:Any]).keys)[indexPath.row]
+        tableViewCell.nameLabel.text = Array(jsonData.keys)[indexPath.row]
         return tableViewCell
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+
+            (jsonData["products"] as! NSMutableDictionary).removeObject(forKey: [Array((jsonData["products"] as! [String:Any]).keys)[indexPath.row]])
+            self.productTableView.reloadData()
+            
+        }
     }
     
     func setupDatabase() {
         let ref = Database.database().reference()
         
-        ref.observe(DataEventType.value) { (snapshot:DataSnapshot) in
+        ref.child("products").observe(DataEventType.value) { (snapshot:DataSnapshot) in
             self.jsonData = snapshot.value as? [String:Any] ?? [:]
             self.productTableView.reloadData()
         }
