@@ -10,8 +10,6 @@ import Foundation
 import UIKit
 import FirebaseDatabase
 
-//TODO : Save information from this viewcontroller to database
-
 //TODO : Fix bug with invoice number
 
 class InfoViewController: UIViewController {

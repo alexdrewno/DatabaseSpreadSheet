@@ -12,7 +12,6 @@ import FirebaseDatabase
 
 
 //TODO : Search Function from TableView
-//TODO : Delete Items from TableView
 class ProductViewController: UIViewController, UITableViewDataSource {
     @IBOutlet weak var productTableView: UITableView!
     var ref: DatabaseReference!

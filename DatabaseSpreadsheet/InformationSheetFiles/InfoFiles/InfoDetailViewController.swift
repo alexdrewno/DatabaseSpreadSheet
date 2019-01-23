@@ -14,7 +14,6 @@ import FirebaseDatabase
 //TODO : Refactor Code into seperate files
 //TODO : Deletion from TableView
 //TODO : Test Export on actual device
-//TODO : Popout controller from top-right button
 
 class InfoDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIPopoverPresentationControllerDelegate {
     @IBOutlet weak var infoTableView: UITableView!
