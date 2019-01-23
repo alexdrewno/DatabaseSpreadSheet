@@ -17,6 +17,7 @@ class ProductViewController: UIViewController, UITableViewDataSource {
     @IBOutlet weak var productTableView: UITableView!
     var ref: DatabaseReference!
     var jsonData:[String:Any] =  [:]
+    var sortedKeys:[String] = []
     
     override func viewDidLoad() {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.showProductPopover))
@@ -44,14 +45,14 @@ class ProductViewController: UIViewController, UITableViewDataSource {
         }
         
         let tableViewCell = productTableView.dequeueReusableCell(withIdentifier: "productTableViewCell") as! ProductTableViewCell
-        tableViewCell.nameLabel.text = Array(jsonData.keys)[indexPath.row]
+        tableViewCell.nameLabel.text = sortedKeys[indexPath.row]
         return tableViewCell
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
 
-            jsonData.removeValue(forKey: Array(jsonData.keys)[indexPath.row])
+            jsonData.removeValue(forKey: sortedKeys[indexPath.row])
             ref.child("products").setValue(jsonData)
             self.productTableView.reloadData()
             
@@ -63,6 +64,7 @@ class ProductViewController: UIViewController, UITableViewDataSource {
         
         ref.child("products").observe(DataEventType.value) { (snapshot:DataSnapshot) in
             self.jsonData = snapshot.value as? [String:Any] ?? [:]
+            self.sortedKeys = Array(self.jsonData.keys).sorted().reversed()
             self.productTableView.reloadData()
         }
     }
