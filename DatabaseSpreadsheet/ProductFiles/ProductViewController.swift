@@ -51,14 +51,15 @@ class ProductViewController: UIViewController, UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
 
-            (jsonData["products"] as! NSMutableDictionary).removeObject(forKey: [Array((jsonData["products"] as! [String:Any]).keys)[indexPath.row]])
+            jsonData.removeValue(forKey: Array(jsonData.keys)[indexPath.row])
+            ref.child("products").setValue(jsonData)
             self.productTableView.reloadData()
             
         }
     }
     
     func setupDatabase() {
-        let ref = Database.database().reference()
+        ref = Database.database().reference()
         
         ref.child("products").observe(DataEventType.value) { (snapshot:DataSnapshot) in
             self.jsonData = snapshot.value as? [String:Any] ?? [:]
