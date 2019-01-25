@@ -26,7 +26,7 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
     var products:[String:Any] =  [:]
     var ref: DatabaseReference!
     var productsLoaded: Bool = false
-    var infoSpreadsheet: InfoSpreadsheet!
+    var infoSpreadsheet: InfoSpreadsheet = InfoSpreadsheet()
     var curNum : Int = 0 {
         didSet {
             self.title = "Invoice #\(curNum)"
@@ -128,7 +128,8 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            
+            sections[indexPath.section].sectionProducts.remove(at: indexPath.row)
+            tableView.reloadData()
         }
     }
     
