@@ -129,6 +129,7 @@
 		9556F4B621CD6FE500E7FAB5 /* InformationSheetFiles */ = {
 			isa = PBXGroup;
 			children = (
+				95DD57B621F8E34F00CEF440 /* CompletedFiles */,
 				95BEB90821EF96010021A430 /* InfoFiles */,
 				95BEB90921EF96130021A430 /* InProgressFiles */,
 				95C7F20221E3EC5800746594 /* CSVFile.swift */,
@@ -211,6 +212,13 @@
 				95734C6921EE552000E2D958 /* InProgressTableViewCell.swift */,
 			);
 			path = InProgressFiles;
+			sourceTree = "<group>";
+		};
+		95DD57B621F8E34F00CEF440 /* CompletedFiles */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CompletedFiles;
 			sourceTree = "<group>";
 		};
 		A4B029E07BF1B6F5A3C95AB9 /* Frameworks */ = {
