@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4CE3BBFFBC36F9D539E2D5A9 /* Pods_DatabaseSpreadsheetTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD5B551C238CE73EF6786C5F /* Pods_DatabaseSpreadsheetTests.framework */; };
 		69A538653D402D66198BCDBB /* Pods_DatabaseSpreadsheet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D75EFAA3DA899FB29B89DBFD /* Pods_DatabaseSpreadsheet.framework */; };
+		95392CE921FD30AB00D43AA3 /* CompletedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95392CE821FD30AB00D43AA3 /* CompletedViewController.swift */; };
 		95399DF421D5A8A9009D88F5 /* InfoProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95399DF321D5A8A9009D88F5 /* InfoProduct.swift */; };
 		9556F4B821D0925600E7FAB5 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9556F4B721D0925600E7FAB5 /* InfoViewController.swift */; };
 		9556F4BA21D0927800E7FAB5 /* InfoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9556F4B921D0927800E7FAB5 /* InfoDetailViewController.swift */; };
@@ -56,6 +57,7 @@
 		44C1A80C0B6A8BF5AF7569FA /* Pods_DatabaseSpreadsheetUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DatabaseSpreadsheetUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		69E7BDB309360E664786400C /* Pods-DatabaseSpreadsheetTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DatabaseSpreadsheetTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DatabaseSpreadsheetTests/Pods-DatabaseSpreadsheetTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7CC0F8360B3F48B433F7C543 /* Pods-DatabaseSpreadsheetUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DatabaseSpreadsheetUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DatabaseSpreadsheetUITests/Pods-DatabaseSpreadsheetUITests.release.xcconfig"; sourceTree = "<group>"; };
+		95392CE821FD30AB00D43AA3 /* CompletedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedViewController.swift; sourceTree = "<group>"; };
 		95399DF321D5A8A9009D88F5 /* InfoProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoProduct.swift; sourceTree = "<group>"; };
 		9556F4B721D0925600E7FAB5 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		9556F4B921D0927800E7FAB5 /* InfoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoDetailViewController.swift; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 		95DD57B621F8E34F00CEF440 /* CompletedFiles */ = {
 			isa = PBXGroup;
 			children = (
+				95392CE821FD30AB00D43AA3 /* CompletedViewController.swift */,
 			);
 			path = CompletedFiles;
 			sourceTree = "<group>";
@@ -466,6 +469,7 @@
 				95BC40A521CC2EE000341776 /* ProductViewController.swift in Sources */,
 				95399DF421D5A8A9009D88F5 /* InfoProduct.swift in Sources */,
 				956FA44721EE5FC000787FE7 /* InfoSpreadsheet.swift in Sources */,
+				95392CE921FD30AB00D43AA3 /* CompletedViewController.swift in Sources */,
 				95B5A6FD21CD61A100CC2980 /* Product.swift in Sources */,
 				95734C6A21EE552000E2D958 /* InProgressTableViewCell.swift in Sources */,
 				9556F4BC21D092A200E7FAB5 /* InfoDetailTableViewCell.swift in Sources */,
