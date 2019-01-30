@@ -11,6 +11,8 @@ import UIKit
 
 class CompletedViewController: UIViewController {
     
-    
+    override func viewDidLoad() {
+         
+    }
     
 }
