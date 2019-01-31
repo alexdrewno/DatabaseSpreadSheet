@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class InProgressTableViewCell: UITableViewCell {
+class InvoiceTableViewCell: UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var invoiceLabel: UILabel!
     @IBOutlet weak var clientLabel: UILabel!

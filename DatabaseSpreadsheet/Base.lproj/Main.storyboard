@@ -23,7 +23,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="inProgressCell" rowHeight="79" id="c5c-2H-mYK" customClass="InProgressTableViewCell" customModule="DatabaseSpreadsheet" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="inProgressCell" rowHeight="79" id="c5c-2H-mYK" customClass="InvoiceTableViewCell" customModule="DatabaseSpreadsheet" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="1033" height="79"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="c5c-2H-mYK" id="MxP-KP-sdI">
@@ -331,10 +331,10 @@
             </objects>
             <point key="canvasLocation" x="1043.7185929648242" y="133.09352517985613"/>
         </scene>
-        <!--View Controller-->
+        <!--Completed View Controller-->
         <scene sceneID="AAW-eo-OOn">
             <objects>
-                <viewController id="ieH-Tr-NFm" sceneMemberID="viewController">
+                <viewController id="ieH-Tr-NFm" customClass="CompletedViewController" customModule="DatabaseSpreadsheet" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="eyh-9q-TI7">
                         <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -852,6 +852,6 @@
         <image name="done" width="100" height="100"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="fb8-Zy-C68"/>
+        <segue reference="CeK-oU-jFi"/>
     </inferredMetricsTieBreakers>
 </document>

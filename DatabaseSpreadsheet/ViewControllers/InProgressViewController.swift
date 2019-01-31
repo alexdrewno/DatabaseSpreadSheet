@@ -29,7 +29,7 @@ class InProgressViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let inProgressCell = inProgressTableView.dequeueReusableCell(withIdentifier: "inProgressCell") as! InProgressTableViewCell
+        let inProgressCell = inProgressTableView.dequeueReusableCell(withIdentifier: "inProgressCell") as! InvoiceTableViewCell
         
         if invoices.count > 0 {
             inProgressCell.dateLabel.text = invoices[indexPath.row]["date"] as! String
