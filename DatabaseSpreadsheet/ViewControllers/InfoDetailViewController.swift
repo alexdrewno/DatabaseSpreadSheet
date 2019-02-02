@@ -16,6 +16,7 @@ import FirebaseDatabase
 //TODO : Test Export on actual device
 //TODO : Fix Total Bugs
 
+//MARK: - ViewController Properties
 class InfoDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIPopoverPresentationControllerDelegate {
     @IBOutlet weak var infoTableView: UITableView!
     @IBOutlet weak var totalCostLabel: UILabel!
@@ -33,7 +34,6 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
         }
     }
     
-    
     override func viewDidLoad() {
         infoTableView.dataSource = self
         infoTableView.delegate = self
@@ -41,6 +41,48 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
         self.setupDatabase()
         super.viewDidLoad()
        
+    }
+    
+    
+    func updateTotalLabels() {
+        estimateTotal = 0
+        actualTotal = 0
+        
+        for section in sections {
+            for sectionProduct in section.sectionProducts {
+                if let estimateAmount = Double(sectionProduct.estimateTotal) {
+                    estimateTotal += estimateAmount
+                }
+                
+                if let actualAmount = Double(sectionProduct.asBuiltTotal) {
+                    actualTotal += actualAmount
+                }
+            }
+        }
+        
+        estimateCostLabel.text = "Estimate Cost: $\(estimateTotal)"
+        totalCostLabel.text = "Total Cost: $\(actualTotal)"
+    }
+}
+
+//MARK: - TableView Properties
+extension InfoDetailViewController {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 40))
+        headerView.backgroundColor = UIColor.lightGray
+        let sectionLabel = UILabel(frame: CGRect(x: headerView.center.x, y: headerView.center.y, width: self.view.bounds.width, height: 40))
+        sectionLabel.textAlignment = NSTextAlignment.center
+        sectionLabel.center = headerView.center
+        sectionLabel.text = "\(sections[section].name)"
+        sectionLabel.font = UIFont.boldSystemFont(ofSize: 24)
+        sectionLabel.textColor = UIColor.black
+        
+        headerView.addSubview(sectionLabel)
+        return headerView
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -51,7 +93,6 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
         return sections[section].sectionProducts.count + 1
     }
     
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if (indexPath.section == 0 && indexPath.row == 0) {
             estimateTotal = 0
@@ -61,7 +102,7 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
         var tableViewCell = UITableViewCell()
         if (sections[indexPath.section].sectionProducts.count > indexPath.row) {
             tableViewCell = (infoTableView.dequeueReusableCell(withIdentifier: "infoCell") as! InfoDetailTableViewCell)
-
+            
             (tableViewCell as! InfoDetailTableViewCell).keyTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
             (tableViewCell as! InfoDetailTableViewCell).descriptionTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
             (tableViewCell as! InfoDetailTableViewCell).unitPriceTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
@@ -69,7 +110,7 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
             (tableViewCell as! InfoDetailTableViewCell).estimateTotalTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
             (tableViewCell as! InfoDetailTableViewCell).asBuildQTYTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
             (tableViewCell as! InfoDetailTableViewCell).asBuildTotalTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
-        
+            
             
             (tableViewCell as! InfoDetailTableViewCell).keyTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].key
             (tableViewCell as! InfoDetailTableViewCell).descriptionTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].description
@@ -87,7 +128,7 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
             (tableViewCell as! InfoDetailTableViewCell).asBuildQTYTextField.tag = 6
             (tableViewCell as! InfoDetailTableViewCell).asBuildTotalTextField.tag = 7
             
-
+            
             if let key = (tableViewCell as! InfoDetailTableViewCell).keyTextField.text {
                 let foundProduct: [String: String] = checkForProduct(with: key)
                 if foundProduct.count > 0 &&
@@ -112,18 +153,28 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
                 sections[indexPath.section].sectionProducts[indexPath.row].asBuiltTotal = "\(actualQTY * unitPrice)"
                 (tableViewCell as! InfoDetailTableViewCell).asBuildTotalTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].asBuiltTotal
             }
-
+            
             
         } else {
             tableViewCell = infoTableView.dequeueReusableCell(withIdentifier: "addCell")!
         }
-      
+        
         
         return tableViewCell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
+    }
+}
+
+//MARK: - TableView Actions
+extension InfoDetailViewController {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (sections[indexPath.section].sectionProducts.count <= indexPath.row) {
+            sections[indexPath.section].sectionProducts.append(InfoProduct(key: "", description: "", unitPrice: "", estimateQTY: "", estimateTotal: "", asBuiltQTY: "", asBuiltTotal: ""))
+            infoTableView.reloadData()
+        }
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -132,69 +183,10 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
             tableView.reloadData()
         }
     }
-    
-    func addSection() {
-        let alert = UIAlertController(title: "Add New Section", message: nil, preferredStyle: .alert)
-        let confirmAction = UIAlertAction(title: "Add", style: .default) { (_) in
-            if let txtField = alert.textFields?.first, let text = txtField.text {
-                self.sections.append((text,[]))
-                self.infoTableView.reloadData()
-            }
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
-        alert.addTextField { (textField) in
-            textField.placeholder = "Section Name"
-        }
-        alert.addAction(confirmAction)
-        alert.addAction(cancelAction)
-        self.present(alert, animated: true, completion: nil)
+}
 
-    }
-    
-    @objc func showPopoutView() {
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "detailInfoPopover") as! InfoDetailPopoverViewController
-        vc.parentVC = self
-        vc.modalPresentationStyle = .popover
-        vc.preferredContentSize = CGSize(width: 200, height: 200)
-        
-        
-        let popover = vc.popoverPresentationController
-        popover?.delegate = self as! UIPopoverPresentationControllerDelegate
-        popover?.barButtonItem = self.navigationItem.rightBarButtonItem
-        
-        present(vc, animated: false, completion: nil)
-    }
-    
-    func exportInfoData() {
-        CSVFile.createCSVStringFromInfo(data: sections, estimateNum: 0, curViewController: self)
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 40))
-        headerView.backgroundColor = UIColor.lightGray
-        let sectionLabel = UILabel(frame: CGRect(x: headerView.center.x, y: headerView.center.y, width: self.view.bounds.width, height: 40))
-        sectionLabel.textAlignment = NSTextAlignment.center
-        sectionLabel.center = headerView.center
-        sectionLabel.text = "\(sections[section].name)"
-        sectionLabel.font = UIFont.boldSystemFont(ofSize: 24)
-        sectionLabel.textColor = UIColor.black
-        
-        headerView.addSubview(sectionLabel)
-        return headerView
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        if (sections[indexPath.section].sectionProducts.count <= indexPath.row) {
-            sections[indexPath.section].sectionProducts.append(InfoProduct(key: "", description: "", unitPrice: "", estimateQTY: "", estimateTotal: "", asBuiltQTY: "", asBuiltTotal: ""))
-            infoTableView.reloadData()
-        }
-    }
-    
+//MARK: - Database Usage
+extension InfoDetailViewController {
     func setupDatabase() {
         ref = Database.database().reference()
         
@@ -209,7 +201,27 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
         infoSpreadsheet.sections = self.sections
         ref.child("invoices").child("\(curNum)").setValue(infoSpreadsheet.toJson())
     }
-    
+}
+
+//MARK: - Popout View
+extension InfoDetailViewController {
+    @objc func showPopoutView() {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "detailInfoPopover") as! InfoDetailPopoverViewController
+        vc.parentVC = self
+        vc.modalPresentationStyle = .popover
+        vc.preferredContentSize = CGSize(width: 200, height: 200)
+        
+        
+        let popover = vc.popoverPresentationController
+        popover?.delegate = self as! UIPopoverPresentationControllerDelegate
+        popover?.barButtonItem = self.navigationItem.rightBarButtonItem
+        
+        present(vc, animated: false, completion: nil)
+    }
+}
+
+//MARK: - Textfield Delegation
+extension InfoDetailViewController {
     @objc func textFieldDidChange(textField: UITextField) {
         let cell: UITableViewCell = textField.superview?.superview as! UITableViewCell
         let table: UITableView = cell.superview as! UITableView
@@ -237,12 +249,35 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
                 print("TEXTFIELDNOTFONUD???????????")
             }
         }
-
+        
         updateTotalLabels()
-        //self.infoTableView.reloadData()
+    }
+}
+
+//MARK: - Product Manipulation
+extension InfoDetailViewController {
+    func addSection() {
+        let alert = UIAlertController(title: "Add New Section", message: nil, preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "Add", style: .default) { (_) in
+            if let txtField = alert.textFields?.first, let text = txtField.text {
+                self.sections.append((text,[]))
+                self.infoTableView.reloadData()
+            }
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
+        alert.addTextField { (textField) in
+            textField.placeholder = "Section Name"
+        }
+        alert.addAction(confirmAction)
+        alert.addAction(cancelAction)
+        self.present(alert, animated: true, completion: nil)
+        
     }
     
-
+    
+    func exportInfoData() {
+        CSVFile.createCSVStringFromInfo(data: sections, estimateNum: 0, curViewController: self)
+    }
     
     func checkForProduct(with key:String) -> Dictionary<String, String> {
         if productsLoaded {
@@ -260,26 +295,4 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
         }
         return [:]
     }
-    
-    func updateTotalLabels() {
-        estimateTotal = 0
-        actualTotal = 0
-        
-        for section in sections {
-            for sectionProduct in section.sectionProducts {
-                if let estimateAmount = Double(sectionProduct.estimateTotal) {
-                    estimateTotal += estimateAmount
-                }
-                
-                if let actualAmount = Double(sectionProduct.asBuiltTotal) {
-                    actualTotal += actualAmount
-                }
-            }
-        }
-        
-        estimateCostLabel.text = "Estimate Cost: $\(estimateTotal)"
-        totalCostLabel.text = "Total Cost: $\(actualTotal)"
-    }
-
-    
 }

@@ -10,6 +10,8 @@ import Foundation
 import UIKit
 import FirebaseDatabase
 
+
+//MARK: - ViewController Properties
 class InProgressViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var inProgressTableView: UITableView!
     var ref : DatabaseReference!
@@ -23,39 +25,7 @@ class InProgressViewController: UIViewController, UITableViewDelegate, UITableVi
         inProgressTableView.dataSource = self
         inProgressTableView.delegate = self
     }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return invoices.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let inProgressCell = inProgressTableView.dequeueReusableCell(withIdentifier: "inProgressCell") as! InvoiceTableViewCell
-        
-        if invoices.count > 0 {
-            inProgressCell.dateLabel.text = invoices[indexPath.row]["date"] as! String
-            inProgressCell.descriptionLabel.text = invoices[indexPath.row]["jobDescription"] as! String
-            inProgressCell.clientLabel.text = invoices[indexPath.row]["client"] as! String
-            inProgressCell.invoiceLabel.text = "\(indexPath.row)"
-        
-        }
-        return inProgressCell
-    }
-    
-    func setupDatabase() {
-        ref = Database.database().reference()
-    }
-    
-    func getDatabaseInfo() {
-        ref.child("invoices").observe(DataEventType.value) { (snapshot:DataSnapshot) in
-            self.invoices = (snapshot.value as? [NSDictionary] ?? [])
-            self.inProgressTableView.reloadData()
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        sectionsToSend = self.invoices[indexPath.row]["sections"] as? [String: [NSDictionary]] ?? [:]
-        performSegue(withIdentifier: "inProgressDetail", sender: nil)
-    }
+
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let dvc = segue.destination as! InfoDetailViewController
@@ -76,5 +46,46 @@ class InProgressViewController: UIViewController, UITableViewDelegate, UITableVi
             }
         }
     }
+}
+
+//MARK: - TableView Properties
+extension InProgressViewController {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return invoices.count
+    }
     
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let inProgressCell = inProgressTableView.dequeueReusableCell(withIdentifier: "inProgressCell") as! InvoiceTableViewCell
+        
+        if invoices.count > 0 {
+            inProgressCell.dateLabel.text = invoices[indexPath.row]["date"] as! String
+            inProgressCell.descriptionLabel.text = invoices[indexPath.row]["jobDescription"] as! String
+            inProgressCell.clientLabel.text = invoices[indexPath.row]["client"] as! String
+            inProgressCell.invoiceLabel.text = "\(indexPath.row)"
+            
+        }
+        return inProgressCell
+    }
+}
+
+//MARK: - TableView Actions
+extension InProgressViewController {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        sectionsToSend = self.invoices[indexPath.row]["sections"] as? [String: [NSDictionary]] ?? [:]
+        performSegue(withIdentifier: "inProgressDetail", sender: nil)
+    }
+}
+
+//MARK: - Database
+extension InProgressViewController {
+    func setupDatabase() {
+        ref = Database.database().reference()
+    }
+    
+    func getDatabaseInfo() {
+        ref.child("invoices").observe(DataEventType.value) { (snapshot:DataSnapshot) in
+            self.invoices = (snapshot.value as? [NSDictionary] ?? [])
+            self.inProgressTableView.reloadData()
+        }
+    }
 }
