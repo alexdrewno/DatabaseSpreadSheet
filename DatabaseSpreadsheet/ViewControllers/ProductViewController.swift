@@ -12,6 +12,8 @@ import FirebaseDatabase
 
 
 //TODO : Search Function from TableView
+
+//MARK: - ViewController Properties
 class ProductViewController: UIViewController, UITableViewDataSource {
     @IBOutlet weak var productTableView: UITableView!
     var ref: DatabaseReference!
@@ -26,10 +28,10 @@ class ProductViewController: UIViewController, UITableViewDataSource {
         super.viewDidLoad()
     }
     
-    @objc func showProductPopover() {
-        performSegue(withIdentifier: "popoverProduct", sender: self)
-    }
-    
+}
+
+//MARK: - Tableview Properties
+extension ProductViewController {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -47,17 +49,23 @@ class ProductViewController: UIViewController, UITableViewDataSource {
         tableViewCell.nameLabel.text = sortedKeys[indexPath.row]
         return tableViewCell
     }
-    
+}
+
+//MARK: - Tableview Actions
+extension ProductViewController {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-
+            
             jsonData.removeValue(forKey: sortedKeys[indexPath.row])
             ref.child("products").setValue(jsonData)
             self.productTableView.reloadData()
             
         }
     }
-    
+}
+
+//MARK: - Database Reference
+extension ProductViewController {
     func setupDatabase() {
         ref = Database.database().reference()
         
@@ -66,5 +74,12 @@ class ProductViewController: UIViewController, UITableViewDataSource {
             self.sortedKeys = Array(self.jsonData.keys).sorted().reversed()
             self.productTableView.reloadData()
         }
+    }
+}
+
+//MARK: - Popover View
+extension ProductViewController {
+    @objc func showProductPopover() {
+        performSegue(withIdentifier: "popoverProduct", sender: self)
     }
 }
