@@ -52,7 +52,7 @@ class CompletedViewController: UIViewController, UITableViewDelegate, UITableVie
 //MARK: - TableView Properties
 extension CompletedViewController {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return self.invoices.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
