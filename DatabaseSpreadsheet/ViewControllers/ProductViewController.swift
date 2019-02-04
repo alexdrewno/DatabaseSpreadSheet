@@ -11,8 +11,6 @@ import UIKit
 import FirebaseDatabase
 
 
-//TODO : Search Function from TableView
-
 //MARK: - ViewController Properties
 class ProductViewController: UIViewController, UITableViewDataSource {
     @IBOutlet weak var productTableView: UITableView!

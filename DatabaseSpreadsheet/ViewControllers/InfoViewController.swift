@@ -10,7 +10,6 @@ import Foundation
 import UIKit
 import FirebaseDatabase
 
-//TODO : Fix bug with invoice number
 
 class InfoViewController: UIViewController {
     @IBOutlet weak var numberTitleLabel: UILabel!
