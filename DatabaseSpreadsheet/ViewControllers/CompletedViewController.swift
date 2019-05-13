@@ -29,7 +29,7 @@ class CompletedViewController: UIViewController, UITableViewDelegate, UITableVie
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let dvc = segue.destination as! InfoDetailViewController
         if segue.identifier == "completedDetail" {
-            var sectionsToSet = [(name: String, sectionProducts: [InfoProduct])]()
+            var sectionsToSet = [InfoProductSection]()
             for section in sectionsToSend {
                 let name = section.key
                 var sectionProducts: [InfoProduct] = []
@@ -59,9 +59,9 @@ extension CompletedViewController {
         let completedCell = completeTableView.dequeueReusableCell(withIdentifier: "completedCell") as! InvoiceTableViewCell
         
         if invoices.count > 0 {
-            completedCell.dateLabel.text = invoices[indexPath.row]["date"] as! String
-            completedCell.descriptionLabel.text = invoices[indexPath.row]["jobDescription"] as! String
-            completedCell.clientLabel.text = invoices[indexPath.row]["client"] as! String
+            completedCell.dateLabel.text = invoices[indexPath.row]["date"]
+            completedCell.descriptionLabel.text = invoices[indexPath.row]["jobDescription"]
+            completedCell.clientLabel.text = invoices[indexPath.row]["client"]
             completedCell.invoiceLabel.text = "\(indexPath.row)"
             
         }

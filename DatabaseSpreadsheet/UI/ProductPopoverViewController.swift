@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-import FirebaseDatabase
+import CoreData
 
 class ProductPopoverViewController: UIViewController {
     
@@ -16,10 +16,9 @@ class ProductPopoverViewController: UIViewController {
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var idTextField: UITextField!
     @IBOutlet weak var costTextField: UITextField!
-    var ref: DatabaseReference!
-    
+
     override func viewDidLoad() {
-        ref = Database.database().reference()
+       
     }
     
     @IBAction func cancelTouchUpInside(_ sender: Any) {
@@ -32,8 +31,10 @@ class ProductPopoverViewController: UIViewController {
             if let name = nameTextField.text,
             let id = idTextField.text,
             let costDouble = Double(cost) {
-                let newProduct = Product(name: name, id: [id], cost: costDouble)
-                self.ref.child("products").child(Array(newProduct.getJsonData().keys)[0]).setValue(Array(newProduct.getJsonData().values)[0])
+                let newProduct = Product()
+                newProduct.cost = costDouble
+                newProduct.id = id
+                newProduct.name = name
             }
         }
         
