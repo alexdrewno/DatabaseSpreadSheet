@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import FirebaseDatabase
 
 
 class InfoViewController: UIViewController {
@@ -24,12 +23,8 @@ class InfoViewController: UIViewController {
         }
     }
     
-    var ref: DatabaseReference!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        ref = Database.database().reference()
         numberTitleLabel.text = "Invoice #\(getCurrentInvoiceNumber())"
     }
     
@@ -51,8 +46,5 @@ class InfoViewController: UIViewController {
     
     func getCurrentInvoiceNumber() {
         
-        ref.child("invoices").observe(.value) { (snapshot: DataSnapshot) in
-            self.curNum = Int(snapshot.childrenCount)
-        }
     }
 }

@@ -8,20 +8,17 @@
 
 import Foundation
 import UIKit
-import FirebaseDatabase
 
 
 //MARK: - ViewController Properties
 class ProductViewController: UIViewController, UITableViewDataSource {
     @IBOutlet weak var productTableView: UITableView!
-    var ref: DatabaseReference!
     var jsonData:[String:Any] =  [:]
     var sortedKeys:[String] = []
     
     override func viewDidLoad() {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.showProductPopover))
         productTableView.dataSource = self
-        setupDatabase()
         
         super.viewDidLoad()
     }
@@ -55,25 +52,12 @@ extension ProductViewController {
         if editingStyle == .delete {
             
             jsonData.removeValue(forKey: sortedKeys[indexPath.row])
-            ref.child("products").setValue(jsonData)
             self.productTableView.reloadData()
             
         }
     }
 }
 
-//MARK: - Database Reference
-extension ProductViewController {
-    func setupDatabase() {
-        ref = Database.database().reference()
-        
-        ref.child("products").observe(DataEventType.value) { (snapshot:DataSnapshot) in
-            self.jsonData = snapshot.value as? [String:Any] ?? [:]
-            self.sortedKeys = Array(self.jsonData.keys).sorted().reversed()
-            self.productTableView.reloadData()
-        }
-    }
-}
 
 //MARK: - Popover View
 extension ProductViewController {

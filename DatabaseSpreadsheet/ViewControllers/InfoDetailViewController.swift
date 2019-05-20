@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import FirebaseDatabase
 
 
 //TODO : Deletion from TableView
@@ -21,9 +20,8 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
     @IBOutlet weak var estimateCostLabel: UILabel!
     var estimateTotal : Double = 0
     var actualTotal : Double = 0
-    var sections = [(name: String, sectionProducts: [InfoProduct])]()
+    var sections = [InfoProductSection]()
     var products:[String:Any] =  [:]
-    var ref: DatabaseReference!
     var productsLoaded: Bool = false
     var infoSpreadsheet: InfoSpreadsheet = InfoSpreadsheet()
     var curNum : Int = 0 {
@@ -46,17 +44,17 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
         estimateTotal = 0
         actualTotal = 0
         
-        for section in sections {
-            for sectionProduct in section.sectionProducts {
-                if let estimateAmount = Double(sectionProduct.estimateTotal) {
-                    estimateTotal += estimateAmount
-                }
-                
-                if let actualAmount = Double(sectionProduct.asBuiltTotal) {
-                    actualTotal += actualAmount
-                }
-            }
-        }
+//        for section in sections {
+//            for sectionProduct in section.sectionProducts {
+//                if let estimateAmount = Double(sectionProduct.estimateTotal) {
+//                    estimateTotal += estimateAmount
+//                }
+//
+//                if let actualAmount = Double(sectionProduct.asBuiltTotal) {
+//                    actualTotal += actualAmount
+//                }
+//            }
+//        }
         
         estimateCostLabel.text = "Estimate Cost: $\(estimateTotal)"
         totalCostLabel.text = "Total Cost: $\(actualTotal)"
@@ -88,7 +86,7 @@ extension InfoDetailViewController {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sections[section].sectionProducts.count + 1
+        return sections[section].infoProducts.count + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
