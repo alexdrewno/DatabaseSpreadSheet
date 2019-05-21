@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 
 //TODO : Deletion from TableView
@@ -86,7 +87,8 @@ extension InfoDetailViewController {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sections[section].infoProducts.count + 1
+        //TODO :- Fix this
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -96,60 +98,60 @@ extension InfoDetailViewController {
         }
         
         var tableViewCell = UITableViewCell()
-        if (sections[indexPath.section].sectionProducts.count > indexPath.row) {
-            tableViewCell = (infoTableView.dequeueReusableCell(withIdentifier: "infoCell") as! InfoDetailTableViewCell)
-            
-            (tableViewCell as! InfoDetailTableViewCell).keyTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
-            (tableViewCell as! InfoDetailTableViewCell).descriptionTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
-            (tableViewCell as! InfoDetailTableViewCell).unitPriceTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
-            (tableViewCell as! InfoDetailTableViewCell).estimateQTYTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
-            (tableViewCell as! InfoDetailTableViewCell).estimateTotalTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
-            (tableViewCell as! InfoDetailTableViewCell).asBuildQTYTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
-            (tableViewCell as! InfoDetailTableViewCell).asBuildTotalTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
-            
-            
-            (tableViewCell as! InfoDetailTableViewCell).keyTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].key
-            (tableViewCell as! InfoDetailTableViewCell).descriptionTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].description
-            (tableViewCell as! InfoDetailTableViewCell).unitPriceTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].unitPrice
-            (tableViewCell as! InfoDetailTableViewCell).estimateQTYTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].estimateQTY
-            (tableViewCell as! InfoDetailTableViewCell).estimateTotalTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].estimateTotal
-            (tableViewCell as! InfoDetailTableViewCell).asBuildQTYTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].asBuiltQTY
-            (tableViewCell as! InfoDetailTableViewCell).asBuildTotalTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].asBuiltTotal
-            
-            (tableViewCell as! InfoDetailTableViewCell).keyTextField.tag = 1
-            (tableViewCell as! InfoDetailTableViewCell).descriptionTextField.tag = 2
-            (tableViewCell as! InfoDetailTableViewCell).unitPriceTextField.tag = 3
-            (tableViewCell as! InfoDetailTableViewCell).estimateQTYTextField.tag = 4
-            (tableViewCell as! InfoDetailTableViewCell).estimateTotalTextField.tag = 5
-            (tableViewCell as! InfoDetailTableViewCell).asBuildQTYTextField.tag = 6
-            (tableViewCell as! InfoDetailTableViewCell).asBuildTotalTextField.tag = 7
-            
-            
-            if let key = (tableViewCell as! InfoDetailTableViewCell).keyTextField.text {
-                let foundProduct: [String: String] = checkForProduct(with: key)
-                if foundProduct.count > 0 &&
-                    ((tableViewCell as! InfoDetailTableViewCell).descriptionTextField.text != foundProduct["description"] &&
-                        ((tableViewCell as! InfoDetailTableViewCell).unitPriceTextField.text != foundProduct["cost"])) {
-                    (tableViewCell as! InfoDetailTableViewCell).descriptionTextField.text = foundProduct["description"]
-                    (tableViewCell as! InfoDetailTableViewCell).unitPriceTextField.text = foundProduct["cost"]
-                    sections[indexPath.section].sectionProducts[indexPath.row].description = foundProduct["description"] ?? ""
-                    sections[indexPath.section].sectionProducts[indexPath.row].unitPrice = foundProduct["cost"] ?? ""
-                    self.infoTableView.reloadData()
-                }
-            }
-            
-            if let estimateQTY = Double(sections[indexPath.section].sectionProducts[indexPath.row].estimateQTY),
-                let unitPrice = Double(sections[indexPath.section].sectionProducts[indexPath.row].unitPrice) {
-                sections[indexPath.section].sectionProducts[indexPath.row].estimateTotal = "\(estimateQTY * unitPrice)"
-                (tableViewCell as! InfoDetailTableViewCell).estimateTotalTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].estimateTotal
-            }
-            
-            if let actualQTY = Double(sections[indexPath.section].sectionProducts[indexPath.row].asBuiltQTY),
-                let unitPrice = Double(sections[indexPath.section].sectionProducts[indexPath.row].unitPrice) {
-                sections[indexPath.section].sectionProducts[indexPath.row].asBuiltTotal = "\(actualQTY * unitPrice)"
-                (tableViewCell as! InfoDetailTableViewCell).asBuildTotalTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].asBuiltTotal
-            }
-            
+        if (count > indexPath.row) {
+//            tableViewCell = (infoTableView.dequeueReusableCell(withIdentifier: "infoCell") as! InfoDetailTableViewCell)
+//
+//            (tableViewCell as! InfoDetailTableViewCell).keyTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
+//            (tableViewCell as! InfoDetailTableViewCell).descriptionTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
+//            (tableViewCell as! InfoDetailTableViewCell).unitPriceTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
+//            (tableViewCell as! InfoDetailTableViewCell).estimateQTYTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
+//            (tableViewCell as! InfoDetailTableViewCell).estimateTotalTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
+//            (tableViewCell as! InfoDetailTableViewCell).asBuildQTYTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
+//            (tableViewCell as! InfoDetailTableViewCell).asBuildTotalTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
+//
+//
+//            (tableViewCell as! InfoDetailTableViewCell).keyTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].key
+//            (tableViewCell as! InfoDetailTableViewCell).descriptionTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].description
+//            (tableViewCell as! InfoDetailTableViewCell).unitPriceTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].unitPrice
+//            (tableViewCell as! InfoDetailTableViewCell).estimateQTYTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].estimateQTY
+//            (tableViewCell as! InfoDetailTableViewCell).estimateTotalTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].estimateTotal
+//            (tableViewCell as! InfoDetailTableViewCell).asBuildQTYTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].asBuiltQTY
+//            (tableViewCell as! InfoDetailTableViewCell).asBuildTotalTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].asBuiltTotal
+//
+//            (tableViewCell as! InfoDetailTableViewCell).keyTextField.tag = 1
+//            (tableViewCell as! InfoDetailTableViewCell).descriptionTextField.tag = 2
+//            (tableViewCell as! InfoDetailTableViewCell).unitPriceTextField.tag = 3
+//            (tableViewCell as! InfoDetailTableViewCell).estimateQTYTextField.tag = 4
+//            (tableViewCell as! InfoDetailTableViewCell).estimateTotalTextField.tag = 5
+//            (tableViewCell as! InfoDetailTableViewCell).asBuildQTYTextField.tag = 6
+//            (tableViewCell as! InfoDetailTableViewCell).asBuildTotalTextField.tag = 7
+//
+//
+//            if let key = (tableViewCell as! InfoDetailTableViewCell).keyTextField.text {
+//                let foundProduct: [String: String] = checkForProduct(with: key)
+//                if foundProduct.count > 0 &&
+//                    ((tableViewCell as! InfoDetailTableViewCell).descriptionTextField.text != foundProduct["description"] &&
+//                        ((tableViewCell as! InfoDetailTableViewCell).unitPriceTextField.text != foundProduct["cost"])) {
+//                    (tableViewCell as! InfoDetailTableViewCell).descriptionTextField.text = foundProduct["description"]
+//                    (tableViewCell as! InfoDetailTableViewCell).unitPriceTextField.text = foundProduct["cost"]
+//                    sections[indexPath.section].sectionProducts[indexPath.row].description = foundProduct["description"] ?? ""
+//                    sections[indexPath.section].sectionProducts[indexPath.row].unitPrice = foundProduct["cost"] ?? ""
+//                    self.infoTableView.reloadData()
+//                }
+//            }
+//
+//            if let estimateQTY = Double(sections[indexPath.section].sectionProducts[indexPath.row].estimateQTY),
+//                let unitPrice = Double(sections[indexPath.section].sectionProducts[indexPath.row].unitPrice) {
+//                sections[indexPath.section].sectionProducts[indexPath.row].estimateTotal = "\(estimateQTY * unitPrice)"
+//                (tableViewCell as! InfoDetailTableViewCell).estimateTotalTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].estimateTotal
+//            }
+//
+//            if let actualQTY = Double(sections[indexPath.section].sectionProducts[indexPath.row].asBuiltQTY),
+//                let unitPrice = Double(sections[indexPath.section].sectionProducts[indexPath.row].unitPrice) {
+//                sections[indexPath.section].sectionProducts[indexPath.row].asBuiltTotal = "\(actualQTY * unitPrice)"
+//                (tableViewCell as! InfoDetailTableViewCell).asBuildTotalTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].asBuiltTotal
+//            }
+//
             
         } else {
             tableViewCell = infoTableView.dequeueReusableCell(withIdentifier: "addCell")!
@@ -167,7 +169,7 @@ extension InfoDetailViewController {
 //MARK: - TableView Actions
 extension InfoDetailViewController {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (sections[indexPath.section].sectionProducts.count <= indexPath.row) {
+        if (sections[indexPath.section] <= indexPath.row) {
             sections[indexPath.section].sectionProducts.append(InfoProduct(key: "", description: "", unitPrice: "", estimateQTY: "", estimateTotal: "", asBuiltQTY: "", asBuiltTotal: ""))
             infoTableView.reloadData()
         }
@@ -181,23 +183,6 @@ extension InfoDetailViewController {
     }
 }
 
-//MARK: - Database Usage
-extension InfoDetailViewController {
-    func setupDatabase() {
-        ref = Database.database().reference()
-        
-        ref.observe(DataEventType.value) { (snapshot:DataSnapshot) in
-            self.products = (snapshot.value as? [String:Any] ?? [:])["products"]! as! [String : Any]
-            self.productsLoaded = true
-            print(self.products)
-        }
-    }
-    
-    func saveInfo() {
-        infoSpreadsheet.sections = self.sections
-        ref.child("invoices").child("\(curNum)").setValue(infoSpreadsheet.toJson())
-    }
-}
 
 //MARK: - Popout View
 extension InfoDetailViewController {
