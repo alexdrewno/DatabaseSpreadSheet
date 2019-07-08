@@ -14,4 +14,13 @@ class DSData {
     
     public var products: [Product] = []
     
+    func fetchProducts() {
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Product")
+        do {
+            products = try DSDataController.shared.viewContext.fetch(fetchRequest) as! [Product]
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+    }
+    
 }

@@ -14,7 +14,21 @@ class DSDataController {
     static let shared = DSDataController()
     
     private lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "DatabaseSpreadsheet")
+        let container = NSPersistentContainer(name: "DatabaseSpreadsheetModel")
+        container.persistentStoreDescriptions.first?.shouldMigrateStoreAutomatically = true
+        container.persistentStoreDescriptions.first?.shouldInferMappingModelAutomatically = true
+        // could be set to true and hidden behind the launching animation + a loading screen if needed
+        container.persistentStoreDescriptions.first?.shouldAddStoreAsynchronously = false
+        container.persistentStoreDescriptions.first?.isReadOnly = false
+        container.loadPersistentStores { (_, error) in
+            if let error = error as NSError? {
+                fatalError("Unresolved error \(error), \(error.userInfo)")
+            } else {
+                container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+                container.viewContext.automaticallyMergesChangesFromParent = true
+            }
+        }
+        
         return container
     }()
     

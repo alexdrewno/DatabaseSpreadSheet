@@ -16,6 +16,7 @@ class ProductPopoverViewController: UIViewController {
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var idTextField: UITextField!
     @IBOutlet weak var costTextField: UITextField!
+    var sendingVC : ProductViewController!
 
     override func viewDidLoad() {
        
@@ -31,11 +32,12 @@ class ProductPopoverViewController: UIViewController {
             if let name = nameTextField.text,
             let id = idTextField.text,
             let costDouble = Double(cost) {
-                let newProduct = Product(context: DSDataController.shared.viewContext)
-                newProduct.cost = costDouble
-                newProduct.id = id
-                newProduct.name = name
-                self.saveContext(newProduct: newProduct)
+                let entity = NSEntityDescription.entity(forEntityName: "Product", in: DSDataController.shared.viewContext)!
+                let newProduct = NSManagedObject(entity: entity, insertInto: DSDataController.shared.viewContext)
+                newProduct.setValue(costDouble, forKey: "cost")
+                newProduct.setValue(id, forKey: "id")
+                newProduct.setValue(name, forKey: "name")
+                self.saveContext(newProduct: newProduct as! Product)
                 
             }
         }
@@ -47,6 +49,7 @@ class ProductPopoverViewController: UIViewController {
         do {
             try DSDataController.shared.viewContext.save()
             DSData.shared.products.append(newProduct)
+            sendingVC.productTableView.reloadData()
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }

@@ -13,13 +13,12 @@ import UIKit
 //MARK: - ViewController Properties
 class ProductViewController: UIViewController, UITableViewDataSource {
     @IBOutlet weak var productTableView: UITableView!
-    var jsonData:[String:Any] =  [:]
     var sortedKeys:[String] = []
     
     override func viewDidLoad() {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.showProductPopover))
         productTableView.dataSource = self
-        
+        DSData.shared.fetchProducts()
         super.viewDidLoad()
     }
     
@@ -32,16 +31,16 @@ extension ProductViewController {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return jsonData.count
+        return DSData.shared.products.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if jsonData.count == 0 {
+        if DSData.shared.products.count == 0 {
             return productTableView.dequeueReusableCell(withIdentifier: "productTableViewCell")!
         }
         
         let tableViewCell = productTableView.dequeueReusableCell(withIdentifier: "productTableViewCell") as! ProductTableViewCell
-        tableViewCell.nameLabel.text = sortedKeys[indexPath.row]
+        tableViewCell.nameLabel.text = DSData.shared.products[indexPath.row].name
         return tableViewCell
     }
 }
@@ -50,8 +49,8 @@ extension ProductViewController {
 extension ProductViewController {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            
-            jsonData.removeValue(forKey: sortedKeys[indexPath.row])
+            DSDataController.shared.viewContext.delete(DSData.shared.products[indexPath.row])
+            DSData.shared.fetchProducts()
             self.productTableView.reloadData()
             
         }
@@ -63,5 +62,12 @@ extension ProductViewController {
 extension ProductViewController {
     @objc func showProductPopover() {
         performSegue(withIdentifier: "popoverProduct", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "popoverProduct" {
+            let dvc = segue.destination as! ProductPopoverViewController
+            dvc.sendingVC = self
+        }
     }
 }
