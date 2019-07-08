@@ -31,14 +31,25 @@ class ProductPopoverViewController: UIViewController {
             if let name = nameTextField.text,
             let id = idTextField.text,
             let costDouble = Double(cost) {
-                let newProduct = Product()
+                let newProduct = Product(context: DSDataController.shared.viewContext)
                 newProduct.cost = costDouble
                 newProduct.id = id
                 newProduct.name = name
+                self.saveContext(newProduct: newProduct)
+                
             }
         }
         
         dismiss(animated: true, completion: nil)
+    }
+    
+    func saveContext(newProduct: Product) {
+        do {
+            try DSDataController.shared.viewContext.save()
+            DSData.shared.products.append(newProduct)
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
     }
     
 }
