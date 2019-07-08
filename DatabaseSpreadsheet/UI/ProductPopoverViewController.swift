@@ -34,7 +34,6 @@ class ProductPopoverViewController: UIViewController {
                 newProduct.setValue(id, forKey: "id")
                 newProduct.setValue(name, forKey: "name")
                 self.saveContext(newProduct: newProduct as! Product)
-                
             }
         }
         

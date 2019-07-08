@@ -241,6 +241,11 @@ extension InfoDetailViewController {
         let confirmAction = UIAlertAction(title: "Add", style: .default) { (_) in
             if let txtField = alert.textFields?.first, let text = txtField.text {
                 //self.sections.append((text,[]))
+                let entity = NSEntityDescription.entity(forEntityName: "InfoProductSection", in: DSDataController.shared.viewContext)!
+                let infoProductSection = NSManagedObject(entity: entity, insertInto: DSDataController.shared.viewContext) as! InfoProductSection
+                InfoProductSection.setValue(text, forKey: "name")
+                
+                
                 self.infoTableView.reloadData()
             }
         }
@@ -254,6 +259,16 @@ extension InfoDetailViewController {
         
     }
     
+    func saveProductContext(infoProductSection: InfoProductSection) {
+        do {
+            try DSDataController.shared.viewContext.save()
+            //TODO:- Left off here saving section to the spreadsheet, don't know what to do 
+            sendingVC.productTableView.reloadData()
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
+    
     
     func exportInfoData() {
         //CSVFile.createCSVStringFromInfo(data: sections, estimateNum: 0, curViewController: self)
@@ -261,15 +276,12 @@ extension InfoDetailViewController {
     
     func checkForProduct(with key:String) -> Dictionary<String, String> {
         if productsLoaded {
-            for (name,product) in products {
-                let idArray: Array = (product as! [String: Any])["id"]! as! [String]
-                for id in idArray {
-                    if (id == key) {
-                        var tuple: [String: String] = [:]
-                        tuple["description"] = name
-                        tuple["cost"] = "\((product as! [String: Any])["cost"] as! Double)"
-                        return tuple
-                    }
+            for product in DSData.shared.products {
+                if product.id == key {
+                    var tuple: [String: String] = [:]
+                    tuple["description"] = product.name
+                    tuple["cost"] = "\(product.cost)"
+                    return tuple
                 }
             }
         }
