@@ -192,8 +192,7 @@
 				9539A4F1220386EF00BDA2BA /* ViewControllers */,
 				9539A4EE2203866200BDA2BA /* UI */,
 				9539A4EF2203868F00BDA2BA /* Custom Objects */,
-				95E1DC6722D3DFF4004DAB8E /* DSDataController.swift */,
-				95E1DC6922D3E310004DAB8E /* DSData.swift */,
+				95E1DC6B22D3EB77004DAB8E /* DataEngine */,
 			);
 			path = DatabaseSpreadsheet;
 			sourceTree = "<group>";
@@ -214,6 +213,15 @@
 				959B25D621C351EF00DAF5DB /* Info.plist */,
 			);
 			path = DatabaseSpreadsheetUITests;
+			sourceTree = "<group>";
+		};
+		95E1DC6B22D3EB77004DAB8E /* DataEngine */ = {
+			isa = PBXGroup;
+			children = (
+				95E1DC6922D3E310004DAB8E /* DSData.swift */,
+				95E1DC6722D3DFF4004DAB8E /* DSDataController.swift */,
+			);
+			path = DataEngine;
 			sourceTree = "<group>";
 		};
 		A4B029E07BF1B6F5A3C95AB9 /* Frameworks */ = {

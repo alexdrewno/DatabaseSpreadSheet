@@ -18,6 +18,7 @@ class InProgressViewController: UIViewController, UITableViewDelegate, UITableVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        DSData.shared.fetchInfoSpreadsheets()
         inProgressTableView.dataSource = self
         inProgressTableView.delegate = self
     }
@@ -34,18 +35,17 @@ class InProgressViewController: UIViewController, UITableViewDelegate, UITableVi
 //MARK: - TableView Properties
 extension InProgressViewController {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return invoices.count
+        return DSData.shared.infoSpreadsheets.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let inProgressCell = inProgressTableView.dequeueReusableCell(withIdentifier: "inProgressCell") as! InvoiceTableViewCell
         
-        if invoices.count > 0 {
-            inProgressCell.dateLabel.text = invoices[indexPath.row]["date"] as! String
-            inProgressCell.descriptionLabel.text = invoices[indexPath.row]["jobDescription"] as! String
-            inProgressCell.clientLabel.text = invoices[indexPath.row]["client"] as! String
+        if DSData.shared.infoSpreadsheets.count > 0 {
+            inProgressCell.dateLabel.text = DSData.shared.infoSpreadsheets[indexPath.row].date
+            inProgressCell.descriptionLabel.text = DSData.shared.infoSpreadsheets[indexPath.row].jobDescription
+            inProgressCell.clientLabel.text = DSData.shared.infoSpreadsheets[indexPath.row].client
             inProgressCell.invoiceLabel.text = "\(indexPath.row)"
-            
         }
         return inProgressCell
     }
@@ -54,7 +54,8 @@ extension InProgressViewController {
 //MARK: - TableView Actions
 extension InProgressViewController {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        sectionsToSend = self.invoices[indexPath.row]["sections"] as? [String: [NSDictionary]] ?? [:]
+        //TODO: - There will be a bug here because NSSet != [:]
+        //sectionsToSend = DSData.shared.infoSpreadsheets[indexPath.row].sections
         performSegue(withIdentifier: "inProgressDetail", sender: nil)
     }
 }

@@ -18,10 +18,6 @@ class ProductPopoverViewController: UIViewController {
     @IBOutlet weak var costTextField: UITextField!
     var sendingVC : ProductViewController!
 
-    override func viewDidLoad() {
-       
-    }
-    
     @IBAction func cancelTouchUpInside(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
