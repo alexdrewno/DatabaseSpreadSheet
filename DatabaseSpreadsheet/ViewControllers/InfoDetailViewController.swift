@@ -24,7 +24,7 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
     var sections = [InfoProductSection]()
     var products:[String:Any] =  [:]
     var productsLoaded: Bool = false
-    var infoSpreadsheet: InfoSpreadsheet = InfoSpreadsheet()
+    var infoSpreadsheet: InfoSpreadsheet?
     var curNum : Int = 0 {
         didSet {
             self.title = "Invoice #\(curNum)"
@@ -73,7 +73,11 @@ extension InfoDetailViewController {
         let sectionLabel = UILabel(frame: CGRect(x: headerView.center.x, y: headerView.center.y, width: self.view.bounds.width, height: 40))
         sectionLabel.textAlignment = NSTextAlignment.center
         sectionLabel.center = headerView.center
-        sectionLabel.text = "\(sections[section].name)"
+        //NEED TO EXECUTE FETCH REQUEST
+        var objectArray: [InfoProductSection] = infoSpreadsheet?.sections?.allObjects as? [InfoProductSection] ?? []
+        print(objectArray.count)
+        objectArray = objectArray.sorted(by: {$0.name! < $1.name!})
+        sectionLabel.text = "\(objectArray[section].name ?? "")"
         sectionLabel.font = UIFont.boldSystemFont(ofSize: 24)
         sectionLabel.textColor = UIColor.black
         
@@ -82,7 +86,7 @@ extension InfoDetailViewController {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return sections.count
+        return infoSpreadsheet?.sections?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -243,8 +247,13 @@ extension InfoDetailViewController {
                 //self.sections.append((text,[]))
                 let entity = NSEntityDescription.entity(forEntityName: "InfoProductSection", in: DSDataController.shared.viewContext)!
                 let infoProductSection = NSManagedObject(entity: entity, insertInto: DSDataController.shared.viewContext) as! InfoProductSection
-                InfoProductSection.setValue(text, forKey: "name")
+                infoProductSection.setValue(text, forKey: "name")
+                self.infoSpreadsheet?.setValue(infoProductSection, forKey: "sections")
                 
+                //THIS IS BAD FOLLOW https://stackoverflow.com/questions/25127090/saving-coredata-to-many-relationships-in-swift
+                self.saveProductContext()
+                var objectArray = self.infoSpreadsheet?.sections?.allObjects
+                print(objectArray!.count)
                 
                 self.infoTableView.reloadData()
             }
@@ -259,11 +268,11 @@ extension InfoDetailViewController {
         
     }
     
-    func saveProductContext(infoProductSection: InfoProductSection) {
+    func saveProductContext() {
         do {
             try DSDataController.shared.viewContext.save()
             //TODO:- Left off here saving section to the spreadsheet, don't know what to do 
-            sendingVC.productTableView.reloadData()
+            //sendingVC.productTableView.reloadData()
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
