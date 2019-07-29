@@ -93,13 +93,17 @@ extension InfoDetailViewController {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         if (indexPath.section == 0 && indexPath.row == 0) {
             estimateTotal = 0
             actualTotal = 0
         }
         
+        
+        let sectionArray: [InfoProductSection] = infoSpreadsheet?.sections?.array as? [InfoProductSection] ?? []
+        
         var tableViewCell = UITableViewCell()
-        if (-1 > indexPath.row) {
+        if (sectionArray[indexPath.section].infoProducts?.count ?? 0 > indexPath.row) {
             tableViewCell = (infoTableView.dequeueReusableCell(withIdentifier: "infoCell") as! InfoDetailTableViewCell)
 
             (tableViewCell as! InfoDetailTableViewCell).keyTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
@@ -109,23 +113,22 @@ extension InfoDetailViewController {
             (tableViewCell as! InfoDetailTableViewCell).estimateTotalTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
             (tableViewCell as! InfoDetailTableViewCell).asBuildQTYTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
             (tableViewCell as! InfoDetailTableViewCell).asBuildTotalTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
+            
+            (tableViewCell as! InfoDetailTableViewCell).keyTextField.text = (sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct)?.product?.id ?? ""
+            (tableViewCell as! InfoDetailTableViewCell).descriptionTextField.text = (sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct)?.product?.name ?? ""
+            (tableViewCell as! InfoDetailTableViewCell).unitPriceTextField.text = "\((sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct)?.product?.cost ?? 0)"
+            (tableViewCell as! InfoDetailTableViewCell).estimateQTYTextField.text = "\((sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct)?.estimateQTY ?? 0)"
+            (tableViewCell as! InfoDetailTableViewCell).estimateTotalTextField.text = "\((sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct)?.estimateTotal ?? 0)"
+            (tableViewCell as! InfoDetailTableViewCell).asBuildQTYTextField.text = "\((sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct)?.asBuiltQTY ?? 0)"
+            (tableViewCell as! InfoDetailTableViewCell).asBuildTotalTextField.text = "\((sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct)?.asBuiltTotal ?? 0)"
 
-//
-//            (tableViewCell as! InfoDetailTableViewCell).keyTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].key
-//            (tableViewCell as! InfoDetailTableViewCell).descriptionTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].description
-//            (tableViewCell as! InfoDetailTableViewCell).unitPriceTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].unitPrice
-//            (tableViewCell as! InfoDetailTableViewCell).estimateQTYTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].estimateQTY
-//            (tableViewCell as! InfoDetailTableViewCell).estimateTotalTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].estimateTotal
-//            (tableViewCell as! InfoDetailTableViewCell).asBuildQTYTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].asBuiltQTY
-//            (tableViewCell as! InfoDetailTableViewCell).asBuildTotalTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].asBuiltTotal
-//
-//            (tableViewCell as! InfoDetailTableViewCell).keyTextField.tag = 1
-//            (tableViewCell as! InfoDetailTableViewCell).descriptionTextField.tag = 2
-//            (tableViewCell as! InfoDetailTableViewCell).unitPriceTextField.tag = 3
-//            (tableViewCell as! InfoDetailTableViewCell).estimateQTYTextField.tag = 4
-//            (tableViewCell as! InfoDetailTableViewCell).estimateTotalTextField.tag = 5
-//            (tableViewCell as! InfoDetailTableViewCell).asBuildQTYTextField.tag = 6
-//            (tableViewCell as! InfoDetailTableViewCell).asBuildTotalTextField.tag = 7
+            (tableViewCell as! InfoDetailTableViewCell).keyTextField.tag = 1
+            (tableViewCell as! InfoDetailTableViewCell).descriptionTextField.tag = 2
+            (tableViewCell as! InfoDetailTableViewCell).unitPriceTextField.tag = 3
+            (tableViewCell as! InfoDetailTableViewCell).estimateQTYTextField.tag = 4
+            (tableViewCell as! InfoDetailTableViewCell).estimateTotalTextField.tag = 5
+            (tableViewCell as! InfoDetailTableViewCell).asBuildQTYTextField.tag = 6
+            (tableViewCell as! InfoDetailTableViewCell).asBuildTotalTextField.tag = 7
 //
 //
 //            if let key = (tableViewCell as! InfoDetailTableViewCell).keyTextField.text {
@@ -172,23 +175,28 @@ extension InfoDetailViewController {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var sectionArray: [InfoProductSection] = infoSpreadsheet?.sections?.array as? [InfoProductSection] ?? []
         
-        if (sectionArray[indexPath.row].infoProducts?.count ?? (indexPath.row + 1) <= indexPath.row) {
+        if (sectionArray[indexPath.section].infoProducts?.count ?? (indexPath.row + 1) <= indexPath.row) {
             let entity = NSEntityDescription.entity(forEntityName: "InfoProduct", in: DSDataController.shared.viewContext)!
             let infoProduct = NSManagedObject(entity: entity, insertInto: DSDataController.shared.viewContext) as! InfoProduct
             infoProduct.setValue(0, forKey: "asBuiltQTY")
             infoProduct.setValue(0, forKey: "asBuiltTotal")
             infoProduct.setValue(0, forKey: "estimateQTY")
             infoProduct.setValue(0, forKey: "estimateTotal")
-
+            sectionArray[indexPath.section].addToInfoProducts(infoProduct)
+            saveProductContext()
             infoTableView.reloadData()
         }
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-//        if editingStyle == .delete {
-//            sections[indexPath.section].sectionProducts.remove(at: indexPath.row)
-//            tableView.reloadData()
-//        }
+        let sectionArray: [InfoProductSection] = infoSpreadsheet?.sections?.array as? [InfoProductSection] ?? []
+        if editingStyle == .delete {
+            if let infoProduct = sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct {
+                DSDataController.shared.viewContext.delete(infoProduct)
+                saveProductContext()
+            }
+            tableView.reloadData()
+        }
     }
 }
 
@@ -201,9 +209,8 @@ extension InfoDetailViewController {
         vc.modalPresentationStyle = .popover
         vc.preferredContentSize = CGSize(width: 200, height: 200)
         
-        
         let popover = vc.popoverPresentationController
-        popover?.delegate = self as! UIPopoverPresentationControllerDelegate
+        popover?.delegate = self as UIPopoverPresentationControllerDelegate
         popover?.barButtonItem = self.navigationItem.rightBarButtonItem
         
         present(vc, animated: false, completion: nil)
@@ -215,7 +222,7 @@ extension InfoDetailViewController {
     @objc func textFieldDidChange(textField: UITextField) {
         let cell: UITableViewCell = textField.superview?.superview as! UITableViewCell
         let table: UITableView = cell.superview as! UITableView
-        if let textFieldIndexPath = table.indexPath(for: cell) {
+        if table.indexPath(for: cell) != nil {
             switch textField.tag {
 //            case 1:
 //                sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].key = textField.text!
@@ -254,11 +261,7 @@ extension InfoDetailViewController {
                 let infoProductSection = NSManagedObject(entity: entity, insertInto: DSDataController.shared.viewContext) as! InfoProductSection
                 infoProductSection.name = text
                 self.infoSpreadsheet?.addToSections(infoProductSection)
-                print(self.infoSpreadsheet)
-
                 self.saveProductContext()
-                print(self.infoSpreadsheet?.sections)
-                
                 self.infoTableView.reloadData()
             }
         }
