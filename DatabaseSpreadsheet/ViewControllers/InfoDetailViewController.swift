@@ -222,28 +222,78 @@ extension InfoDetailViewController {
     @objc func textFieldDidChange(textField: UITextField) {
         let cell: UITableViewCell = textField.superview?.superview as! UITableViewCell
         let table: UITableView = cell.superview as! UITableView
-        if table.indexPath(for: cell) != nil {
+   
+        if let textFieldIndexPath = table.indexPath(for: cell) {
             switch textField.tag {
-//            case 1:
-//                sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].key = textField.text!
-//                let foundProduct: [String: String] = checkForProduct(with: textField.text ?? "")
-//                if foundProduct.count > 0 {
-//                    self.infoTableView.reloadData()
-//                }
-//            case 2:
-//                sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].description = textField.text!
-//            case 3:
-//                sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].unitPrice = textField.text!
-//            case 4:
-//                sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].estimateQTY = textField.text!
-//            case 5:
-//                sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].estimateTotal = textField.text!
-//            case 6:
-//                sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].asBuiltQTY = textField.text!
-//            case 7:
-//                sections[textFieldIndexPath.section].sectionProducts[textFieldIndexPath.row].asBuiltTotal = textField.text!
+            case 1:
+                if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
+                    if let product = infoProduct.product {
+                        product.id = textField.text!
+                    } else {
+                        let entity = NSEntityDescription.entity(forEntityName: "Product", in: DSDataController.shared.viewContext)!
+                        let product = NSManagedObject(entity: entity, insertInto: DSDataController.shared.viewContext) as! Product
+                        product.id = textField.text!
+                        product.name = ""
+                        product.cost = 0
+                        infoProduct.product = product
+                    }
+                }
+                
+                saveProductContext()
+                let foundProduct: [String: String] = checkForProduct(with: textField.text ?? "")
+                if foundProduct.count > 0 {
+                    self.infoTableView.reloadData()
+                }
+            case 2:
+                if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
+                    if let product = infoProduct.product {
+                        product.name = textField.text!
+                    } else {
+                        let entity = NSEntityDescription.entity(forEntityName: "Product", in: DSDataController.shared.viewContext)!
+                        let product = NSManagedObject(entity: entity, insertInto: DSDataController.shared.viewContext) as! Product
+                        product.id = ""
+                        product.name = textField.text
+                        product.cost = 0
+                        infoProduct.product = product
+                    }
+                }
+                saveProductContext()
+            case 3:
+                if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
+                    if let product = infoProduct.product {
+                        product.cost = Double(textField.text!) ?? 0
+                    } else {
+                        let entity = NSEntityDescription.entity(forEntityName: "Product", in: DSDataController.shared.viewContext)!
+                        let product = NSManagedObject(entity: entity, insertInto: DSDataController.shared.viewContext) as! Product
+                        product.id = ""
+                        product.name = ""
+                        product.cost = Double(textField.text!) ?? 0
+                        infoProduct.product = product
+                    }
+                }
+                saveProductContext()
+            case 4:
+                if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
+                    infoProduct.estimateQTY = Int32(textField.text!) ?? 0
+                    saveProductContext()
+                }
+            case 5:
+                if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
+                    infoProduct.estimateTotal = Double(textField.text!) ?? 0
+                    saveProductContext()
+                }
+            case 6:
+                if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
+                    infoProduct.asBuiltQTY = Int32(textField.text!) ?? 0
+                    saveProductContext()
+                }
+            case 7:
+                if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
+                    infoProduct.asBuiltTotal = Double(textField.text!) ?? 0
+                    saveProductContext()
+                }
             default:
-                print("TEXTFIELDNOTFONUD???????????")
+                print("Textfield Tag Not Found")
             }
         }
         
@@ -281,6 +331,11 @@ extension InfoDetailViewController {
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
+    }
+    
+    func getInfoProduct(for indexPath: IndexPath) -> InfoProduct? {
+        let sectionArray: [InfoProductSection] = infoSpreadsheet?.sections?.array as? [InfoProductSection] ?? []
+        return sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct
     }
     
     
