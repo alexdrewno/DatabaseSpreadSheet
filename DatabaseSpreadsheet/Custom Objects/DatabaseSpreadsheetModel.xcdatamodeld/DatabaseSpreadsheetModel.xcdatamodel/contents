@@ -20,7 +20,7 @@
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="jobDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="telephone" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="sections" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="InfoProductSection" inverseName="infoSpreadsheet" inverseEntity="InfoProductSection" syncable="YES"/>
+        <relationship name="sections" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="InfoProductSection" inverseName="infoSpreadsheet" inverseEntity="InfoProductSection" syncable="YES"/>
     </entity>
     <entity name="Product" representedClassName="Product" syncable="YES" codeGenerationType="class">
         <attribute name="cost" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
@@ -31,7 +31,7 @@
     <elements>
         <element name="InfoProduct" positionX="-63" positionY="-18" width="128" height="30"/>
         <element name="InfoProductSection" positionX="-45" positionY="81" width="128" height="30"/>
-        <element name="InfoSpreadsheet" positionX="-54" positionY="45" width="128" height="30"/>
+        <element name="InfoSpreadsheet" positionX="-54" positionY="45" width="128" height="150"/>
         <element name="Product" positionX="-45" positionY="63" width="128" height="30"/>
     </elements>
 </model>

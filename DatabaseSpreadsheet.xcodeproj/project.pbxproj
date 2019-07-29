@@ -129,6 +129,7 @@
 		9539A4EF2203868F00BDA2BA /* Custom Objects */ = {
 			isa = PBXGroup;
 			children = (
+				95BD60F622EF6AA900B6AA94 /* Model */,
 				95C7F20221E3EC5800746594 /* CSVFile.swift */,
 				95C501D6228A1F6700EA16C2 /* DatabaseSpreadsheetModel.xcdatamodeld */,
 			);
@@ -213,6 +214,13 @@
 				959B25D621C351EF00DAF5DB /* Info.plist */,
 			);
 			path = DatabaseSpreadsheetUITests;
+			sourceTree = "<group>";
+		};
+		95BD60F622EF6AA900B6AA94 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		95E1DC6B22D3EB77004DAB8E /* DataEngine */ = {

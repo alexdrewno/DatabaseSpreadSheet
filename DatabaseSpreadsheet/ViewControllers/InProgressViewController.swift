@@ -14,7 +14,7 @@ import UIKit
 class InProgressViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var inProgressTableView: UITableView!
     var invoices : [NSDictionary] = []
-    var sectionsToSend : [String: [NSDictionary]] = [:]
+    var spreadsheetToSend : InfoSpreadsheet!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +27,7 @@ class InProgressViewController: UIViewController, UITableViewDelegate, UITableVi
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let dvc = segue.destination as! InfoDetailViewController
         if segue.identifier == "inProgressDetail" {
-         
+            dvc.infoSpreadsheet = spreadsheetToSend
         }
     }
 }
@@ -56,6 +56,7 @@ extension InProgressViewController {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //TODO: - There will be a bug here because NSSet != [:]
         //sectionsToSend = DSData.shared.infoSpreadsheets[indexPath.row].sections
+        spreadsheetToSend = DSData.shared.infoSpreadsheets[indexPath.row]
         performSegue(withIdentifier: "inProgressDetail", sender: nil)
     }
 }

@@ -21,8 +21,6 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
     @IBOutlet weak var estimateCostLabel: UILabel!
     var estimateTotal : Double = 0
     var actualTotal : Double = 0
-    var sections = [InfoProductSection]()
-    var products:[String:Any] =  [:]
     var productsLoaded: Bool = false
     var infoSpreadsheet: InfoSpreadsheet?
     var curNum : Int = 0 {
@@ -73,10 +71,7 @@ extension InfoDetailViewController {
         let sectionLabel = UILabel(frame: CGRect(x: headerView.center.x, y: headerView.center.y, width: self.view.bounds.width, height: 40))
         sectionLabel.textAlignment = NSTextAlignment.center
         sectionLabel.center = headerView.center
-        //NEED TO EXECUTE FETCH REQUEST
-        var objectArray: [InfoProductSection] = infoSpreadsheet?.sections?.allObjects as? [InfoProductSection] ?? []
-        print(objectArray.count)
-        objectArray = objectArray.sorted(by: {$0.name! < $1.name!})
+        var objectArray: [InfoProductSection] = infoSpreadsheet?.sections?.array as? [InfoProductSection] ?? []
         sectionLabel.text = "\(objectArray[section].name ?? "")"
         sectionLabel.font = UIFont.boldSystemFont(ofSize: 24)
         sectionLabel.textColor = UIColor.black
@@ -90,8 +85,11 @@ extension InfoDetailViewController {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //TODO :- Fix this
-        return 1
+        let objectArray = infoSpreadsheet?.sections?.array as? [InfoProductSection] ?? []
+        if objectArray == [] {
+            return 1
+        }
+        return ((objectArray[section].infoProducts?.count) ?? 0 ) + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -102,16 +100,16 @@ extension InfoDetailViewController {
         
         var tableViewCell = UITableViewCell()
         if (-1 > indexPath.row) {
-//            tableViewCell = (infoTableView.dequeueReusableCell(withIdentifier: "infoCell") as! InfoDetailTableViewCell)
-//
-//            (tableViewCell as! InfoDetailTableViewCell).keyTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
-//            (tableViewCell as! InfoDetailTableViewCell).descriptionTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
-//            (tableViewCell as! InfoDetailTableViewCell).unitPriceTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
-//            (tableViewCell as! InfoDetailTableViewCell).estimateQTYTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
-//            (tableViewCell as! InfoDetailTableViewCell).estimateTotalTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
-//            (tableViewCell as! InfoDetailTableViewCell).asBuildQTYTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
-//            (tableViewCell as! InfoDetailTableViewCell).asBuildTotalTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
-//
+            tableViewCell = (infoTableView.dequeueReusableCell(withIdentifier: "infoCell") as! InfoDetailTableViewCell)
+
+            (tableViewCell as! InfoDetailTableViewCell).keyTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
+            (tableViewCell as! InfoDetailTableViewCell).descriptionTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
+            (tableViewCell as! InfoDetailTableViewCell).unitPriceTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
+            (tableViewCell as! InfoDetailTableViewCell).estimateQTYTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
+            (tableViewCell as! InfoDetailTableViewCell).estimateTotalTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
+            (tableViewCell as! InfoDetailTableViewCell).asBuildQTYTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
+            (tableViewCell as! InfoDetailTableViewCell).asBuildTotalTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
+
 //
 //            (tableViewCell as! InfoDetailTableViewCell).keyTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].key
 //            (tableViewCell as! InfoDetailTableViewCell).descriptionTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].description
@@ -172,10 +170,18 @@ extension InfoDetailViewController {
 //MARK: - TableView Actions
 extension InfoDetailViewController {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        if (sections[indexPath.section] <= indexPath.row) {
-//            sections[indexPath.section].sectionProducts.append(InfoProduct(key: "", description: "", unitPrice: "", estimateQTY: "", estimateTotal: "", asBuiltQTY: "", asBuiltTotal: ""))
-//            infoTableView.reloadData()
-//        }
+        var sectionArray: [InfoProductSection] = infoSpreadsheet?.sections?.array as? [InfoProductSection] ?? []
+        
+        if (sectionArray[indexPath.row].infoProducts?.count ?? (indexPath.row + 1) <= indexPath.row) {
+            let entity = NSEntityDescription.entity(forEntityName: "InfoProduct", in: DSDataController.shared.viewContext)!
+            let infoProduct = NSManagedObject(entity: entity, insertInto: DSDataController.shared.viewContext) as! InfoProduct
+            infoProduct.setValue(0, forKey: "asBuiltQTY")
+            infoProduct.setValue(0, forKey: "asBuiltTotal")
+            infoProduct.setValue(0, forKey: "estimateQTY")
+            infoProduct.setValue(0, forKey: "estimateTotal")
+
+            infoTableView.reloadData()
+        }
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -244,16 +250,14 @@ extension InfoDetailViewController {
         let alert = UIAlertController(title: "Add New Section", message: nil, preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: "Add", style: .default) { (_) in
             if let txtField = alert.textFields?.first, let text = txtField.text {
-                //self.sections.append((text,[]))
                 let entity = NSEntityDescription.entity(forEntityName: "InfoProductSection", in: DSDataController.shared.viewContext)!
                 let infoProductSection = NSManagedObject(entity: entity, insertInto: DSDataController.shared.viewContext) as! InfoProductSection
-                infoProductSection.setValue(text, forKey: "name")
-                self.infoSpreadsheet?.setValue(infoProductSection, forKey: "sections")
-                
-                //THIS IS BAD FOLLOW https://stackoverflow.com/questions/25127090/saving-coredata-to-many-relationships-in-swift
+                infoProductSection.name = text
+                self.infoSpreadsheet?.addToSections(infoProductSection)
+                print(self.infoSpreadsheet)
+
                 self.saveProductContext()
-                var objectArray = self.infoSpreadsheet?.sections?.allObjects
-                print(objectArray!.count)
+                print(self.infoSpreadsheet?.sections)
                 
                 self.infoTableView.reloadData()
             }
@@ -271,8 +275,6 @@ extension InfoDetailViewController {
     func saveProductContext() {
         do {
             try DSDataController.shared.viewContext.save()
-            //TODO:- Left off here saving section to the spreadsheet, don't know what to do 
-            //sendingVC.productTableView.reloadData()
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
