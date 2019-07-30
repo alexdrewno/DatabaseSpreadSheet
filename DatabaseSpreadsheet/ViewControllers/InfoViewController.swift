@@ -38,12 +38,15 @@ class InfoViewController: UIViewController {
             infoSpreadsheet.setValue(telephoneTextField.text ?? "", forKey: "telephone")
             infoSpreadsheet.setValue(emailTextField.text ?? "", forKey: "email")
             infoSpreadsheet.setValue(jobDescriptionTextView.text ?? "", forKey: "jobDescription")
-            infoSpreadsheet.setValue(self.curNum, forKey: "curNum")
+            infoSpreadsheet.setValue(Int16(self.curNum), forKey: "curNum")
+            //TODO: - CurNUM BUG NOT SETTING CORRECTLY
+            
             self.saveContext(infoSpreadsheet: infoSpreadsheet)
             
             let dvc = segue.destination as! InfoDetailViewController
             
             dvc.infoSpreadsheet = infoSpreadsheet
+            dvc.curNum = Int(infoSpreadsheet.curNum)
         }
     }
     

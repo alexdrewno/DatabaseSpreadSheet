@@ -34,8 +34,7 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
         super.viewDidLoad()
        
     }
-    
-    
+        
     func updateTotalLabels() {
         estimateTotal = 0
         actualTotal = 0
@@ -60,14 +59,14 @@ extension InfoDetailViewController {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 40))
-        headerView.backgroundColor = UIColor.lightGray
+        headerView.backgroundColor = UIColor(red: 0.878, green: 0.878, blue: 0.878, alpha: 1)
         let sectionLabel = UILabel(frame: CGRect(x: headerView.center.x, y: headerView.center.y, width: self.view.bounds.width, height: 40))
         sectionLabel.textAlignment = NSTextAlignment.center
         sectionLabel.center = headerView.center
         var objectArray: [InfoProductSection] = infoSpreadsheet?.sections?.array as? [InfoProductSection] ?? []
         sectionLabel.text = "\(objectArray[section].name ?? "")"
-        sectionLabel.font = UIFont.boldSystemFont(ofSize: 24)
-        sectionLabel.textColor = UIColor.black
+        sectionLabel.font = UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.medium)
+        sectionLabel.textColor = UIColor.darkGray
         
         headerView.addSubview(sectionLabel)
         return headerView
@@ -155,6 +154,7 @@ extension InfoDetailViewController {
             (tableViewCell as! InfoDetailTableViewCell).asBuildTotalTextField.text = "\((sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct)?.asBuiltTotal ?? 0)"
 
             setTableViewCellTextFieldTags(tableViewCell)
+            updateTotalLabels()
 
         } else {
             tableViewCell = infoTableView.dequeueReusableCell(withIdentifier: "addCell")!

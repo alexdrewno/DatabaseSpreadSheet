@@ -12,8 +12,6 @@ import UIKit
 //MARK: - ViewController Properties
 class CompletedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var completeTableView: UITableView!
-    var invoices : [NSDictionary] = []
-    var sectionsToSend : [String: [NSDictionary]] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +23,7 @@ class CompletedViewController: UIViewController, UITableViewDelegate, UITableVie
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let dvc = segue.destination as! InfoDetailViewController
         if segue.identifier == "completedDetail" {
- 
+            
         }
     }
     
@@ -35,18 +33,11 @@ class CompletedViewController: UIViewController, UITableViewDelegate, UITableVie
 //MARK: - TableView Properties
 extension CompletedViewController {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.invoices.count
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let completedCell = completeTableView.dequeueReusableCell(withIdentifier: "completedCell") as! InvoiceTableViewCell
-        
-        if invoices.count > 0 {
-            completedCell.dateLabel.text = invoices[indexPath.row]["date"] as? String ?? ""
-            completedCell.descriptionLabel.text = invoices[indexPath.row]["jobDescription"] as? String ?? ""
-            completedCell.clientLabel.text = invoices[indexPath.row]["client"] as? String ?? ""
-            completedCell.invoiceLabel.text = "\(indexPath.row)"
-        }
         
         return completedCell
     }
@@ -55,8 +46,7 @@ extension CompletedViewController {
 //MARK: - TableView Actions
 extension CompletedViewController {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        sectionsToSend = self.invoices[indexPath.row]["sections"] as? [String: [NSDictionary]] ?? [:]
-        performSegue(withIdentifier: "completedDetail", sender: nil)
+           performSegue(withIdentifier: "completedDetail", sender: nil)
     }
 }
 

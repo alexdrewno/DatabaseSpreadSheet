@@ -28,6 +28,7 @@ class InProgressViewController: UIViewController, UITableViewDelegate, UITableVi
         let dvc = segue.destination as! InfoDetailViewController
         if segue.identifier == "inProgressDetail" {
             dvc.infoSpreadsheet = spreadsheetToSend
+            dvc.curNum = Int(spreadsheetToSend.curNum)
         }
     }
 }
