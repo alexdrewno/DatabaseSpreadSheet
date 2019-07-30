@@ -3,10 +3,12 @@
     <entity name="InfoProduct" representedClassName="InfoProduct" syncable="YES" codeGenerationType="class">
         <attribute name="asBuiltQTY" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="asBuiltTotal" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="cost" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="estimateQTY" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="estimateTotal" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="infoSpreadsheetSection" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="InfoProductSection" inverseName="infoProducts" inverseEntity="InfoProductSection" syncable="YES"/>
-        <relationship name="product" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Product" inverseName="infoProduct" inverseEntity="Product" syncable="YES"/>
     </entity>
     <entity name="InfoProductSection" representedClassName="InfoProductSection" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
@@ -26,12 +28,11 @@
         <attribute name="cost" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="infoProduct" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="InfoProduct" inverseName="product" inverseEntity="InfoProduct" syncable="YES"/>
     </entity>
     <elements>
-        <element name="InfoProduct" positionX="-63" positionY="-18" width="128" height="30"/>
+        <element name="InfoProduct" positionX="-63" positionY="-18" width="128" height="165"/>
         <element name="InfoProductSection" positionX="-45" positionY="81" width="128" height="30"/>
         <element name="InfoSpreadsheet" positionX="-54" positionY="45" width="128" height="150"/>
-        <element name="Product" positionX="-45" positionY="63" width="128" height="30"/>
+        <element name="Product" positionX="-45" positionY="63" width="128" height="90"/>
     </elements>
 </model>

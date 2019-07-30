@@ -10,8 +10,6 @@ import Foundation
 import UIKit
 import CoreData
 
-
-//TODO : Deletion from TableView
 //TODO : Test Export on actual device
 
 //MARK: - ViewController Properties
@@ -42,18 +40,13 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
         estimateTotal = 0
         actualTotal = 0
         
-//        for section in sections {
-//            for sectionProduct in section.sectionProducts {
-//                if let estimateAmount = Double(sectionProduct.estimateTotal) {
-//                    estimateTotal += estimateAmount
-//                }
-//
-//                if let actualAmount = Double(sectionProduct.asBuiltTotal) {
-//                    actualTotal += actualAmount
-//                }
-//            }
-//        }
-        
+        for sectionRow in infoSpreadsheet?.sections?.array as? [InfoProductSection] ?? [] {
+            for infoProduct in sectionRow.infoProducts?.array as? [InfoProduct] ?? [] {
+                estimateTotal += infoProduct.estimateTotal
+                actualTotal += infoProduct.asBuiltTotal
+            }
+        }
+ 
         estimateCostLabel.text = "Estimate Cost: $\(estimateTotal)"
         totalCostLabel.text = "Total Cost: $\(actualTotal)"
     }
@@ -92,6 +85,16 @@ extension InfoDetailViewController {
         return ((objectArray[section].infoProducts?.count) ?? 0 ) + 1
     }
     
+    func checkAndUpdateWithKey(_ tableViewCell: UITableViewCell, _ indexPath: IndexPath) {
+        if let product = checkForProduct(with: (tableViewCell as! InfoDetailTableViewCell).keyTextField.text ?? "") {
+            if let infoProduct = getInfoProduct(for: indexPath) {
+                infoProduct.name = product.name
+                infoProduct.cost = product.cost
+                saveProductContext()
+            }
+        }
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if (indexPath.section == 0 && indexPath.row == 0) {
@@ -107,6 +110,7 @@ extension InfoDetailViewController {
             tableViewCell = (infoTableView.dequeueReusableCell(withIdentifier: "infoCell") as! InfoDetailTableViewCell)
 
             (tableViewCell as! InfoDetailTableViewCell).keyTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
+            (tableViewCell as! InfoDetailTableViewCell).keyTextField.addTarget(self, action: #selector(textFieldEndEditing(textField:)), for: .editingDidEnd)
             (tableViewCell as! InfoDetailTableViewCell).descriptionTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
             (tableViewCell as! InfoDetailTableViewCell).unitPriceTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
             (tableViewCell as! InfoDetailTableViewCell).estimateQTYTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
@@ -114,9 +118,12 @@ extension InfoDetailViewController {
             (tableViewCell as! InfoDetailTableViewCell).asBuildQTYTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
             (tableViewCell as! InfoDetailTableViewCell).asBuildTotalTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
             
-            (tableViewCell as! InfoDetailTableViewCell).keyTextField.text = (sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct)?.product?.id ?? ""
-            (tableViewCell as! InfoDetailTableViewCell).descriptionTextField.text = (sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct)?.product?.name ?? ""
-            (tableViewCell as! InfoDetailTableViewCell).unitPriceTextField.text = "\((sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct)?.product?.cost ?? 0)"
+            (tableViewCell as! InfoDetailTableViewCell).keyTextField.text = (sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct)?.id
+            
+            checkAndUpdateWithKey(tableViewCell, indexPath)
+            
+            (tableViewCell as! InfoDetailTableViewCell).descriptionTextField.text = (sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct)?.name
+            (tableViewCell as! InfoDetailTableViewCell).unitPriceTextField.text = "\((sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct)?.cost ?? 0)"
             (tableViewCell as! InfoDetailTableViewCell).estimateQTYTextField.text = "\((sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct)?.estimateQTY ?? 0)"
             (tableViewCell as! InfoDetailTableViewCell).estimateTotalTextField.text = "\((sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct)?.estimateTotal ?? 0)"
             (tableViewCell as! InfoDetailTableViewCell).asBuildQTYTextField.text = "\((sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct)?.asBuiltQTY ?? 0)"
@@ -129,20 +136,7 @@ extension InfoDetailViewController {
             (tableViewCell as! InfoDetailTableViewCell).estimateTotalTextField.tag = 5
             (tableViewCell as! InfoDetailTableViewCell).asBuildQTYTextField.tag = 6
             (tableViewCell as! InfoDetailTableViewCell).asBuildTotalTextField.tag = 7
-//
-//
-//            if let key = (tableViewCell as! InfoDetailTableViewCell).keyTextField.text {
-//                let foundProduct: [String: String] = checkForProduct(with: key)
-//                if foundProduct.count > 0 &&
-//                    ((tableViewCell as! InfoDetailTableViewCell).descriptionTextField.text != foundProduct["description"] &&
-//                        ((tableViewCell as! InfoDetailTableViewCell).unitPriceTextField.text != foundProduct["cost"])) {
-//                    (tableViewCell as! InfoDetailTableViewCell).descriptionTextField.text = foundProduct["description"]
-//                    (tableViewCell as! InfoDetailTableViewCell).unitPriceTextField.text = foundProduct["cost"]
-//                    sections[indexPath.section].sectionProducts[indexPath.row].description = foundProduct["description"] ?? ""
-//                    sections[indexPath.section].sectionProducts[indexPath.row].unitPrice = foundProduct["cost"] ?? ""
-//                    self.infoTableView.reloadData()
-//                }
-//            }
+
 //
 //            if let estimateQTY = Double(sections[indexPath.section].sectionProducts[indexPath.row].estimateQTY),
 //                let unitPrice = Double(sections[indexPath.section].sectionProducts[indexPath.row].unitPrice) {
@@ -155,12 +149,10 @@ extension InfoDetailViewController {
 //                sections[indexPath.section].sectionProducts[indexPath.row].asBuiltTotal = "\(actualQTY * unitPrice)"
 //                (tableViewCell as! InfoDetailTableViewCell).asBuildTotalTextField.text = sections[indexPath.section].sectionProducts[indexPath.row].asBuiltTotal
 //            }
-//
             
         } else {
             tableViewCell = infoTableView.dequeueReusableCell(withIdentifier: "addCell")!
         }
-        
         
         return tableViewCell
     }
@@ -227,51 +219,19 @@ extension InfoDetailViewController {
             switch textField.tag {
             case 1:
                 if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
-                    if let product = infoProduct.product {
-                        product.id = textField.text!
-                    } else {
-                        let entity = NSEntityDescription.entity(forEntityName: "Product", in: DSDataController.shared.viewContext)!
-                        let product = NSManagedObject(entity: entity, insertInto: DSDataController.shared.viewContext) as! Product
-                        product.id = textField.text!
-                        product.name = ""
-                        product.cost = 0
-                        infoProduct.product = product
-                    }
-                }
-                
-                saveProductContext()
-                let foundProduct: [String: String] = checkForProduct(with: textField.text ?? "")
-                if foundProduct.count > 0 {
-                    self.infoTableView.reloadData()
+                    infoProduct.id = textField.text!
+                    saveProductContext()
                 }
             case 2:
                 if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
-                    if let product = infoProduct.product {
-                        product.name = textField.text!
-                    } else {
-                        let entity = NSEntityDescription.entity(forEntityName: "Product", in: DSDataController.shared.viewContext)!
-                        let product = NSManagedObject(entity: entity, insertInto: DSDataController.shared.viewContext) as! Product
-                        product.id = ""
-                        product.name = textField.text
-                        product.cost = 0
-                        infoProduct.product = product
-                    }
+                    infoProduct.name = textField.text!
+                    saveProductContext()
                 }
-                saveProductContext()
             case 3:
                 if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
-                    if let product = infoProduct.product {
-                        product.cost = Double(textField.text!) ?? 0
-                    } else {
-                        let entity = NSEntityDescription.entity(forEntityName: "Product", in: DSDataController.shared.viewContext)!
-                        let product = NSManagedObject(entity: entity, insertInto: DSDataController.shared.viewContext) as! Product
-                        product.id = ""
-                        product.name = ""
-                        product.cost = Double(textField.text!) ?? 0
-                        infoProduct.product = product
-                    }
+                    infoProduct.cost = Double(textField.text!) ?? 0
+                    saveProductContext()
                 }
-                saveProductContext()
             case 4:
                 if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
                     infoProduct.estimateQTY = Int32(textField.text!) ?? 0
@@ -298,6 +258,29 @@ extension InfoDetailViewController {
         }
         
         updateTotalLabels()
+    }
+    
+    @objc func textFieldEndEditing(textField: UITextField) {
+        let cell: UITableViewCell = textField.superview?.superview as! UITableViewCell
+        let table: UITableView = cell.superview as! UITableView
+        
+        if let textFieldIndexPath = table.indexPath(for: cell) {
+            switch textField.tag {
+            case 1:
+                if let product = checkForProduct(with: textField.text!) {
+                    if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
+                        infoProduct.name = product.name
+                        infoProduct.cost = product.cost
+                        saveProductContext()
+                        infoTableView.reloadData()
+                    }
+                }
+            default:
+                print("TEXT FIELD DID END EDITING")
+            }
+
+        }
+        
     }
 }
 
@@ -343,17 +326,13 @@ extension InfoDetailViewController {
         //CSVFile.createCSVStringFromInfo(data: sections, estimateNum: 0, curViewController: self)
     }
     
-    func checkForProduct(with key:String) -> Dictionary<String, String> {
-        if productsLoaded {
-            for product in DSData.shared.products {
-                if product.id == key {
-                    var tuple: [String: String] = [:]
-                    tuple["description"] = product.name
-                    tuple["cost"] = "\(product.cost)"
-                    return tuple
-                }
+    func checkForProduct(with key:String) -> Product? {
+        DSData.shared.fetchProducts()
+        for product in DSData.shared.products {
+            if product.id == key {
+                return product
             }
         }
-        return [:]
+        return nil
     }
 }
