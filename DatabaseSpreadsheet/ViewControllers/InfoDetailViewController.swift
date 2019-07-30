@@ -95,6 +95,27 @@ extension InfoDetailViewController {
         }
     }
     
+    fileprivate func addTableViewCellTextTargets(_ tableViewCell: UITableViewCell) {
+        (tableViewCell as! InfoDetailTableViewCell).keyTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
+        (tableViewCell as! InfoDetailTableViewCell).keyTextField.addTarget(self, action: #selector(textFieldEndEditing(textField:)), for: .editingDidEnd)
+        (tableViewCell as! InfoDetailTableViewCell).descriptionTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
+        (tableViewCell as! InfoDetailTableViewCell).unitPriceTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
+        (tableViewCell as! InfoDetailTableViewCell).estimateQTYTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
+        (tableViewCell as! InfoDetailTableViewCell).estimateTotalTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
+        (tableViewCell as! InfoDetailTableViewCell).asBuildQTYTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
+        (tableViewCell as! InfoDetailTableViewCell).asBuildTotalTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
+    }
+    
+    fileprivate func setTableViewCellTextFieldTags(_ tableViewCell: UITableViewCell) {
+        (tableViewCell as! InfoDetailTableViewCell).keyTextField.tag = 1
+        (tableViewCell as! InfoDetailTableViewCell).descriptionTextField.tag = 2
+        (tableViewCell as! InfoDetailTableViewCell).unitPriceTextField.tag = 3
+        (tableViewCell as! InfoDetailTableViewCell).estimateQTYTextField.tag = 4
+        (tableViewCell as! InfoDetailTableViewCell).estimateTotalTextField.tag = 5
+        (tableViewCell as! InfoDetailTableViewCell).asBuildQTYTextField.tag = 6
+        (tableViewCell as! InfoDetailTableViewCell).asBuildTotalTextField.tag = 7
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if (indexPath.section == 0 && indexPath.row == 0) {
@@ -102,24 +123,14 @@ extension InfoDetailViewController {
             actualTotal = 0
         }
         
-        
         let sectionArray: [InfoProductSection] = infoSpreadsheet?.sections?.array as? [InfoProductSection] ?? []
         
         var tableViewCell = UITableViewCell()
         if (sectionArray[indexPath.section].infoProducts?.count ?? 0 > indexPath.row) {
             tableViewCell = (infoTableView.dequeueReusableCell(withIdentifier: "infoCell") as! InfoDetailTableViewCell)
 
-            (tableViewCell as! InfoDetailTableViewCell).keyTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
-            (tableViewCell as! InfoDetailTableViewCell).keyTextField.addTarget(self, action: #selector(textFieldEndEditing(textField:)), for: .editingDidEnd)
-            (tableViewCell as! InfoDetailTableViewCell).descriptionTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
-            (tableViewCell as! InfoDetailTableViewCell).unitPriceTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
-            (tableViewCell as! InfoDetailTableViewCell).estimateQTYTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
-            (tableViewCell as! InfoDetailTableViewCell).estimateTotalTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
-            (tableViewCell as! InfoDetailTableViewCell).asBuildQTYTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
-            (tableViewCell as! InfoDetailTableViewCell).asBuildTotalTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
-            
+            addTableViewCellTextTargets(tableViewCell)
             (tableViewCell as! InfoDetailTableViewCell).keyTextField.text = (sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct)?.id
-            
             checkAndUpdateWithKey(tableViewCell, indexPath)
             
             (tableViewCell as! InfoDetailTableViewCell).descriptionTextField.text = (sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct)?.name
@@ -129,15 +140,9 @@ extension InfoDetailViewController {
             (tableViewCell as! InfoDetailTableViewCell).asBuildQTYTextField.text = "\((sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct)?.asBuiltQTY ?? 0)"
             (tableViewCell as! InfoDetailTableViewCell).asBuildTotalTextField.text = "\((sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct)?.asBuiltTotal ?? 0)"
 
-            (tableViewCell as! InfoDetailTableViewCell).keyTextField.tag = 1
-            (tableViewCell as! InfoDetailTableViewCell).descriptionTextField.tag = 2
-            (tableViewCell as! InfoDetailTableViewCell).unitPriceTextField.tag = 3
-            (tableViewCell as! InfoDetailTableViewCell).estimateQTYTextField.tag = 4
-            (tableViewCell as! InfoDetailTableViewCell).estimateTotalTextField.tag = 5
-            (tableViewCell as! InfoDetailTableViewCell).asBuildQTYTextField.tag = 6
-            (tableViewCell as! InfoDetailTableViewCell).asBuildTotalTextField.tag = 7
+            setTableViewCellTextFieldTags(tableViewCell)
 
-//
+            
 //            if let estimateQTY = Double(sections[indexPath.section].sectionProducts[indexPath.row].estimateQTY),
 //                let unitPrice = Double(sections[indexPath.section].sectionProducts[indexPath.row].unitPrice) {
 //                sections[indexPath.section].sectionProducts[indexPath.row].estimateTotal = "\(estimateQTY * unitPrice)"
