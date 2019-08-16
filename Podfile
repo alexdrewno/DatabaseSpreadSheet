@@ -7,11 +7,7 @@ target 'DatabaseSpreadsheet' do
   use_frameworks!
 
   # Pods for DatabaseSpreadsheet
-	pod 'SpreadsheetView'
-  pod 'Firebase/Core'
-  pod 'Firebase/Storage'
-  pod 'Firebase/Database'
-
+	pod 'TextFieldEffects'
 
   target 'DatabaseSpreadsheetTests' do
     inherit! :search_paths
