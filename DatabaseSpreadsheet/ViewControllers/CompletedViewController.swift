@@ -41,6 +41,13 @@ extension CompletedViewController {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let completedCell = completeTableView.dequeueReusableCell(withIdentifier: "completedCell") as! InvoiceTableViewCell
         
+        if DSData.shared.completedSpreadsheets.count > 0 {
+            completedCell.dateLabel.text = DSData.shared.completedSpreadsheets[indexPath.row].date
+            completedCell.descriptionLabel.text = DSData.shared.completedSpreadsheets[indexPath.row].jobDescription
+            completedCell.clientLabel.text = DSData.shared.completedSpreadsheets[indexPath.row].client
+            completedCell.invoiceLabel.text = "\(DSData.shared.completedSpreadsheets[indexPath.row].curNum)"
+        }
+        
         return completedCell
     }
 }

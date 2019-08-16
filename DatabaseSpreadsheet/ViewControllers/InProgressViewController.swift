@@ -42,12 +42,13 @@ extension InProgressViewController {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let inProgressCell = inProgressTableView.dequeueReusableCell(withIdentifier: "inProgressCell") as! InvoiceTableViewCell
         
-        if DSData.shared.infoSpreadsheets.count > 0 {
-            inProgressCell.dateLabel.text = DSData.shared.infoSpreadsheets[indexPath.row].date
-            inProgressCell.descriptionLabel.text = DSData.shared.infoSpreadsheets[indexPath.row].jobDescription
-            inProgressCell.clientLabel.text = DSData.shared.infoSpreadsheets[indexPath.row].client
-            inProgressCell.invoiceLabel.text = "\(indexPath.row)"
+        if DSData.shared.inProgressSpreadsheets.count > 0 {
+            inProgressCell.dateLabel.text = DSData.shared.inProgressSpreadsheets[indexPath.row].date
+            inProgressCell.descriptionLabel.text = DSData.shared.inProgressSpreadsheets[indexPath.row].jobDescription
+            inProgressCell.clientLabel.text = DSData.shared.inProgressSpreadsheets[indexPath.row].client
+            inProgressCell.invoiceLabel.text = "\(DSData.shared.inProgressSpreadsheets[indexPath.row].curNum)"
         }
+        
         return inProgressCell
     }
 }
@@ -56,8 +57,7 @@ extension InProgressViewController {
 extension InProgressViewController {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //TODO: - There will be a bug here because NSSet != [:]
-        //sectionsToSend = DSData.shared.infoSpreadsheets[indexPath.row].sections
-        spreadsheetToSend = DSData.shared.infoSpreadsheets[indexPath.row]
+        spreadsheetToSend = DSData.shared.inProgressSpreadsheets[indexPath.row]
         performSegue(withIdentifier: "inProgressDetail", sender: nil)
     }
 }
