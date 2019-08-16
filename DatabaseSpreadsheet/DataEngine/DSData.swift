@@ -14,6 +14,8 @@ class DSData {
     
     public var products: [Product] = []
     public var infoSpreadsheets: [InfoSpreadsheet] = []
+    public var inProgressSpreadsheets: [InfoSpreadsheet] = []
+    public var completedSpreadsheets: [InfoSpreadsheet] = []
     
     func fetchProducts() {
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Product")
@@ -33,4 +35,17 @@ class DSData {
         }
     }
     
+    func fetchInProgressInfoSpreadsheets() {
+        fetchInfoSpreadsheets()
+        inProgressSpreadsheets = infoSpreadsheets.filter({ (infoSpreadsheet) -> Bool in
+            infoSpreadsheet.completed == false
+        })
+    }
+    
+    func fetchCompletedInfoSpreadsheets() {
+        fetchInfoSpreadsheets()
+        completedSpreadsheets = infoSpreadsheets.filter({ (infoSpreadsheet) -> Bool in
+            infoSpreadsheet.completed == true
+        })
+    }
 }

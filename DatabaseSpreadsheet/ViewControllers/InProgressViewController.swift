@@ -18,7 +18,7 @@ class InProgressViewController: UIViewController, UITableViewDelegate, UITableVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        DSData.shared.fetchInfoSpreadsheets()
+        DSData.shared.fetchInProgressInfoSpreadsheets()
         inProgressTableView.dataSource = self
         inProgressTableView.delegate = self
     }
@@ -36,7 +36,7 @@ class InProgressViewController: UIViewController, UITableViewDelegate, UITableVi
 //MARK: - TableView Properties
 extension InProgressViewController {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return DSData.shared.infoSpreadsheets.count
+        return DSData.shared.inProgressSpreadsheets.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

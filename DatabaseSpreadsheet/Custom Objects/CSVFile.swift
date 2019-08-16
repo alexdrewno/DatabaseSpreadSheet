@@ -19,9 +19,11 @@ class CSVFile {
         
         do {
             try csvText.write(to: path!, atomically: true, encoding: String.Encoding.utf8)
-            let vc = UIActivityViewController(activityItems: [path], applicationActivities: [])
-            vc.popoverPresentationController?.sourceView = curViewController.navigationController?.navigationBar
-            curViewController.present(vc, animated: true, completion: nil)
+            if (path != nil) {
+                let vc = UIActivityViewController(activityItems: [path!], applicationActivities: [])
+                vc.popoverPresentationController?.sourceView = curViewController.navigationController?.navigationBar
+                curViewController.present(vc, animated: true, completion: nil)
+            }
         } catch {
             print("Failed to create file")
             print("\(error)")
@@ -44,7 +46,7 @@ class CSVFile {
     }
     
     static func createBody(data : [(String, Int)]) -> String {
-        var csvString = ""
+        let csvString = ""
         
         return csvString
     }

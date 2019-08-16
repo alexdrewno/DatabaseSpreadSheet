@@ -20,10 +20,9 @@ class InfoDetailPopoverViewController: UIViewController {
         parentVC.addSection()
     }
     
-    @IBAction func saveInfoToDatabase(_ sender: Any) {
+    @IBAction func markAsCompleted(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
-        //parentVC.saveInfo()
-        
+        parentVC.markAsCompleted()
     }
     
     @IBAction func exportInfo(_ sender: Any) {

@@ -17,6 +17,7 @@
     </entity>
     <entity name="InfoSpreadsheet" representedClassName="InfoSpreadsheet" syncable="YES" codeGenerationType="class">
         <attribute name="client" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="completed" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="curNum" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="date" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
@@ -32,7 +33,7 @@
     <elements>
         <element name="InfoProduct" positionX="-63" positionY="-18" width="128" height="165"/>
         <element name="InfoProductSection" positionX="-45" positionY="81" width="128" height="30"/>
-        <element name="InfoSpreadsheet" positionX="-54" positionY="45" width="128" height="150"/>
+        <element name="InfoSpreadsheet" positionX="-54" positionY="45" width="128" height="165"/>
         <element name="Product" positionX="-45" positionY="63" width="128" height="90"/>
     </elements>
 </model>

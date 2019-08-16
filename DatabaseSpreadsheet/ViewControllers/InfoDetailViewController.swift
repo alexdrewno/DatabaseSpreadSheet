@@ -350,6 +350,11 @@ extension InfoDetailViewController {
         //CSVFile.createCSVStringFromInfo(data: sections, estimateNum: 0, curViewController: self)
     }
     
+    func markAsCompleted() {
+        infoSpreadsheet?.completed = true
+        saveProductContext()
+    }
+    
     func checkForProduct(with key:String) -> Product? {
         DSData.shared.fetchProducts()
         for product in DSData.shared.products {

@@ -15,13 +15,15 @@ class CompletedViewController: UIViewController, UITableViewDelegate, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        DSData.shared.fetchCompletedInfoSpreadsheets()
 
         completeTableView.dataSource = self
         completeTableView.delegate = self
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let dvc = segue.destination as! InfoDetailViewController
+        _ = segue.destination as! InfoDetailViewController
         if segue.identifier == "completedDetail" {
             
         }
@@ -33,7 +35,7 @@ class CompletedViewController: UIViewController, UITableViewDelegate, UITableVie
 //MARK: - TableView Properties
 extension CompletedViewController {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return DSData.shared.completedSpreadsheets.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
