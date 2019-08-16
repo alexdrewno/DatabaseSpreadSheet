@@ -59,14 +59,16 @@ extension InfoDetailViewController {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 40))
-        headerView.backgroundColor = UIColor(red: 0.878, green: 0.878, blue: 0.878, alpha: 1)
+        headerView.backgroundColor = UIColor(red: 249/255, green: 249/255, blue: 249/255, alpha: 1)
+        headerView.layer.borderWidth = 1.5
+        headerView.layer.borderColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1).cgColor
         let sectionLabel = UILabel(frame: CGRect(x: headerView.center.x, y: headerView.center.y, width: self.view.bounds.width, height: 40))
         sectionLabel.textAlignment = NSTextAlignment.center
         sectionLabel.center = headerView.center
         var objectArray: [InfoProductSection] = infoSpreadsheet?.sections?.array as? [InfoProductSection] ?? []
         sectionLabel.text = "\(objectArray[section].name ?? "")"
-        sectionLabel.font = UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.medium)
-        sectionLabel.textColor = UIColor.darkGray
+        sectionLabel.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.medium)
+        sectionLabel.textColor = UIColor.black
         
         headerView.addSubview(sectionLabel)
         return headerView
