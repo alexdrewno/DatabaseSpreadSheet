@@ -60,4 +60,42 @@ extension InProgressViewController {
         spreadsheetToSend = DSData.shared.inProgressSpreadsheets[indexPath.row]
         performSegue(withIdentifier: "inProgressDetail", sender: nil)
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            showConfirmDeletionView(for: indexPath)
+        }
+    }
+}
+
+//MARK : - Data Manipulation
+extension InProgressViewController {
+    func showConfirmDeletionView(for indexPath: IndexPath) {
+        let spreadsheetNum = DSData.shared.inProgressSpreadsheets[indexPath.row].curNum
+        
+        let alertView = UIAlertController(title: "Delete", message: "You are about to delete invoice #\(spreadsheetNum) permanently. Delete?", preferredStyle: .alert)
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        let deleteAction = UIAlertAction(title: "Delete", style: .default) { (_) in
+            let spreadsheetToDelete = DSData.shared.inProgressSpreadsheets.remove(at: indexPath.row)
+            DSDataController.shared.viewContext.delete(spreadsheetToDelete)
+            self.saveProductContext()
+            DSData.shared.fetchInProgressInfoSpreadsheets()
+            self.inProgressTableView.reloadData()
+        }
+
+        alertView.addAction(cancelAction)
+        alertView.addAction(deleteAction)
+        
+        present(alertView, animated: true, completion: nil)
+    }
+    
+    func saveProductContext() {
+        do {
+            try DSDataController.shared.viewContext.save()
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
 }
