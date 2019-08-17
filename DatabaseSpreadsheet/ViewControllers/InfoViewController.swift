@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import CoreData
+import TextFieldEffects
 
 class InfoViewController: UIViewController {
     @IBOutlet weak var numberTitleLabel: UILabel!
@@ -17,6 +18,7 @@ class InfoViewController: UIViewController {
     @IBOutlet weak var telephoneTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var jobDescriptionTextView: UITextView!
+    @IBOutlet weak var scrollView: UIScrollView!
     var curNum : Int = 0 {
         didSet {
             numberTitleLabel.text = "Invoice #\(curNum)"
@@ -26,7 +28,28 @@ class InfoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         DSData.shared.fetchInfoSpreadsheets()
+        setupUI()
         numberTitleLabel.text = "Invoice #\(getCurrentInvoiceNumber())"
+    }
+}
+
+//MARK: - UI Setup
+extension InfoViewController {
+    func setupUI() {
+        scrollView.contentSize.height = 1000
+        jobDescriptionTextView.backgroundColor = .clear
+        jobDescriptionTextView.layer.borderColor = UIColor.black.cgColor
+        jobDescriptionTextView.layer.borderWidth = 1
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(performDetailSegue(sender:)))
+    }
+}
+
+//MARK: - VC Flow
+extension InfoViewController {
+    @objc func performDetailSegue(sender: UIBarButtonItem) {
+        performSegue(withIdentifier: "infoDetailSegue", sender: self)
+        print("CALLED")
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -39,7 +62,7 @@ class InfoViewController: UIViewController {
             infoSpreadsheet.setValue(emailTextField.text ?? "", forKey: "email")
             infoSpreadsheet.setValue(jobDescriptionTextView.text ?? "", forKey: "jobDescription")
             infoSpreadsheet.setValue(Int16(getCurrentInvoiceNumber()), forKey: "curNum")
-
+            
             self.saveContext(infoSpreadsheet: infoSpreadsheet)
             
             let dvc = segue.destination as! InfoDetailViewController
@@ -48,7 +71,10 @@ class InfoViewController: UIViewController {
             dvc.curNum = Int(infoSpreadsheet.curNum)
         }
     }
-    
+}
+
+//MARK: - Data
+extension InfoViewController {
     func getCurrentInvoiceNumber() -> Int {
         return DSData.shared.infoSpreadsheets.count + 1
     }
