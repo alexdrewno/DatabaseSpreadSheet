@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 import CoreData
-import TextFieldEffects
 
 class InfoViewController: UIViewController {
     @IBOutlet weak var numberTitleLabel: UILabel!
@@ -49,7 +48,6 @@ extension InfoViewController {
 extension InfoViewController {
     @objc func performDetailSegue(sender: UIBarButtonItem) {
         performSegue(withIdentifier: "infoDetailSegue", sender: self)
-        print("CALLED")
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -67,6 +65,7 @@ extension InfoViewController {
             
             let dvc = segue.destination as! InfoDetailViewController
             
+            dvc.new = true
             dvc.infoSpreadsheet = infoSpreadsheet
             dvc.curNum = Int(infoSpreadsheet.curNum)
         }

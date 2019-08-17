@@ -220,8 +220,13 @@ extension InfoDetailViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.showPopoutView))
         
         if new {
-            
+            self.navigationItem.hidesBackButton = true
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Home", style: .plain, target: self, action: #selector(self.showHomeView))
         }
+    }
+    
+    @objc func showHomeView() {
+        navigationController?.popToRootViewController(animated: true)
     }
 }
 
@@ -312,9 +317,7 @@ extension InfoDetailViewController {
             default:
                 print("TEXT FIELD DID END EDITING")
             }
-
         }
-        
     }
 }
 
