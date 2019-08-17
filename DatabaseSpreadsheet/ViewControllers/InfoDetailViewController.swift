@@ -366,7 +366,7 @@ extension InfoDetailViewController {
     }
     
     func exportInfoData() {
-        //CSVFile.createCSVStringFromInfo(data: sections, estimateNum: 0, curViewController: self)
+        CSVFile.createCSVStringFromInfo(infoSpreadsheet: infoSpreadsheet!, curViewController: self)
     }
     
     func markAsCompleted() {

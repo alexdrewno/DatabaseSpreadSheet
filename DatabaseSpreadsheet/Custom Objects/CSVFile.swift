@@ -11,11 +11,14 @@ import UIKit
 
 class CSVFile {
     
-    static func createCSVStringFromInfo(data : [(String, [InfoProduct])], estimateNum : Int, curViewController: UIViewController) {
-        let fileName = "Tasks.csv"
+    static func createCSVStringFromInfo(infoSpreadsheet: InfoSpreadsheet, curViewController: UIViewController) {
+        let fileName = "\(infoSpreadsheet.client ?? "RD")_INVOICE.csv"
         let path = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
         var csvText = ""
-        csvText += createHeader(estimateNum: estimateNum)
+        
+        csvText += createHeader(infoSpreadsheet: infoSpreadsheet)
+        csvText += createBody(infoSpreadsheet: infoSpreadsheet)
+        csvText += createEnd(infoSpreadsheet: infoSpreadsheet)
         
         do {
             try csvText.write(to: path!, atomically: true, encoding: String.Encoding.utf8)
@@ -30,23 +33,55 @@ class CSVFile {
         }
     }
     
-    static func createHeader(estimateNum : Int) -> String {
+    static func createHeader(infoSpreadsheet: InfoSpreadsheet) -> String {
         var headerString = ""
         
-        headerString += "R Drewno Electric Inc, , , Estimate, #\(estimateNum), Date:, 10/28/1998\n"
+        headerString += "R Drewno Electric Inc, , , Estimate, #\(infoSpreadsheet.curNum), Date:, \(infoSpreadsheet.date ?? "")\n"
         headerString += "1216 S. Summit St\n"
-        headerString += "Barrington IL 60010, , Service ordered by: , COMPANY NAME\n"
-        headerString += "Tel. 847-791-6368, , , telephone:\n"
+        headerString += "Barrington IL 60010, , , Service ordered by: , \(infoSpreadsheet.client ?? "")\n"
+        headerString += "Tel. 847-791-6368, , , telephone:, \(infoSpreadsheet.telephone ?? "") \n"
         headerString += "Email: RDrewnoElectric@sbcglobal.net, , , email:\n\n"
-        headerString += "Job Description: , , JOB DESCRIPTION GOES HERE\n\n"
+        headerString += "Job Description: , \(infoSpreadsheet.jobDescription ?? "")\n\n"
         headerString += " , , , , ESTIMATE, , AS BUILT\n"
-        headerString += "Room, , Description, Unit Price, QTY, Total, QTY, Total\n"
+        headerString += "Room, , Description, Unit Price, QTY, Total, QTY, Total\n\n"
 
         return headerString
     }
     
-    static func createBody(data : [(String, Int)]) -> String {
-        let csvString = ""
+    static func createBody(infoSpreadsheet: InfoSpreadsheet) -> String {
+        var csvString = ""
+        
+        if let sections: [InfoProductSection] = infoSpreadsheet.sections?.array as? [InfoProductSection] {
+            for section: InfoProductSection in sections {
+                if let products = section.infoProducts?.array as? [InfoProduct] {
+                    for product: InfoProduct in products {
+                        csvString += "\(section.name ?? ""), , \(product.name ?? ""), \(product.cost), \(product.estimateQTY), \(product.estimateTotal), \(product.asBuiltQTY), \(product.estimateTotal)\n"
+                    }
+                }
+                csvString += "\n"
+            }
+        }
+        
+        return csvString
+    }
+    
+    static func createEnd(infoSpreadsheet: InfoSpreadsheet) -> String {
+        var csvString = ""
+        var estimateTotal = 0.0
+        var asBuiltTotal = 0.0
+        
+        if let sections: [InfoProductSection] = infoSpreadsheet.sections?.array as? [InfoProductSection] {
+            for section: InfoProductSection in sections {
+                if let products = section.infoProducts?.array as? [InfoProduct] {
+                    for product: InfoProduct in products {
+                        estimateTotal += product.estimateTotal
+                        asBuiltTotal += product.asBuiltTotal
+                    }
+                }
+            }
+        }
+        csvString += "\n\n\n"
+        csvString += " , , , , TOTAL COST, \(estimateTotal), , \(asBuiltTotal)\n\n"
         
         return csvString
     }
