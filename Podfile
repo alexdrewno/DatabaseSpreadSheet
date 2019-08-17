@@ -7,7 +7,6 @@ target 'DatabaseSpreadsheet' do
   use_frameworks!
 
   # Pods for DatabaseSpreadsheet
-	pod 'TextFieldEffects'
 
   target 'DatabaseSpreadsheetTests' do
     inherit! :search_paths

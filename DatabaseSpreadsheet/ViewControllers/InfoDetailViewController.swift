@@ -19,7 +19,7 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
     @IBOutlet weak var estimateCostLabel: UILabel!
     var estimateTotal : Double = 0
     var actualTotal : Double = 0
-    var productsLoaded: Bool = false
+    var new : Bool = false
     var infoSpreadsheet: InfoSpreadsheet?
     var curNum : Int = 0 {
         didSet {
@@ -30,7 +30,7 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
     override func viewDidLoad() {
         infoTableView.dataSource = self
         infoTableView.delegate = self
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.showPopoutView))
+        setupUI()
         super.viewDidLoad()
        
     }
@@ -201,7 +201,7 @@ extension InfoDetailViewController {
 }
 
 
-//MARK: - Popout View
+//MARK: - UI
 extension InfoDetailViewController {
     @objc func showPopoutView() {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "detailInfoPopover") as! InfoDetailPopoverViewController
@@ -214,6 +214,14 @@ extension InfoDetailViewController {
         popover?.barButtonItem = self.navigationItem.rightBarButtonItem
         
         present(vc, animated: false, completion: nil)
+    }
+    
+    func setupUI() {
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.showPopoutView))
+        
+        if new {
+            
+        }
     }
 }
 
