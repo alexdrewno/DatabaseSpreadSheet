@@ -18,6 +18,8 @@ class InfoViewController: UIViewController {
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var jobDescriptionTextView: UITextView!
     @IBOutlet weak var scrollView: UIScrollView!
+    var editingExisting: Bool = false
+    var infoSpreadsheet: InfoSpreadsheet? = nil
     var curNum : Int = 0 {
         didSet {
             numberTitleLabel.text = "Invoice #\(curNum)"
@@ -40,7 +42,23 @@ extension InfoViewController {
         jobDescriptionTextView.layer.borderColor = UIColor.black.cgColor
         jobDescriptionTextView.layer.borderWidth = 1
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(performDetailSegue(sender:)))
+        if editingExisting {
+            setTextFields()
+            navigationItem.hidesBackButton = true
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(saveEdit(sender:)))
+        } else {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(performDetailSegue(sender:)))
+        }
+    }
+    
+    func setTextFields() {
+        if let infoSpreadsheet = self.infoSpreadsheet {
+            clientTextField.text = infoSpreadsheet.client
+            telephoneTextField.text = infoSpreadsheet.telephone
+            jobDescriptionTextView.text = infoSpreadsheet.jobDescription
+            emailTextField.text = infoSpreadsheet.email
+            dateTextField.text = infoSpreadsheet.date
+        }
     }
 }
 
@@ -54,12 +72,7 @@ extension InfoViewController {
         if (segue.identifier == "infoDetailSegue") {
             let entity = NSEntityDescription.entity(forEntityName: "InfoSpreadsheet", in: DSDataController.shared.viewContext)!
             let infoSpreadsheet = NSManagedObject(entity: entity, insertInto: DSDataController.shared.viewContext) as! InfoSpreadsheet
-            infoSpreadsheet.setValue(clientTextField.text ?? "", forKey: "client")
-            infoSpreadsheet.setValue(dateTextField.text ?? "", forKey: "date")
-            infoSpreadsheet.setValue(telephoneTextField.text ?? "", forKey: "telephone")
-            infoSpreadsheet.setValue(emailTextField.text ?? "", forKey: "email")
-            infoSpreadsheet.setValue(jobDescriptionTextView.text ?? "", forKey: "jobDescription")
-            infoSpreadsheet.setValue(Int16(getCurrentInvoiceNumber()), forKey: "curNum")
+            setClientDataForSpreadsheet(infoSpreadsheet: infoSpreadsheet)
             
             self.saveContext(infoSpreadsheet: infoSpreadsheet)
             
@@ -85,5 +98,20 @@ extension InfoViewController {
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
+    }
+    
+    @objc func saveEdit(sender: Any?) {
+        setClientDataForSpreadsheet(infoSpreadsheet: self.infoSpreadsheet!)
+        saveContext(infoSpreadsheet: infoSpreadsheet!)
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    func setClientDataForSpreadsheet(infoSpreadsheet: InfoSpreadsheet) {
+        infoSpreadsheet.setValue(clientTextField.text ?? "", forKey: "client")
+        infoSpreadsheet.setValue(dateTextField.text ?? "", forKey: "date")
+        infoSpreadsheet.setValue(telephoneTextField.text ?? "", forKey: "telephone")
+        infoSpreadsheet.setValue(emailTextField.text ?? "", forKey: "email")
+        infoSpreadsheet.setValue(jobDescriptionTextView.text ?? "", forKey: "jobDescription")
+        infoSpreadsheet.setValue(Int16(getCurrentInvoiceNumber()), forKey: "curNum")
     }
 }

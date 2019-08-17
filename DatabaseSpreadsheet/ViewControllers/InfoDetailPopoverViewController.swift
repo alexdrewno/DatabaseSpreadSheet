@@ -30,4 +30,9 @@ class InfoDetailPopoverViewController: UIViewController {
         parentVC.exportInfoData()
     }
     
+    @IBAction func editClientInfo(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+        parentVC.editClientInfo()
+    }
+    
 }

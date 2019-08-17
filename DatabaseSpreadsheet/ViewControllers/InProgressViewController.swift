@@ -22,8 +22,12 @@ class InProgressViewController: UIViewController, UITableViewDelegate, UITableVi
         inProgressTableView.dataSource = self
         inProgressTableView.delegate = self
     }
-
     
+    override func viewDidAppear(_ animated: Bool) {
+        DSData.shared.fetchInProgressInfoSpreadsheets()
+        inProgressTableView.reloadData()
+    }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let dvc = segue.destination as! InfoDetailViewController
         if segue.identifier == "inProgressDetail" {

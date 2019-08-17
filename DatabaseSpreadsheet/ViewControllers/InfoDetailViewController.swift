@@ -358,6 +358,12 @@ extension InfoDetailViewController {
         return sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct
     }
     
+    func editClientInfo() {
+        let infoViewController = storyboard?.instantiateViewController(withIdentifier: "infoViewController") as! InfoViewController
+        infoViewController.editingExisting = true
+        infoViewController.infoSpreadsheet = self.infoSpreadsheet
+        navigationController?.pushViewController(infoViewController, animated: true)
+    }
     
     func exportInfoData() {
         //CSVFile.createCSVStringFromInfo(data: sections, estimateNum: 0, curViewController: self)

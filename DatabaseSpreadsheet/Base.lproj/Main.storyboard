@@ -203,7 +203,7 @@
         <!--New Invoice-->
         <scene sceneID="PGz-Xq-hqQ">
             <objects>
-                <viewController title="New Invoice" id="xbW-db-UBs" customClass="InfoViewController" customModule="DatabaseSpreadsheet" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="infoViewController" title="New Invoice" id="xbW-db-UBs" customClass="InfoViewController" customModule="DatabaseSpreadsheet" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="p7i-LM-n2G">
                         <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -632,11 +632,11 @@
             <objects>
                 <viewController storyboardIdentifier="detailInfoPopover" id="SxZ-LC-AWg" customClass="InfoDetailPopoverViewController" customModule="DatabaseSpreadsheet" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Aw7-aW-Hgm">
-                        <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                        <rect key="frame" x="0.0" y="0.0" width="200" height="315"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Jx-YT-nHr">
-                                <rect key="frame" x="2" y="68" width="196" height="64"/>
+                                <rect key="frame" x="2" y="81" width="196" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.92939669920000001" green="0.92939669920000001" blue="0.92939669920000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Mark as Completed"/>
@@ -644,17 +644,8 @@
                                     <action selector="markAsCompleted:" destination="SxZ-LC-AWg" eventType="touchUpInside" id="4LN-l6-IRe"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Xi-b9-add">
-                                <rect key="frame" x="2" y="134" width="196" height="64"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.92939669920000001" green="0.92939669920000001" blue="0.92939669920000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="Export"/>
-                                <connections>
-                                    <action selector="exportInfo:" destination="SxZ-LC-AWg" eventType="touchUpInside" id="TCJ-z8-m2q"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MLg-Hl-oBC">
-                                <rect key="frame" x="2" y="2" width="196" height="64"/>
+                                <rect key="frame" x="2" y="4" width="196" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.92939669920000001" green="0.92939669920000001" blue="0.92939669920000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="detailInfoPopover"/>
@@ -663,15 +654,36 @@
                                     <action selector="addSection:" destination="SxZ-LC-AWg" eventType="touchUpInside" id="DmH-2J-3Ck"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Xi-b9-add">
+                                <rect key="frame" x="2" y="236" width="196" height="75"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.92939669920000001" green="0.92939669920000001" blue="0.92939669920000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Export"/>
+                                <connections>
+                                    <action selector="exportInfo:" destination="SxZ-LC-AWg" eventType="touchUpInside" id="TCJ-z8-m2q"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nWb-lh-Ej2">
+                                <rect key="frame" x="2" y="159" width="196" height="75"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.92939669920000001" green="0.92939669920000001" blue="0.92939669920000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Edit Client Info"/>
+                                <connections>
+                                    <action selector="editClientInfo:" destination="SxZ-LC-AWg" eventType="touchUpInside" id="z0z-KX-6Ky"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="ks4-nr-7gw"/>
                     </view>
-                    <size key="freeformSize" width="200" height="200"/>
+                    <size key="freeformSize" width="200" height="315"/>
+                    <connections>
+                        <segue destination="xbW-db-UBs" kind="show" id="AcD-Lo-Msa"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3RW-Vw-uXN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2174.8743718592964" y="-94.24460431654677"/>
+            <point key="canvasLocation" x="2195" y="-95"/>
         </scene>
         <!--Edit Products-->
         <scene sceneID="HsX-bb-5fJ">
@@ -851,5 +863,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="8Zj-bz-cO3"/>
+        <segue reference="AcD-Lo-Msa"/>
     </inferredMetricsTieBreakers>
 </document>
