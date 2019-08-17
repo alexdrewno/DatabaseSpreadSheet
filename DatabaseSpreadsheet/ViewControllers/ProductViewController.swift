@@ -57,7 +57,6 @@ extension ProductViewController {
     }
 }
 
-
 //MARK: - Popover View
 extension ProductViewController {
     @objc func showProductPopover() {

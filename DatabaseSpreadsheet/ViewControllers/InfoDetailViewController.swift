@@ -217,7 +217,7 @@ extension InfoDetailViewController {
     }
     
     func setupUI() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.showPopoutView))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Actions", style: .plain, target: self, action: #selector(self.showPopoutView))
         
         if new {
             self.navigationItem.hidesBackButton = true
