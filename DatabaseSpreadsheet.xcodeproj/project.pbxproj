@@ -26,6 +26,7 @@
 		95B5A6FF21CD6A9700CC2980 /* ProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B5A6FE21CD6A9700CC2980 /* ProductTableViewCell.swift */; };
 		95BC40A321CC2A9800341776 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 95BC40A221CC2A9800341776 /* GoogleService-Info.plist */; };
 		95BC40A521CC2EE000341776 /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BC40A421CC2EE000341776 /* ProductViewController.swift */; };
+		95BCA510230B2189005A4874 /* DeleteSectionPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BCA50F230B2189005A4874 /* DeleteSectionPopoverViewController.swift */; };
 		95C501D8228A1F6700EA16C2 /* DatabaseSpreadsheetModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 95C501D6228A1F6700EA16C2 /* DatabaseSpreadsheetModel.xcdatamodeld */; };
 		95C7F20321E3EC5800746594 /* CSVFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C7F20221E3EC5800746594 /* CSVFile.swift */; };
 		95E1DC6822D3DFF4004DAB8E /* DSDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E1DC6722D3DFF4004DAB8E /* DSDataController.swift */; };
@@ -80,6 +81,7 @@
 		95B5A6FE21CD6A9700CC2980 /* ProductTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductTableViewCell.swift; sourceTree = "<group>"; };
 		95BC40A221CC2A9800341776 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		95BC40A421CC2EE000341776 /* ProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
+		95BCA50F230B2189005A4874 /* DeleteSectionPopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteSectionPopoverViewController.swift; sourceTree = "<group>"; };
 		95C501D7228A1F6700EA16C2 /* DatabaseSpreadsheetModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DatabaseSpreadsheetModel.xcdatamodel; sourceTree = "<group>"; };
 		95C7F20221E3EC5800746594 /* CSVFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVFile.swift; sourceTree = "<group>"; };
 		95E1DC6722D3DFF4004DAB8E /* DSDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSDataController.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 				9556F4B721D0925600E7FAB5 /* InfoViewController.swift */,
 				9556F4B921D0927800E7FAB5 /* InfoDetailViewController.swift */,
 				9556F4BD21D1E2E400E7FAB5 /* InfoDetailPopoverViewController.swift */,
+				95BCA50F230B2189005A4874 /* DeleteSectionPopoverViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -258,6 +261,7 @@
 				959B25AD21C351ED00DAF5DB /* Sources */,
 				959B25AE21C351ED00DAF5DB /* Frameworks */,
 				959B25AF21C351ED00DAF5DB /* Resources */,
+				95BCA511230B2300005A4874 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -414,6 +418,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		95BCA511230B2300005A4874 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
 		E34B4974F9126105576E3F23 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -444,6 +465,7 @@
 				95734C6A21EE552000E2D958 /* InvoiceTableViewCell.swift in Sources */,
 				95E1DC6A22D3E310004DAB8E /* DSData.swift in Sources */,
 				9556F4BC21D092A200E7FAB5 /* InfoDetailTableViewCell.swift in Sources */,
+				95BCA510230B2189005A4874 /* DeleteSectionPopoverViewController.swift in Sources */,
 				95B5A6FF21CD6A9700CC2980 /* ProductTableViewCell.swift in Sources */,
 				95B5A6FB21CD465F00CC2980 /* ProductPopoverViewController.swift in Sources */,
 				95C7F20321E3EC5800746594 /* CSVFile.swift in Sources */,

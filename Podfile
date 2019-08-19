@@ -7,6 +7,7 @@ target 'DatabaseSpreadsheet' do
   use_frameworks!
 
   # Pods for DatabaseSpreadsheet
+	pod 'SwiftLint'
 
   target 'DatabaseSpreadsheetTests' do
     inherit! :search_paths
