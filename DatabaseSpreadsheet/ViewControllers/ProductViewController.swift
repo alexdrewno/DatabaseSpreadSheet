@@ -28,20 +28,32 @@ class ProductViewController: UIViewController, UITableViewDataSource {
 // MARK: - Tableview Properties
 extension ProductViewController {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return DSData.shared.products.count
+        if section == 0 {
+            return 1
+        } else {
+            return DSData.shared.products.count
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.section == 0 {
+            return productTableView.dequeueReusableCell(withIdentifier: "titleTableViewCell")!
+        }
+
         if DSData.shared.products.count == 0 {
             return productTableView.dequeueReusableCell(withIdentifier: "productTableViewCell")!
         }
 
-        let tableViewCell = productTableView.dequeueReusableCell(withIdentifier: "productTableViewCell") as? ProductTableViewCell ?? ProductTableViewCell()
+        let tableViewCell = productTableView.dequeueReusableCell(withIdentifier: "productTableViewCell")
+                            as? ProductTableViewCell ?? ProductTableViewCell()
         tableViewCell.nameLabel.text = DSData.shared.products[indexPath.row].name
+        tableViewCell.idLabel.text = DSData.shared.products[indexPath.row].id
+        tableViewCell.unitPriceLabel.text = "\(DSData.shared.products[indexPath.row].cost)"
+
         return tableViewCell
     }
 }
