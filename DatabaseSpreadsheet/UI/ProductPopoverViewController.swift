@@ -11,35 +11,38 @@ import UIKit
 import CoreData
 
 class ProductPopoverViewController: UIViewController {
-    
+
     @IBOutlet weak var addProductButton: UIButton!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var idTextField: UITextField!
     @IBOutlet weak var costTextField: UITextField!
-    var sendingVC : ProductViewController!
+    var sendingVC: ProductViewController!
 
     @IBAction func cancelTouchUpInside(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
-    
+
     @IBAction func addProductTouchUpInside(_ sender: Any) {
-        
-        if let cost = costTextField.text{
+
+        if let cost = costTextField.text {
             if let name = nameTextField.text,
-            let id = idTextField.text,
+            let idText = idTextField.text,
             let costDouble = Double(cost) {
-                let entity = NSEntityDescription.entity(forEntityName: "Product", in: DSDataController.shared.viewContext)!
-                let newProduct = NSManagedObject(entity: entity, insertInto: DSDataController.shared.viewContext)
-                newProduct.setValue(costDouble, forKey: "cost")
-                newProduct.setValue(id, forKey: "id")
-                newProduct.setValue(name, forKey: "name")
-                self.saveContext(newProduct: newProduct as! Product)
+                let entity = NSEntityDescription.entity(forEntityName: "Product",
+                                                        in: DSDataController.shared.viewContext)!
+                if let newProduct = NSManagedObject(entity: entity,
+                                                    insertInto: DSDataController.shared.viewContext) as? Product {
+                    newProduct.setValue(costDouble, forKey: "cost")
+                    newProduct.setValue(idText, forKey: "id")
+                    newProduct.setValue(name, forKey: "name")
+                    self.saveContext(newProduct: newProduct)
+                }
             }
         }
-        
+
         dismiss(animated: true, completion: nil)
     }
-    
+
     func saveContext(newProduct: Product) {
         do {
             try DSDataController.shared.viewContext.save()
@@ -49,5 +52,5 @@ class ProductPopoverViewController: UIViewController {
             print("Could not save. \(error), \(error.userInfo)")
         }
     }
-    
+
 }

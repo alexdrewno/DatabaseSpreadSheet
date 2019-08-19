@@ -15,47 +15,45 @@ class CompletedViewController: UIViewController, UITableViewDelegate, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         DSData.shared.fetchCompletedInfoSpreadsheets()
 
         completeTableView.dataSource = self
         completeTableView.delegate = self
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        _ = segue.destination as! InfoDetailViewController
         if segue.identifier == "completedDetail" {
-            
+            if let dvc = segue.destination as? InfoDetailViewController {
+                
+            }
         }
     }
-    
 }
 
-
-//MARK: - TableView Properties
+// MARK: - TableView Properties
 extension CompletedViewController {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return DSData.shared.completedSpreadsheets.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let completedCell = completeTableView.dequeueReusableCell(withIdentifier: "completedCell") as! InvoiceTableViewCell
-        
+        let completedCell = completeTableView.dequeueReusableCell(withIdentifier: "completedCell") as? InvoiceTableViewCell ?? InvoiceTableViewCell()
+
         if DSData.shared.completedSpreadsheets.count > 0 {
             completedCell.dateLabel.text = DSData.shared.completedSpreadsheets[indexPath.row].date
             completedCell.descriptionLabel.text = DSData.shared.completedSpreadsheets[indexPath.row].jobDescription
             completedCell.clientLabel.text = DSData.shared.completedSpreadsheets[indexPath.row].client
             completedCell.invoiceLabel.text = "\(DSData.shared.completedSpreadsheets[indexPath.row].curNum)"
         }
-        
+
         return completedCell
     }
 }
 
-//MARK: - TableView Actions
+// MARK: - TableView Actions
 extension CompletedViewController {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
            performSegue(withIdentifier: "completedDetail", sender: nil)
     }
 }
-
