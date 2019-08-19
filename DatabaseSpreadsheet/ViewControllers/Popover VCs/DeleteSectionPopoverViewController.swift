@@ -12,7 +12,9 @@ import UIKit
 // MARK: - View Controller Properties
 class DeleteSectionPopoverViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var deleteSectionTableView: UITableView!
-    
+    var infoSpreadsheet: InfoSpreadsheet!
+    var parentVC: InfoDetailViewController!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -26,15 +28,57 @@ class DeleteSectionPopoverViewController: UIViewController, UITableViewDelegate,
     }
 }
 
+// MARK: - TableView Delegate Protocol
+extension DeleteSectionPopoverViewController {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let sections = infoSpreadsheet.sections?.array as? [InfoProductSection] ?? []
+
+        showDeleteSectionAlertView(section: sections[indexPath.row])
+    }
+}
 
 // MARK: - TableView Data Source Protocol
 extension DeleteSectionPopoverViewController {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //let sections = DSData.shared.
-        return UITableViewCell()
+        let sections = infoSpreadsheet.sections?.array as? [InfoProductSection] ?? []
+        let tableViewCell = deleteSectionTableView.dequeueReusableCell(withIdentifier: "deleteSectionTableViewCell") as? DeleteSectionsTableViewCell ?? DeleteSectionsTableViewCell()
+
+        tableViewCell.sectionName.text = sections[indexPath.row].name ?? ""
+
+        return tableViewCell
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return infoSpreadsheet.sections?.count ?? 0
+    }
+}
+
+// MARK: - Data Manipulation
+extension DeleteSectionPopoverViewController {
+    func deleteSection(section: InfoProductSection) {
+        infoSpreadsheet.removeFromSections(section)
+        DSDataController.shared.saveProductContext()
+        self.deleteSectionTableView.reloadData()
+        self.parentVC.infoTableView.reloadData()
+    }
+}
+
+// MARK: - UI
+extension DeleteSectionPopoverViewController {
+    func showDeleteSectionAlertView(section: InfoProductSection) {
+        let alertVC = UIAlertController(title: "Delete Section",
+                                        message: "Permanently delete section '\(section.name ?? "")' and all of its product rows?",
+                                        preferredStyle: .alert)
+
+        let deleteAction = UIAlertAction(title: "Delete", style: .default) { (_) in
+            self.deleteSection(section: section)
+        }
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+
+        alertVC.addAction(deleteAction)
+        alertVC.addAction(cancelAction)
+
+        present(alertVC, animated: true, completion: nil)
     }
 }

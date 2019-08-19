@@ -31,8 +31,16 @@ class DSDataController {
 
         return container
     }()
-    
+
     public var viewContext: NSManagedObjectContext {
         return persistentContainer.viewContext
+    }
+    
+    func saveProductContext() {
+        do {
+            try DSDataController.shared.viewContext.save()
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
     }
 }

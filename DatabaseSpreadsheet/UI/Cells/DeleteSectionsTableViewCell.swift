@@ -10,5 +10,5 @@ import Foundation
 import UIKit
 
 class DeleteSectionsTableViewCell: UITableViewCell {
-
+    @IBOutlet weak var sectionName: UILabel!
 }

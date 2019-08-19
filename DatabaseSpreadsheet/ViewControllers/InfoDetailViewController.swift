@@ -92,7 +92,7 @@ extension InfoDetailViewController {
             if let infoProduct = getInfoProduct(for: indexPath) {
                 infoProduct.name = product.name
                 infoProduct.cost = product.cost
-                saveProductContext()
+                DSDataController.shared.saveProductContext()
             }
         }
     }
@@ -149,7 +149,7 @@ extension InfoDetailViewController {
         if let infoProduct = getInfoProduct(for: indexPath) {
             infoProduct.estimateTotal = Double(round(100 * Double(infoProduct.estimateQTY) * infoProduct.cost) / 100)
             infoProduct.asBuiltTotal = Double(round(100 * Double(infoProduct.asBuiltQTY) * infoProduct.cost) / 100)
-            saveProductContext()
+            DSDataController.shared.saveProductContext()
         }
     }
 
@@ -164,28 +164,32 @@ extension InfoDetailViewController {
 
         var tableViewCell = UITableViewCell()
         if sectionArray[indexPath.section].infoProducts?.count ?? 0 > indexPath.row {
-            if let tableViewCell =
+            if let infoDetailTableViewCell =
                 infoTableView.dequeueReusableCell(withIdentifier: "infoCell") as? InfoDetailTableViewCell {
+                print("HELLO CALLED")
 
-                addTableViewCellTextTargets(tableViewCell)
+                addTableViewCellTextTargets(infoDetailTableViewCell)
 
                 if let infoProduct: InfoProduct =
                     sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct {
+                    print("HELLO CALLED2")
 
-                    tableViewCell.keyTextField.text = infoProduct.id
-                    checkAndUpdateWithKey(tableViewCell, indexPath)
+                    infoDetailTableViewCell.keyTextField.text = infoProduct.id
+                    checkAndUpdateWithKey(infoDetailTableViewCell, indexPath)
                     updateTotalTextFields(indexPath)
 
-                    tableViewCell.descriptionTextField.text = infoProduct.name
-                    tableViewCell.unitPriceTextField.text = "\(infoProduct.cost)"
-                    tableViewCell.estimateQTYTextField.text = "\(infoProduct.estimateQTY)"
-                    tableViewCell.estimateTotalTextField.text = "\(infoProduct.estimateTotal)"
-                    tableViewCell.asBuildQTYTextField.text = "\(infoProduct.asBuiltQTY)"
-                    tableViewCell.asBuildTotalTextField.text = "\(infoProduct.asBuiltTotal)"
+                    infoDetailTableViewCell.descriptionTextField.text = infoProduct.name
+                    infoDetailTableViewCell.unitPriceTextField.text = "\(infoProduct.cost)"
+                    infoDetailTableViewCell.estimateQTYTextField.text = "\(infoProduct.estimateQTY)"
+                    infoDetailTableViewCell.estimateTotalTextField.text = "\(infoProduct.estimateTotal)"
+                    infoDetailTableViewCell.asBuildQTYTextField.text = "\(infoProduct.asBuiltQTY)"
+                    infoDetailTableViewCell.asBuildTotalTextField.text = "\(infoProduct.asBuiltTotal)"
                 }
 
-                setTableViewCellTextFieldTags(tableViewCell)
+                setTableViewCellTextFieldTags(infoDetailTableViewCell)
                 updateTotalLabels()
+
+                return infoDetailTableViewCell
             }
         } else {
             tableViewCell = infoTableView.dequeueReusableCell(withIdentifier: "addCell")!
@@ -214,7 +218,7 @@ extension InfoDetailViewController {
             infoProduct.setValue(0, forKey: "estimateQTY")
             infoProduct.setValue(0, forKey: "estimateTotal")
             sectionArray[indexPath.section].addToInfoProducts(infoProduct)
-            saveProductContext()
+            DSDataController.shared.saveProductContext()
             infoTableView.reloadData()
         }
     }
@@ -226,7 +230,7 @@ extension InfoDetailViewController {
         if editingStyle == .delete {
             if let infoProduct = sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct {
                 DSDataController.shared.viewContext.delete(infoProduct)
-                saveProductContext()
+                DSDataController.shared.saveProductContext()
             }
             tableView.reloadData()
         }
@@ -257,6 +261,8 @@ extension InfoDetailViewController {
 
             pvc.modalPresentationStyle = .overCurrentContext
             pvc.modalTransitionStyle = .crossDissolve
+            pvc.parentVC = self
+            pvc.infoSpreadsheet = self.infoSpreadsheet!
 
             present(pvc, animated: true, completion: nil)
         }
@@ -294,37 +300,37 @@ extension InfoDetailViewController {
                 case 1:
                     if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
                         infoProduct.id = textField.text!
-                        saveProductContext()
+                        DSDataController.shared.saveProductContext()
                     }
                 case 2:
                     if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
                         infoProduct.name = textField.text!
-                        saveProductContext()
+                        DSDataController.shared.saveProductContext()
                     }
                 case 3:
                     if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
                         infoProduct.cost = Double(textField.text!) ?? 0
-                        saveProductContext()
+                        DSDataController.shared.saveProductContext()
                     }
                 case 4:
                     if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
                         infoProduct.estimateQTY = Int32(textField.text!) ?? 0
-                        saveProductContext()
+                        DSDataController.shared.saveProductContext()
                     }
                 case 5:
                     if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
                         infoProduct.estimateTotal = Double(textField.text!) ?? 0
-                        saveProductContext()
+                        DSDataController.shared.saveProductContext()
                     }
                 case 6:
                     if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
                         infoProduct.asBuiltQTY = Int32(textField.text!) ?? 0
-                        saveProductContext()
+                        DSDataController.shared.saveProductContext()
                     }
                 case 7:
                     if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
                         infoProduct.asBuiltTotal = Double(textField.text!) ?? 0
-                        saveProductContext()
+                        DSDataController.shared.saveProductContext()
                     }
                 default:
                     print("Textfield Tag Not Found")
@@ -346,26 +352,26 @@ extension InfoDetailViewController {
                         if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
                             infoProduct.name = product.name
                             infoProduct.cost = product.cost
-                            saveProductContext()
+                            DSDataController.shared.saveProductContext()
                             infoTableView.reloadData()
                         }
                     }
                 case 3:
                     if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
                         infoProduct.cost = Double(textField.text!) ?? 0
-                        saveProductContext()
+                        DSDataController.shared.saveProductContext()
                     }
                     infoTableView.reloadData()
                 case 4:
                     if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
                         infoProduct.estimateQTY = Int32(textField.text!) ?? 0
-                        saveProductContext()
+                        DSDataController.shared.saveProductContext()
                     }
                     infoTableView.reloadData()
                 case 6:
                     if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
                         infoProduct.asBuiltQTY = Int32(textField.text!) ?? 0
-                        saveProductContext()
+                        DSDataController.shared.saveProductContext()
                     }
                     infoTableView.reloadData()
                 default:
@@ -389,7 +395,7 @@ extension InfoDetailViewController {
                                                             insertInto: DSDataController.shared.viewContext) as? InfoProductSection {
                     infoProductSection.name = text
                     self.infoSpreadsheet?.addToSections(infoProductSection)
-                    self.saveProductContext()
+                    DSDataController.shared.saveProductContext()
                     self.infoTableView.reloadData()
                 }
             }
@@ -403,14 +409,6 @@ extension InfoDetailViewController {
         alert.addAction(cancelAction)
         self.present(alert, animated: true, completion: nil)
 
-    }
-
-    func saveProductContext() {
-        do {
-            try DSDataController.shared.viewContext.save()
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
-        }
     }
 
     func getInfoProduct(for indexPath: IndexPath) -> InfoProduct? {
@@ -433,7 +431,7 @@ extension InfoDetailViewController {
 
     func markAsCompleted() {
         infoSpreadsheet?.completed = true
-        saveProductContext()
+        DSDataController.shared.saveProductContext()
     }
 
     func checkForProduct(with key: String) -> Product? {

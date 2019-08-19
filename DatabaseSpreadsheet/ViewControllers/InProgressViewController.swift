@@ -9,11 +9,10 @@
 import Foundation
 import UIKit
 
-
-//MARK: - ViewController Properties
+// MARK: - ViewController Properties
 class InProgressViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var inProgressTableView: UITableView!
-    var invoices : [NSDictionary] = []
+    var invoices: [NSDictionary] = []
     var spreadsheetToSend: InfoSpreadsheet!
 
     override func viewDidLoad() {
