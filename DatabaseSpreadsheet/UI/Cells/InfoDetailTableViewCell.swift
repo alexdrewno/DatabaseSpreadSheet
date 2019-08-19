@@ -18,5 +18,5 @@ class InfoDetailTableViewCell: UITableViewCell {
     @IBOutlet weak var estimateTotalTextField: UITextField!
     @IBOutlet weak var asBuildQTYTextField: UITextField!
     @IBOutlet weak var asBuildTotalTextField: UITextField!
-    
+
 }

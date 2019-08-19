@@ -27,6 +27,7 @@
 		95BC40A321CC2A9800341776 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 95BC40A221CC2A9800341776 /* GoogleService-Info.plist */; };
 		95BC40A521CC2EE000341776 /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BC40A421CC2EE000341776 /* ProductViewController.swift */; };
 		95BCA510230B2189005A4874 /* DeleteSectionPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BCA50F230B2189005A4874 /* DeleteSectionPopoverViewController.swift */; };
+		95BCA514230B30B6005A4874 /* DeleteSectionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BCA513230B30B6005A4874 /* DeleteSectionsTableViewCell.swift */; };
 		95C501D8228A1F6700EA16C2 /* DatabaseSpreadsheetModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 95C501D6228A1F6700EA16C2 /* DatabaseSpreadsheetModel.xcdatamodeld */; };
 		95C7F20321E3EC5800746594 /* CSVFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C7F20221E3EC5800746594 /* CSVFile.swift */; };
 		95E1DC6822D3DFF4004DAB8E /* DSDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E1DC6722D3DFF4004DAB8E /* DSDataController.swift */; };
@@ -82,6 +83,7 @@
 		95BC40A221CC2A9800341776 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		95BC40A421CC2EE000341776 /* ProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
 		95BCA50F230B2189005A4874 /* DeleteSectionPopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteSectionPopoverViewController.swift; sourceTree = "<group>"; };
+		95BCA513230B30B6005A4874 /* DeleteSectionsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteSectionsTableViewCell.swift; sourceTree = "<group>"; };
 		95C501D7228A1F6700EA16C2 /* DatabaseSpreadsheetModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DatabaseSpreadsheetModel.xcdatamodel; sourceTree = "<group>"; };
 		95C7F20221E3EC5800746594 /* CSVFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVFile.swift; sourceTree = "<group>"; };
 		95E1DC6722D3DFF4004DAB8E /* DSDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSDataController.swift; sourceTree = "<group>"; };
@@ -123,7 +125,6 @@
 			isa = PBXGroup;
 			children = (
 				9539A4F0220386D000BDA2BA /* Cells */,
-				95B5A6FA21CD465F00CC2980 /* ProductPopoverViewController.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -143,6 +144,7 @@
 				9556F4BB21D092A200E7FAB5 /* InfoDetailTableViewCell.swift */,
 				95B5A6FE21CD6A9700CC2980 /* ProductTableViewCell.swift */,
 				95734C6921EE552000E2D958 /* InvoiceTableViewCell.swift */,
+				95BCA513230B30B6005A4874 /* DeleteSectionsTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -150,13 +152,12 @@
 		9539A4F1220386EF00BDA2BA /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				95BCA512230B2E23005A4874 /* Popover VCs */,
 				95392CE821FD30AB00D43AA3 /* CompletedViewController.swift */,
 				95BC40A421CC2EE000341776 /* ProductViewController.swift */,
 				95734C6721EE543500E2D958 /* InProgressViewController.swift */,
 				9556F4B721D0925600E7FAB5 /* InfoViewController.swift */,
 				9556F4B921D0927800E7FAB5 /* InfoDetailViewController.swift */,
-				9556F4BD21D1E2E400E7FAB5 /* InfoDetailPopoverViewController.swift */,
-				95BCA50F230B2189005A4874 /* DeleteSectionPopoverViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -216,6 +217,16 @@
 				959B25D621C351EF00DAF5DB /* Info.plist */,
 			);
 			path = DatabaseSpreadsheetUITests;
+			sourceTree = "<group>";
+		};
+		95BCA512230B2E23005A4874 /* Popover VCs */ = {
+			isa = PBXGroup;
+			children = (
+				9556F4BD21D1E2E400E7FAB5 /* InfoDetailPopoverViewController.swift */,
+				95BCA50F230B2189005A4874 /* DeleteSectionPopoverViewController.swift */,
+				95B5A6FA21CD465F00CC2980 /* ProductPopoverViewController.swift */,
+			);
+			path = "Popover VCs";
 			sourceTree = "<group>";
 		};
 		95E1DC6B22D3EB77004DAB8E /* DataEngine */ = {
@@ -471,6 +482,7 @@
 				95C7F20321E3EC5800746594 /* CSVFile.swift in Sources */,
 				9556F4B821D0925600E7FAB5 /* InfoViewController.swift in Sources */,
 				95E1DC6822D3DFF4004DAB8E /* DSDataController.swift in Sources */,
+				95BCA514230B30B6005A4874 /* DeleteSectionsTableViewCell.swift in Sources */,
 				95C501D8228A1F6700EA16C2 /* DatabaseSpreadsheetModel.xcdatamodeld in Sources */,
 				95734C6821EE543500E2D958 /* InProgressViewController.swift in Sources */,
 				9556F4BA21D0927800E7FAB5 /* InfoDetailViewController.swift in Sources */,

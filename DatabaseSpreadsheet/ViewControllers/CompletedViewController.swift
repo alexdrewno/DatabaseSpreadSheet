@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-//MARK: - ViewController Properties
+// MARK: - ViewController Properties
 class CompletedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var completeTableView: UITableView!
     
@@ -25,7 +25,7 @@ class CompletedViewController: UIViewController, UITableViewDelegate, UITableVie
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "completedDetail" {
             if let dvc = segue.destination as? InfoDetailViewController {
-                
+
             }
         }
     }

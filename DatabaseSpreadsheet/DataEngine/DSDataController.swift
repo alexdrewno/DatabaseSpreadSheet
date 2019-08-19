@@ -28,7 +28,7 @@ class DSDataController {
                 container.viewContext.automaticallyMergesChangesFromParent = true
             }
         }
-        
+
         return container
     }()
     

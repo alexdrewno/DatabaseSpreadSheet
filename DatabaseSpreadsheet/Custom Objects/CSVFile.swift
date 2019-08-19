@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 class CSVFile {
-    
+
     static func createCSVStringFromInfo(infoSpreadsheet: InfoSpreadsheet, curViewController: UIViewController) {
         let fileName = "\(infoSpreadsheet.client ?? "RD")_INVOICE.csv"
         let path = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
@@ -19,7 +19,7 @@ class CSVFile {
         csvText += createHeader(infoSpreadsheet: infoSpreadsheet)
         csvText += createBody(infoSpreadsheet: infoSpreadsheet)
         csvText += createEnd(infoSpreadsheet: infoSpreadsheet)
-        
+
         do {
             try csvText.write(to: path!, atomically: true, encoding: String.Encoding.utf8)
             if path != nil {

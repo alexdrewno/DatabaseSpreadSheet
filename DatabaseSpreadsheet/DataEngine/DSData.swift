@@ -34,7 +34,7 @@ class DSData {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
     }
-    
+
     func fetchInProgressInfoSpreadsheets() {
         fetchInfoSpreadsheets()
         inProgressSpreadsheets = infoSpreadsheets.filter({ (infoSpreadsheet) -> Bool in

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 class ProductTableViewCell: UITableViewCell {
-    
+
     @IBOutlet weak var nameLabel: UILabel!
-    
+
 }

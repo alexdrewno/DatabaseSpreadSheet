@@ -9,12 +9,11 @@
 import Foundation
 import UIKit
 
-
-//MARK: - ViewController Properties
+// MARK: - ViewController Properties
 class ProductViewController: UIViewController, UITableViewDataSource {
     @IBOutlet weak var productTableView: UITableView!
-    var sortedKeys:[String] = []
-    
+    var sortedKeys: [String] = []
+
     override func viewDidLoad() {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                                  target: self,
@@ -23,7 +22,7 @@ class ProductViewController: UIViewController, UITableViewDataSource {
         DSData.shared.fetchProducts()
         super.viewDidLoad()
     }
-    
+
 }
 
 // MARK: - Tableview Properties
@@ -31,7 +30,7 @@ extension ProductViewController {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return DSData.shared.products.count
     }

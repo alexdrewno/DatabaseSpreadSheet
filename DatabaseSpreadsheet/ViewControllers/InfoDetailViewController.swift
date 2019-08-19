@@ -168,16 +168,21 @@ extension InfoDetailViewController {
                 infoTableView.dequeueReusableCell(withIdentifier: "infoCell") as? InfoDetailTableViewCell {
 
                 addTableViewCellTextTargets(tableViewCell)
-                tableViewCell.keyTextField.text = (sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct)?.id
-                checkAndUpdateWithKey(tableViewCell, indexPath)
-                updateTotalTextFields(indexPath)
 
-                tableViewCell.descriptionTextField.text = (sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct)?.name
-                tableViewCell.unitPriceTextField.text = "\((sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct)?.cost ?? 0)"
-                tableViewCell.estimateQTYTextField.text = "\((sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct)?.estimateQTY ?? 0)"
-                tableViewCell.estimateTotalTextField.text = "\((sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct)?.estimateTotal ?? 0)"
-                tableViewCell.asBuildQTYTextField.text = "\((sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct)?.asBuiltQTY ?? 0)"
-                tableViewCell.asBuildTotalTextField.text = "\((sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct)?.asBuiltTotal ?? 0)"
+                if let infoProduct: InfoProduct =
+                    sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct {
+
+                    tableViewCell.keyTextField.text = infoProduct.id
+                    checkAndUpdateWithKey(tableViewCell, indexPath)
+                    updateTotalTextFields(indexPath)
+
+                    tableViewCell.descriptionTextField.text = infoProduct.name
+                    tableViewCell.unitPriceTextField.text = "\(infoProduct.cost)"
+                    tableViewCell.estimateQTYTextField.text = "\(infoProduct.estimateQTY)"
+                    tableViewCell.estimateTotalTextField.text = "\(infoProduct.estimateTotal)"
+                    tableViewCell.asBuildQTYTextField.text = "\(infoProduct.asBuiltQTY)"
+                    tableViewCell.asBuildTotalTextField.text = "\(infoProduct.asBuiltTotal)"
+                }
 
                 setTableViewCellTextFieldTags(tableViewCell)
                 updateTotalLabels()
@@ -231,7 +236,9 @@ extension InfoDetailViewController {
 // MARK: - UI
 extension InfoDetailViewController {
     @objc func showPopoutView() {
-        if let pvc = self.storyboard?.instantiateViewController(withIdentifier: "detailInfoPopover") as? InfoDetailPopoverViewController {
+        if let pvc = self.storyboard?.instantiateViewController(withIdentifier: "detailInfoPopover")
+                    as? InfoDetailPopoverViewController {
+
             pvc.parentVC = self
             pvc.modalPresentationStyle = .popover
             pvc.preferredContentSize = CGSize(width: 200, height: 200)
@@ -241,6 +248,17 @@ extension InfoDetailViewController {
             popover?.barButtonItem = self.navigationItem.rightBarButtonItem
 
             present(pvc, animated: false, completion: nil)
+        }
+    }
+
+    func showDeleteSectionPopoutView() {
+        if let pvc = self.storyboard?.instantiateViewController(withIdentifier: "detailInfoDeleteSectionPopover")
+            as? DeleteSectionPopoverViewController {
+
+            pvc.modalPresentationStyle = .overCurrentContext
+            pvc.modalTransitionStyle = .crossDissolve
+
+            present(pvc, animated: true, completion: nil)
         }
     }
 
@@ -358,7 +376,7 @@ extension InfoDetailViewController {
     }
 }
 
-// MARK: - Product Manipulation
+// MARK: - Data Manipulation
 extension InfoDetailViewController {
     func addSection() {
         let alert = UIAlertController(title: "Add New Section", message: nil, preferredStyle: .alert)
@@ -420,10 +438,8 @@ extension InfoDetailViewController {
 
     func checkForProduct(with key: String) -> Product? {
         DSData.shared.fetchProducts()
-        for product in DSData.shared.products {
-            if product.id == key {
+        for product in DSData.shared.products where product.id == key {
                 return product
-            }
         }
         return nil
     }

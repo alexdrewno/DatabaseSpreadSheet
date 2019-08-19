@@ -10,29 +10,30 @@ import Foundation
 import UIKit
 
 class InfoDetailPopoverViewController: UIViewController {
-    var parentVC : InfoDetailViewController!
-    override func viewDidLoad() {
-        
-    }
-    
+    var parentVC: InfoDetailViewController!
+
     @IBAction func addSection(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
         parentVC.addSection()
     }
-    
+
+    @IBAction func deleteSection(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+        parentVC.showDeleteSectionPopoutView()
+    }
+
     @IBAction func markAsCompleted(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
         parentVC.markAsCompleted()
     }
-    
+
     @IBAction func exportInfo(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
         parentVC.exportInfoData()
     }
-    
+
     @IBAction func editClientInfo(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
         parentVC.editClientInfo()
     }
-    
 }
