@@ -632,11 +632,11 @@
             <objects>
                 <viewController storyboardIdentifier="detailInfoPopover" id="SxZ-LC-AWg" customClass="InfoDetailPopoverViewController" customModule="DatabaseSpreadsheet" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Aw7-aW-Hgm">
-                        <rect key="frame" x="0.0" y="0.0" width="200" height="315"/>
+                        <rect key="frame" x="0.0" y="0.0" width="200" height="400"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Jx-YT-nHr">
-                                <rect key="frame" x="2" y="81" width="196" height="75"/>
+                                <rect key="frame" x="2" y="161" width="196" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.92939669920000001" green="0.92939669920000001" blue="0.92939669920000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Mark as Completed"/>
@@ -645,7 +645,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MLg-Hl-oBC">
-                                <rect key="frame" x="2" y="4" width="196" height="75"/>
+                                <rect key="frame" x="2" y="5" width="196" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.92939669920000001" green="0.92939669920000001" blue="0.92939669920000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="detailInfoPopover"/>
@@ -655,7 +655,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Xi-b9-add">
-                                <rect key="frame" x="2" y="236" width="196" height="75"/>
+                                <rect key="frame" x="2" y="317" width="196" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.92939669920000001" green="0.92939669920000001" blue="0.92939669920000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Export"/>
@@ -664,7 +664,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nWb-lh-Ej2">
-                                <rect key="frame" x="2" y="159" width="196" height="75"/>
+                                <rect key="frame" x="2" y="239" width="196" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.92939669920000001" green="0.92939669920000001" blue="0.92939669920000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Edit Client Info"/>
@@ -672,18 +672,52 @@
                                     <action selector="editClientInfo:" destination="SxZ-LC-AWg" eventType="touchUpInside" id="z0z-KX-6Ky"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="miV-iU-7Ha">
+                                <rect key="frame" x="2" y="83" width="196" height="75"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.92939669920000001" green="0.92939669920000001" blue="0.92939669920000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Delete Section"/>
+                                <connections>
+                                    <segue destination="dqf-Cy-a0r" kind="popoverPresentation" popoverAnchorView="miV-iU-7Ha" id="Ajp-v2-fUD">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="ks4-nr-7gw"/>
                     </view>
-                    <size key="freeformSize" width="200" height="315"/>
+                    <size key="freeformSize" width="200" height="400"/>
                     <connections>
                         <segue destination="xbW-db-UBs" kind="show" id="AcD-Lo-Msa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3RW-Vw-uXN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2195" y="-95"/>
+            <point key="canvasLocation" x="2228" y="134"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="JNz-ad-KZp">
+            <objects>
+                <viewController id="dqf-Cy-a0r" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="596-EL-hXd">
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Hng-8C-nyL">
+                                <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="SNG-8V-59X"/>
+                    </view>
+                    <size key="freeformSize" width="400" height="400"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZlK-Ye-sLs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2410.5527638190956" y="133.81294964028777"/>
         </scene>
         <!--Edit Products-->
         <scene sceneID="HsX-bb-5fJ">
