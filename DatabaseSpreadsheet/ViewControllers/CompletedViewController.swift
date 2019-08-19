@@ -12,7 +12,7 @@ import UIKit
 // MARK: - ViewController Properties
 class CompletedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var completeTableView: UITableView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 

@@ -35,7 +35,7 @@ class DSDataController {
     public var viewContext: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
-    
+
     func saveProductContext() {
         do {
             try DSDataController.shared.viewContext.save()

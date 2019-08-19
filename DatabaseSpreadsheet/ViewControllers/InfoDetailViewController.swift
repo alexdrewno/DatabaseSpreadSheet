@@ -76,7 +76,15 @@ extension InfoDetailViewController {
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return infoSpreadsheet?.sections?.count ?? 0
+        let sectionsCount = infoSpreadsheet?.sections?.count ?? 0
+
+        if sectionsCount == 0 {
+            infoTableView.separatorStyle = .none
+        } else {
+            infoTableView.separatorStyle = .singleLine
+        }
+
+        return sectionsCount
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
