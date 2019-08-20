@@ -14,4 +14,12 @@ class InvoiceTableViewCell: UITableViewCell {
     @IBOutlet weak var invoiceLabel: UILabel!
     @IBOutlet weak var clientLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
+
+    func setInfoSpreadsheet(infoSpreadsheet: InfoSpreadsheet) {
+        dateLabel.text = infoSpreadsheet.date
+        descriptionLabel.text = infoSpreadsheet.jobDescription
+        clientLabel.text = infoSpreadsheet.client
+        invoiceLabel.text = "\(infoSpreadsheet.curNum)"
+    }
+
 }

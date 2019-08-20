@@ -11,15 +11,15 @@ import UIKit
 import CoreData
 
 // MARK: - ViewController Properties
-class InfoDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate,
-                                UITextFieldDelegate, UIPopoverPresentationControllerDelegate {
+class InfoDetailViewController: UIViewController {
+
     @IBOutlet weak var infoTableView: UITableView!
     @IBOutlet weak var totalCostLabel: UILabel!
     @IBOutlet weak var estimateCostLabel: UILabel!
     var estimateTotal: Double = 0
     var actualTotal: Double = 0
     var new: Bool = false
-    var infoSpreadsheet: InfoSpreadsheet?
+    var infoSpreadsheet: InfoSpreadsheet!
     var curNum: Int = 0 {
         didSet {
             self.title = "Invoice #\(curNum)"
@@ -50,7 +50,7 @@ class InfoDetailViewController: UIViewController, UITableViewDataSource, UITable
 }
 
 // MARK: - TableView Properties
-extension InfoDetailViewController {
+extension InfoDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40
     }
@@ -97,7 +97,7 @@ extension InfoDetailViewController {
 
     func checkAndUpdateWithKey(_ tableViewCell: InfoDetailTableViewCell, _ indexPath: IndexPath) {
         if let product = checkForProduct(with: tableViewCell.keyTextField.text ?? "") {
-            if let infoProduct = getInfoProduct(for: indexPath) {
+            if let infoProduct = DSData.shared.getInfoProduct(for: indexPath, in: infoSpreadsheet) {
                 infoProduct.name = product.name
                 infoProduct.cost = product.cost
                 DSDataController.shared.saveProductContext()
@@ -105,56 +105,8 @@ extension InfoDetailViewController {
         }
     }
 
-    fileprivate func addTableViewCellTextTargets(_ tableViewCell: InfoDetailTableViewCell) {
-        tableViewCell.keyTextField.addTarget(self,
-                                             action: #selector(textFieldDidChange(textField:)),
-                                             for: .editingChanged)
-        tableViewCell.keyTextField.addTarget(self,
-                                             action: #selector(textFieldEndEditing(textField:)),
-                                             for: .editingDidEnd)
-        tableViewCell.descriptionTextField.addTarget(self,
-                                                     action: #selector(textFieldDidChange(textField:)),
-                                                     for: .editingChanged)
-        tableViewCell.unitPriceTextField.addTarget(self,
-                                                   action: #selector(textFieldDidChange(textField:)),
-                                                   for: .editingChanged)
-        tableViewCell.unitPriceTextField.addTarget(self,
-                                                   action: #selector(textFieldEndEditing(textField:)),
-                                                   for: .editingDidEnd)
-        tableViewCell.estimateQTYTextField.addTarget(self,
-                                                     action: #selector(textFieldDidChange(textField:)),
-                                                     for: .editingChanged)
-        tableViewCell.estimateQTYTextField.addTarget(self,
-                                                     action: #selector(textFieldEndEditing(textField:)),
-                                                     for: .editingDidEnd)
-        tableViewCell.estimateTotalTextField.addTarget(self,
-                                                       action: #selector(textFieldDidChange(textField:)),
-                                                       for: .editingChanged)
-        tableViewCell.asBuildQTYTextField.addTarget(self,
-                                                    action: #selector(textFieldDidChange(textField:)),
-                                                    for: .editingChanged)
-        tableViewCell.asBuildQTYTextField.addTarget(self,
-                                                    action: #selector(textFieldEndEditing(textField:)),
-                                                    for: .editingDidEnd)
-        tableViewCell.asBuildTotalTextField.addTarget(self,
-                                                      action: #selector(textFieldDidChange(textField:)),
-                                                      for: .editingChanged)
-    }
-
-    fileprivate func setTableViewCellTextFieldTags(_ tableViewCell: InfoDetailTableViewCell) {
-        tableViewCell.keyTextField.tag = 1
-        tableViewCell.descriptionTextField.tag = 2
-        tableViewCell.unitPriceTextField.tag = 3
-        tableViewCell.estimateQTYTextField.tag = 4
-        tableViewCell.estimateTotalTextField.tag = 5
-        tableViewCell.asBuildQTYTextField.tag = 6
-        tableViewCell.asBuildTotalTextField.tag = 7
-        tableViewCell.asBuildTotalTextField.isUserInteractionEnabled = false
-        tableViewCell.estimateTotalTextField.isUserInteractionEnabled = false
-    }
-
     fileprivate func updateTotalTextFields(_ indexPath: IndexPath) {
-        if let infoProduct = getInfoProduct(for: indexPath) {
+        if let infoProduct = DSData.shared.getInfoProduct(for: indexPath, in: infoSpreadsheet) {
             infoProduct.estimateTotal = Double(round(100 * Double(infoProduct.estimateQTY) * infoProduct.cost) / 100)
             infoProduct.asBuiltTotal = Double(round(100 * Double(infoProduct.asBuiltQTY) * infoProduct.cost) / 100)
             DSDataController.shared.saveProductContext()
@@ -174,27 +126,21 @@ extension InfoDetailViewController {
         if sectionArray[indexPath.section].infoProducts?.count ?? 0 > indexPath.row {
             if let infoDetailTableViewCell =
                 infoTableView.dequeueReusableCell(withIdentifier: "infoCell") as? InfoDetailTableViewCell {
-                print("HELLO CALLED")
 
-                addTableViewCellTextTargets(infoDetailTableViewCell)
+                infoDetailTableViewCell.delegate = self
+                infoDetailTableViewCell.addTableViewCellTextTargets()
 
                 if let infoProduct: InfoProduct =
                     sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct {
-                    print("HELLO CALLED2")
 
                     infoDetailTableViewCell.keyTextField.text = infoProduct.id
                     checkAndUpdateWithKey(infoDetailTableViewCell, indexPath)
                     updateTotalTextFields(indexPath)
 
-                    infoDetailTableViewCell.descriptionTextField.text = infoProduct.name
-                    infoDetailTableViewCell.unitPriceTextField.text = "\(infoProduct.cost)"
-                    infoDetailTableViewCell.estimateQTYTextField.text = "\(infoProduct.estimateQTY)"
-                    infoDetailTableViewCell.estimateTotalTextField.text = "\(infoProduct.estimateTotal)"
-                    infoDetailTableViewCell.asBuildQTYTextField.text = "\(infoProduct.asBuiltQTY)"
-                    infoDetailTableViewCell.asBuildTotalTextField.text = "\(infoProduct.asBuiltTotal)"
+                    infoDetailTableViewCell.setInfoProduct(infoProduct: infoProduct)
                 }
 
-                setTableViewCellTextFieldTags(infoDetailTableViewCell)
+                infoDetailTableViewCell.setTableViewCellTextFieldTags()
                 updateTotalLabels()
 
                 return infoDetailTableViewCell
@@ -212,7 +158,8 @@ extension InfoDetailViewController {
 }
 
 // MARK: - TableView Actions
-extension InfoDetailViewController {
+extension InfoDetailViewController: UITableViewDelegate {
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var sectionArray: [InfoProductSection] = infoSpreadsheet?.sections?.array as? [InfoProductSection] ?? []
 
@@ -225,6 +172,7 @@ extension InfoDetailViewController {
             infoProduct.setValue(0, forKey: "asBuiltTotal")
             infoProduct.setValue(0, forKey: "estimateQTY")
             infoProduct.setValue(0, forKey: "estimateTotal")
+
             sectionArray[indexPath.section].addToInfoProducts(infoProduct)
             DSDataController.shared.saveProductContext()
             infoTableView.reloadData()
@@ -246,7 +194,7 @@ extension InfoDetailViewController {
 }
 
 // MARK: - UI
-extension InfoDetailViewController {
+extension InfoDetailViewController: UIPopoverPresentationControllerDelegate {
     @objc func showPopoutView() {
         if let pvc = self.storyboard?.instantiateViewController(withIdentifier: "detailInfoPopover")
                     as? InfoDetailPopoverViewController {
@@ -297,51 +245,34 @@ extension InfoDetailViewController {
     }
 }
 
-// MARK: - Textfield Delegation
-extension InfoDetailViewController {
+// MARK: - InfoDetailCellDelegate Delegation
+extension InfoDetailViewController: InfoDetailCellDelegate {
     @objc func textFieldDidChange(textField: UITextField) {
+
         if let cell: UITableViewCell = textField.superview?.superview as? UITableViewCell,
             let table: UITableView = cell.superview as? UITableView {
 
             if let textFieldIndexPath = table.indexPath(for: cell) {
-                switch textField.tag {
-                case 1:
-                    if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
+                if let infoProduct = DSData.shared.getInfoProduct(for: textFieldIndexPath, in: infoSpreadsheet) {
+                    switch textField.tag {
+                    case 1:
                         infoProduct.id = textField.text!
-                        DSDataController.shared.saveProductContext()
-                    }
-                case 2:
-                    if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
+                    case 2:
                         infoProduct.name = textField.text!
-                        DSDataController.shared.saveProductContext()
-                    }
-                case 3:
-                    if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
+                    case 3:
                         infoProduct.cost = Double(textField.text!) ?? 0
-                        DSDataController.shared.saveProductContext()
-                    }
-                case 4:
-                    if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
+                    case 4:
                         infoProduct.estimateQTY = Int32(textField.text!) ?? 0
-                        DSDataController.shared.saveProductContext()
-                    }
-                case 5:
-                    if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
+                    case 5:
                         infoProduct.estimateTotal = Double(textField.text!) ?? 0
-                        DSDataController.shared.saveProductContext()
-                    }
-                case 6:
-                    if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
+                    case 6:
                         infoProduct.asBuiltQTY = Int32(textField.text!) ?? 0
-                        DSDataController.shared.saveProductContext()
-                    }
-                case 7:
-                    if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
+                    case 7:
                         infoProduct.asBuiltTotal = Double(textField.text!) ?? 0
-                        DSDataController.shared.saveProductContext()
+                    default:
+                        print("Textfield Tag Not Found")
                     }
-                default:
-                    print("Textfield Tag Not Found")
+                    DSDataController.shared.saveProductContext()
                 }
             }
         }
@@ -352,38 +283,27 @@ extension InfoDetailViewController {
     @objc func textFieldEndEditing(textField: UITextField) {
         if let cell: UITableViewCell = textField.superview?.superview as? UITableViewCell,
             let table: UITableView = cell.superview as? UITableView {
-
             if let textFieldIndexPath = table.indexPath(for: cell) {
-                switch textField.tag {
-                case 1:
-                    if let product = checkForProduct(with: textField.text!) {
-                        if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
+                if let infoProduct = DSData.shared.getInfoProduct(for: textFieldIndexPath, in: infoSpreadsheet) {
+
+                    switch textField.tag {
+                    case 1:
+                        if let product = checkForProduct(with: textField.text!) {
                             infoProduct.name = product.name
                             infoProduct.cost = product.cost
-                            DSDataController.shared.saveProductContext()
-                            infoTableView.reloadData()
                         }
-                    }
-                case 3:
-                    if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
+                    case 3:
                         infoProduct.cost = Double(textField.text!) ?? 0
-                        DSDataController.shared.saveProductContext()
-                    }
-                    infoTableView.reloadData()
-                case 4:
-                    if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
+                    case 4:
                         infoProduct.estimateQTY = Int32(textField.text!) ?? 0
-                        DSDataController.shared.saveProductContext()
-                    }
-                    infoTableView.reloadData()
-                case 6:
-                    if let infoProduct = getInfoProduct(for: textFieldIndexPath) {
+                    case 6:
                         infoProduct.asBuiltQTY = Int32(textField.text!) ?? 0
-                        DSDataController.shared.saveProductContext()
+                    default:
+                        print("TEXT FIELD DID END EDITING")
                     }
+
+                    DSDataController.shared.saveProductContext()
                     infoTableView.reloadData()
-                default:
-                    print("TEXT FIELD DID END EDITING")
                 }
             }
         }
@@ -417,11 +337,6 @@ extension InfoDetailViewController {
         alert.addAction(cancelAction)
         self.present(alert, animated: true, completion: nil)
 
-    }
-
-    func getInfoProduct(for indexPath: IndexPath) -> InfoProduct? {
-        let sectionArray: [InfoProductSection] = infoSpreadsheet?.sections?.array as? [InfoProductSection] ?? []
-        return sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct
     }
 
     func editClientInfo() {

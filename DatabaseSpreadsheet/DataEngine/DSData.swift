@@ -26,6 +26,11 @@ class DSData {
         }
     }
 
+    func getInfoProduct(for indexPath: IndexPath, in infoSpreadsheet: InfoSpreadsheet) -> InfoProduct? {
+        let sectionArray: [InfoProductSection] = infoSpreadsheet.sections?.array as? [InfoProductSection] ?? []
+        return sectionArray[indexPath.section].infoProducts?[indexPath.row] as? InfoProduct
+    }
+
     func fetchInfoSpreadsheets() {
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "InfoSpreadsheet")
         do {
