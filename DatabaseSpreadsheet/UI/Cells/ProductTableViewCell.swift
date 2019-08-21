@@ -15,4 +15,9 @@ class ProductTableViewCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var unitPriceLabel: UILabel!
 
+    func setProduct(product: Product) {
+        idLabel.text = product.id
+        nameLabel.text = product.name
+        unitPriceLabel.text = "\(product.cost)"
+    }
 }

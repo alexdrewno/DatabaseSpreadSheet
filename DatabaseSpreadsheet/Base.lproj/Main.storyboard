@@ -654,20 +654,21 @@
             <objects>
                 <viewController storyboardIdentifier="detailInfoPopover" id="SxZ-LC-AWg" customClass="InfoDetailPopoverViewController" customModule="DatabaseSpreadsheet" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Aw7-aW-Hgm">
-                        <rect key="frame" x="0.0" y="0.0" width="200" height="400"/>
+                        <rect key="frame" x="0.0" y="0.0" width="250" height="400"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Jx-YT-nHr">
-                                <rect key="frame" x="2" y="161" width="196" height="75"/>
+                                <rect key="frame" x="2" y="161" width="245" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.92939669920000001" green="0.92939669920000001" blue="0.92939669920000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="Mark as Completed"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <state key="normal" title="Mark as Incomplete"/>
                                 <connections>
                                     <action selector="markAsCompleted:" destination="SxZ-LC-AWg" eventType="touchUpInside" id="4LN-l6-IRe"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MLg-Hl-oBC">
-                                <rect key="frame" x="2" y="5" width="196" height="75"/>
+                                <rect key="frame" x="2" y="5" width="245" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.92939669920000001" green="0.92939669920000001" blue="0.92939669920000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="detailInfoPopover"/>
@@ -677,7 +678,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Xi-b9-add">
-                                <rect key="frame" x="2" y="317" width="196" height="75"/>
+                                <rect key="frame" x="2" y="317" width="245" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.92939669920000001" green="0.92939669920000001" blue="0.92939669920000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Export"/>
@@ -686,7 +687,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nWb-lh-Ej2">
-                                <rect key="frame" x="2" y="239" width="196" height="75"/>
+                                <rect key="frame" x="2" y="239" width="245" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.92939669920000001" green="0.92939669920000001" blue="0.92939669920000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Edit Client Info"/>
@@ -695,7 +696,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="miV-iU-7Ha">
-                                <rect key="frame" x="2" y="83" width="196" height="75"/>
+                                <rect key="frame" x="2" y="83" width="245" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.92939669920000001" green="0.92939669920000001" blue="0.92939669920000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Delete Section"/>
@@ -707,14 +708,16 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="ks4-nr-7gw"/>
                     </view>
-                    <size key="freeformSize" width="200" height="400"/>
+                    <value key="contentSizeForViewInPopover" type="size" width="250" height="400"/>
+                    <size key="freeformSize" width="250" height="400"/>
                     <connections>
+                        <outlet property="markAsCompletedButton" destination="5Jx-YT-nHr" id="5cF-EF-pzZ"/>
                         <segue destination="xbW-db-UBs" kind="show" id="AcD-Lo-Msa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3RW-Vw-uXN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2228" y="134"/>
+            <point key="canvasLocation" x="2167.8391959798996" y="-24.46043165467626"/>
         </scene>
         <!--Delete Section Popover View Controller-->
         <scene sceneID="JNz-ad-KZp">

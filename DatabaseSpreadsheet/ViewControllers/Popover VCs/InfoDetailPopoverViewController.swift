@@ -11,6 +11,15 @@ import UIKit
 
 class InfoDetailPopoverViewController: UIViewController {
     var parentVC: InfoDetailViewController!
+    @IBOutlet weak var markAsCompletedButton: UIButton!
+
+    override func viewDidAppear(_ animated: Bool) {
+        if parentVC.infoSpreadsheet.completed {
+            markAsCompletedButton.titleLabel?.text = "Mark as Incomplete"
+        } else {
+            markAsCompletedButton.titleLabel?.text = "Mark as Complete"
+        }
+    }
 
     @IBAction func addSection(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)

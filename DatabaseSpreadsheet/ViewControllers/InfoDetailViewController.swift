@@ -167,7 +167,8 @@ extension InfoDetailViewController: UITableViewDelegate {
             let entity = NSEntityDescription.entity(forEntityName: "InfoProduct",
                                                     in: DSDataController.shared.viewContext)!
             let infoProduct = NSManagedObject(entity: entity,
-                                              insertInto: DSDataController.shared.viewContext) as? InfoProduct ?? InfoProduct()
+                                              insertInto: DSDataController.shared.viewContext)
+                                              as? InfoProduct ?? InfoProduct()
             infoProduct.setValue(0, forKey: "asBuiltQTY")
             infoProduct.setValue(0, forKey: "asBuiltTotal")
             infoProduct.setValue(0, forKey: "estimateQTY")
@@ -219,6 +220,7 @@ extension InfoDetailViewController: UIPopoverPresentationControllerDelegate {
             pvc.modalTransitionStyle = .crossDissolve
             pvc.parentVC = self
             pvc.infoSpreadsheet = self.infoSpreadsheet!
+            pvc.preferredContentSize = CGSize(width: 250, height: 450)
 
             present(pvc, animated: true, completion: nil)
         }
@@ -320,7 +322,8 @@ extension InfoDetailViewController {
                                                         in: DSDataController.shared.viewContext)!
 
                 if let infoProductSection = NSManagedObject(entity: entity,
-                                                            insertInto: DSDataController.shared.viewContext) as? InfoProductSection {
+                                                            insertInto: DSDataController.shared.viewContext)
+                                                            as? InfoProductSection {
                     infoProductSection.name = text
                     self.infoSpreadsheet?.addToSections(infoProductSection)
                     DSDataController.shared.saveProductContext()
@@ -353,7 +356,7 @@ extension InfoDetailViewController {
     }
 
     func markAsCompleted() {
-        infoSpreadsheet?.completed = true
+        infoSpreadsheet?.completed = !(infoSpreadsheet?.completed ?? true)
         DSDataController.shared.saveProductContext()
     }
 

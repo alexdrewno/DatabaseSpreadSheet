@@ -12,6 +12,7 @@ import UIKit
 // MARK: - ViewController Properties
 class CompletedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var completeTableView: UITableView!
+    var infoSpreadsheet: InfoSpreadsheet!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +26,7 @@ class CompletedViewController: UIViewController, UITableViewDelegate, UITableVie
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "completedDetail" {
             if let dvc = segue.destination as? InfoDetailViewController {
-
+                dvc.infoSpreadsheet = self.infoSpreadsheet
             }
         }
     }
@@ -38,7 +39,8 @@ extension CompletedViewController {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let completedCell = completeTableView.dequeueReusableCell(withIdentifier: "completedCell") as? InvoiceTableViewCell ?? InvoiceTableViewCell()
+        let completedCell = completeTableView.dequeueReusableCell(withIdentifier: "completedCell")
+                            as? InvoiceTableViewCell ?? InvoiceTableViewCell()
 
         if DSData.shared.completedSpreadsheets.count > 0 {
             completedCell.setInfoSpreadsheet(infoSpreadsheet: DSData.shared.completedSpreadsheets[indexPath.row])
@@ -51,6 +53,7 @@ extension CompletedViewController {
 // MARK: - TableView Actions
 extension CompletedViewController {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-           performSegue(withIdentifier: "completedDetail", sender: nil)
+        infoSpreadsheet = DSData.shared.completedSpreadsheets[indexPath.row]
+        performSegue(withIdentifier: "completedDetail", sender: nil)
     }
 }

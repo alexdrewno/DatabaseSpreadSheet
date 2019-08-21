@@ -50,9 +50,8 @@ extension ProductViewController {
 
         let tableViewCell = productTableView.dequeueReusableCell(withIdentifier: "productTableViewCell")
                             as? ProductTableViewCell ?? ProductTableViewCell()
-        tableViewCell.nameLabel.text = DSData.shared.products[indexPath.row].name
-        tableViewCell.idLabel.text = DSData.shared.products[indexPath.row].id
-        tableViewCell.unitPriceLabel.text = "\(DSData.shared.products[indexPath.row].cost)"
+
+        tableViewCell.setProduct(product: DSData.shared.products[indexPath.row])
 
         return tableViewCell
     }
