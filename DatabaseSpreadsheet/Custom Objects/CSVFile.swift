@@ -37,8 +37,8 @@ class CSVFile {
         var headerString = ""
 
         headerString += "R Drewno Electric Inc, , , Estimate, #\(infoSpreadsheet.curNum), Date:, \(infoSpreadsheet.date ?? "")\n"
-        headerString += "1216 S. Summit St\n"
-        headerString += "Barrington IL 60010, , , Service ordered by: , \(infoSpreadsheet.client ?? "")\n"
+        headerString += "21878 Country Ln\n"
+        headerString += "Deer Park IL 60010, , , Service ordered by: , \(infoSpreadsheet.client ?? "")\n"
         headerString += "Tel. 847-791-6368, , , telephone:, \(infoSpreadsheet.telephone ?? "") \n"
         headerString += "Email: RDrewnoElectric@sbcglobal.net, , , email:\n\n"
         headerString += "Job Description: , \(infoSpreadsheet.jobDescription ?? "")\n\n"
