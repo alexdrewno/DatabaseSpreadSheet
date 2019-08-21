@@ -56,7 +56,7 @@ class CSVFile {
                 if let products = section.infoProducts?.array as? [InfoProduct] {
                     for product: InfoProduct in products {
                         csvString += "\(section.name ?? ""), , \(product.name ?? ""), \(product.cost), "
-                        csvString += "\(product.estimateQTY), \(product.estimateTotal), \(product.asBuiltQTY), \(product.estimateTotal)\n"
+                        csvString += "\(product.estimateQTY), \(product.estimateTotal), \(product.asBuiltQTY), \(product.asBuiltTotal)\n"
                     }
                 }
                 csvString += "\n"
