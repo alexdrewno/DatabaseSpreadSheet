@@ -28,7 +28,14 @@ class InfoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         DSData.shared.fetchInfoSpreadsheets()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(UIViewController.keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(UIViewController.keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification, object: nil)
         setupUI()
         numberTitleLabel.text = "Invoice #\(getCurrentInvoiceNumber())"
     }
@@ -37,7 +44,7 @@ class InfoViewController: UIViewController {
 // MARK: - UI Setup
 extension InfoViewController {
     func setupUI() {
-        scrollView.contentSize.height = 1000
+        scrollView.contentSize.height = 1300
         jobDescriptionTextView.backgroundColor = .clear
         jobDescriptionTextView.layer.borderColor = UIColor.black.cgColor
         jobDescriptionTextView.layer.borderWidth = 1

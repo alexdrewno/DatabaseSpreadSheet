@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4CE3BBFFBC36F9D539E2D5A9 /* Pods_DatabaseSpreadsheetTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD5B551C238CE73EF6786C5F /* Pods_DatabaseSpreadsheetTests.framework */; };
 		69A538653D402D66198BCDBB /* Pods_DatabaseSpreadsheet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D75EFAA3DA899FB29B89DBFD /* Pods_DatabaseSpreadsheet.framework */; };
+		950C1CD5230CE71200E77072 /* KeyboardViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950C1CD4230CE71200E77072 /* KeyboardViewExtension.swift */; };
 		95392CE921FD30AB00D43AA3 /* CompletedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95392CE821FD30AB00D43AA3 /* CompletedViewController.swift */; };
 		9556F4B821D0925600E7FAB5 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9556F4B721D0925600E7FAB5 /* InfoViewController.swift */; };
 		9556F4BA21D0927800E7FAB5 /* InfoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9556F4B921D0927800E7FAB5 /* InfoDetailViewController.swift */; };
@@ -59,6 +60,7 @@
 		44C1A80C0B6A8BF5AF7569FA /* Pods_DatabaseSpreadsheetUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DatabaseSpreadsheetUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		69E7BDB309360E664786400C /* Pods-DatabaseSpreadsheetTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DatabaseSpreadsheetTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DatabaseSpreadsheetTests/Pods-DatabaseSpreadsheetTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7CC0F8360B3F48B433F7C543 /* Pods-DatabaseSpreadsheetUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DatabaseSpreadsheetUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DatabaseSpreadsheetUITests/Pods-DatabaseSpreadsheetUITests.release.xcconfig"; sourceTree = "<group>"; };
+		950C1CD4230CE71200E77072 /* KeyboardViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewExtension.swift; sourceTree = "<group>"; };
 		95392CE821FD30AB00D43AA3 /* CompletedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedViewController.swift; sourceTree = "<group>"; };
 		9556F4B721D0925600E7FAB5 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		9556F4B921D0927800E7FAB5 /* InfoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoDetailViewController.swift; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 				95734C6721EE543500E2D958 /* InProgressViewController.swift */,
 				9556F4B721D0925600E7FAB5 /* InfoViewController.swift */,
 				9556F4B921D0927800E7FAB5 /* InfoDetailViewController.swift */,
+				950C1CD4230CE71200E77072 /* KeyboardViewExtension.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -486,6 +489,7 @@
 				95C501D8228A1F6700EA16C2 /* DatabaseSpreadsheetModel.xcdatamodeld in Sources */,
 				95734C6821EE543500E2D958 /* InProgressViewController.swift in Sources */,
 				9556F4BA21D0927800E7FAB5 /* InfoDetailViewController.swift in Sources */,
+				950C1CD5230CE71200E77072 /* KeyboardViewExtension.swift in Sources */,
 				959B25B521C351ED00DAF5DB /* AppDelegate.swift in Sources */,
 				9556F4BE21D1E2E400E7FAB5 /* InfoDetailPopoverViewController.swift in Sources */,
 			);

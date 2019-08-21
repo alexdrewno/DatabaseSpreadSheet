@@ -18,6 +18,15 @@ class ProductPopoverViewController: UIViewController {
     @IBOutlet weak var costTextField: UITextField!
     var sendingVC: ProductViewController!
 
+    override func viewDidLoad() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(UIViewController.keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(UIViewController.keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
     @IBAction func cancelTouchUpInside(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
